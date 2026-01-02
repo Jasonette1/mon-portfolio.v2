@@ -1,0 +1,717 @@
+/* =========================================================
+   PORTAL / AMBER INDEX - Adaptation Web
+   Basé sur 'Apps-Index-ASCII.css'
+   ========================================================= */
+
+/* IMPORTATION DES POLICES LOCALES */
+@font-face {
+    font-family: 'PxPlus_IBM_VGA8';
+    src: url('../fonts/PxPlus_IBM_VGA8.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Tenebris';
+    src: url('../fonts/Tenebris.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'TerminalGothic';
+    src: url('../fonts/TerminalGothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --ki-bg: #120900;
+    --ki-fg: #ffd8a3;
+    --ki-acc: #ffb000;
+    --ki-border: #a86e22;
+    --ki-dot: rgba(255, 176, 0, 0.95);
+
+    /* Polices (Locales + Fallback web) */
+    --font-PXVGA8: "PxPlus_IBM_VGA8", "VT323", monospace;
+    /* Cascadia non trouvée en local -> Fallback Web */
+    --font-CascadiaMono: "Fira Code", "Cascadia Mono", monospace;
+    --font-Tenebris: "Tenebris", monospace;
+    --font-TerminalGothic: "TerminalGothic", monospace;
+
+    /* Police active par défaut */
+    --ki-font: var(--font-PXVGA8);
+
+    --ki-art-size: 12px;
+    --ki-art-line: 13px;
+    --ki-art-offset: 18px;
+    --ki-art-gutter: clamp(12px, 1.6vw, 18px);
+
+    --ki-top-gap: 18px;
+    --ki-side-pad: clamp(12px, 2vw, 24px);
+    --ki-inner-pad-x: 12px;
+    --ki-block-pad-top: 10px;
+    --ki-block-pad-bottom: 10px;
+
+    --ki-header-h: 46px;
+    --ki-gap: 8px;
+}
+
+/* RESET & BASE */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--ki-bg);
+    background-image: repeating-linear-gradient(0deg, rgba(255, 176, 0, .06) 0 2px, transparent 2px 4px);
+    background-attachment: fixed;
+    min-height: 100%;
+}
+
+body {
+    background-color: transparent;
+    color: var(--ki-fg);
+    font-family: var(--ki-font);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: none;
+    /* Rendu pixel art plus net */
+    zoom: 1.2;
+    /* 120% global scale as requested */
+}
+
+a {
+    color: var(--ki-fg);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--ki-acc);
+}
+
+/* ===== LAYOUT ROOT ===== */
+.portal-index-root {
+    position: relative;
+    max-width: 1140px;
+    /* Widened slightly */
+    margin: 0 auto;
+    width: 96%;
+    /* Reduced side margins */
+}
+
+/* ===== BARRE HAUTE FIXE ===== */
+.ki-topline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 1000;
+    background: repeating-linear-gradient(90deg, rgba(255, 176, 0, .95) 0 6px, transparent 6px 14px);
+    pointer-events: none;
+}
+
+/* ===== HEADER ===== */
+.ki-header {
+    position: relative;
+    height: var(--ki-header-h);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--ki-side-pad);
+    gap: 12px;
+    z-index: 50;
+}
+
+/* Toolbar "Font :" */
+.ki-toolbar {
+    position: relative;
+    z-index: 60;
+    font-family: var(--ki-font);
+    /* Pour garder le style du prompt */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ki-fontrow {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.ki-label {
+    margin-right: 6px;
+    color: var(--ki-acc);
+    font-weight: 700;
+}
+
+.ki-trigger {
+    cursor: pointer;
+    color: var(--ki-acc);
+}
+
+/* Dropdown Menu */
+.ki-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    z-index: 100;
+    background: transparent;
+    /* Transparent background as requested */
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+
+.ki-menu.show {
+    display: flex;
+}
+
+.ki-item.selected {
+    display: none;
+    /* Hide selected font in menu */
+}
+
+.ki-item {
+    padding: 2px 0;
+    cursor: pointer;
+    color: var(--ki-fg);
+    white-space: nowrap;
+    background: transparent;
+}
+
+.ki-item:hover {
+    color: var(--ki-acc);
+    background: transparent;
+}
+
+.ki-item::before {
+    content: "[";
+    color: var(--ki-acc);
+    margin-right: 4px;
+}
+
+.ki-item::after {
+    content: "]";
+    color: var(--ki-acc);
+    margin-left: 4px;
+}
+
+
+/* ===== MAIN FRAME & GRID ===== */
+.ki-frame {
+    padding: 0 var(--ki-side-pad) 20px;
+    /* Le margin-top dépend de l'ouverture du menu pour l'effet "push" */
+    margin-top: calc(var(--ki-gap) + var(--ki-menu-h, 0px));
+    transition: margin-top 0.2s ease-out;
+    will-change: margin-top;
+}
+
+.ki-grid {
+    display: grid;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    /* Allow spiral to define its own width */
+    gap: 0 16px;
+    /* Add horizontal spacing around the spiral */
+    /* Left | Midline | Right */
+    width: 100%;
+    position: relative;
+}
+
+.ki-grid-wide-right {
+    grid-template-columns: 260px auto 1fr;
+}
+
+@media (max-width: 768px) {
+    .ki-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ki-midline,
+    .ki-spiral {
+        display: none;
+    }
+
+    .ki-col-right {
+        grid-column: 1 !important;
+        margin-top: 2rem;
+    }
+}
+
+/* Colonnes avec bordures 'Notebook' */
+/* Colonnes avec bordures 'Notebook' */
+.ki-col-left {
+    grid-column: 1;
+    border-left: 2px dashed rgba(168, 110, 34, 0.5);
+    border-top: 2px dashed rgba(168, 110, 34, 0.5);
+    border-bottom: 2px dashed rgba(168, 110, 34, 0.5);
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ki-col-right {
+    grid-column: 3;
+    border-right: 2px dashed rgba(168, 110, 34, 0.5);
+    border-top: 2px dashed rgba(168, 110, 34, 0.5);
+    border-bottom: 2px dashed rgba(168, 110, 34, 0.5);
+    padding-right: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Lignes pointillées de cadre (Box Decorations) */
+.ki-box {
+    position: relative;
+    /* padding removed/handled by cols */
+}
+
+/* Old Midline */
+.ki-midline {
+    display: none;
+}
+
+/* Spiral Divider */
+.ki-spiral {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    color: var(--ki-acc);
+    font-family: var(--font-PXVGA8);
+    font-size: 32px;
+    /* Even Larger */
+    line-height: 24px;
+    width: 36px;
+    margin-left: -8px;
+    /* Further increased nudge */
+    padding-top: 8px;
+    /* Adjusted alignment */
+    /* Align with columns padding */
+    /* Align with top border */
+}
+
+.ki-spiral span {
+    display: block;
+    transform: rotate(90deg);
+    margin-bottom: -8px;
+    /* Tighter overlap for density */
+    font-weight: 800;
+    /* Extra bold if supported, or just bold */
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    /* "Plus marqué" trick */
+    line-height: 1;
+}
+
+
+/* ===== CONTENU INTERNE ===== */
+.ki-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    color: var(--ki-acc);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.ki-dotline {
+    flex: 1;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--ki-border) 0 6px, transparent 6px 14px);
+    opacity: 0.5;
+}
+
+.ki-prompt {
+    margin-bottom: 2rem;
+    color: var(--ki-fg);
+}
+
+.ps-prefix {
+    color: var(--ki-acc);
+    margin-right: 0.5em;
+}
+
+.ki-caret {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background: var(--ki-fg);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Listes */
+.ki-section-title {
+    color: var(--ki-acc);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ki-border);
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.ki-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.ki-list li {
+    padding: 2px 0;
+    border-bottom: none;
+    display: flex;
+    align-items: baseline;
+}
+
+.ki-list li::before {
+    content: "⋮";
+    color: var(--ki-acc);
+    margin-right: 12px;
+    font-weight: bold;
+    display: inline-block;
+    transform: translateY(2px);
+    /* Pixel perfect alignment */
+}
+
+.ki-desc {
+    opacity: 0.7;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+/* ASCII ART Placeholder */
+.ki-art-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    overflow: hidden;
+    border: 1px dashed var(--ki-border);
+    padding: 1rem;
+    margin-top: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.ki-art {
+    font-family: monospace;
+    white-space: pre;
+    color: var(--ki-acc);
+    font-size: 10px;
+    line-height: 10px;
+    text-align: center;
+}
+
+/* Source Attribution */
+.ki-source {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--ki-fg);
+    opacity: 0.6;
+    margin-top: -30px;
+    margin-bottom: 40px;
+    font-family: var(--ki-font-ui);
+    font-style: italic;
+}
+
+.ki-source a {
+    color: var(--ki-acc);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ki-acc);
+    transition: all 0.2s ease;
+}
+
+.ki-source a:hover {
+    opacity: 1;
+    border-bottom-style: solid;
+}
+
+/* ===== ASCII DISPLAY / PRE ===== */
+.ascii-display {
+    display: block;
+    overflow: auto;
+    /* Scroll if too big */
+    max-height: 70vh;
+    /* Prevent overflowing the screen vertically */
+    max-width: 100%;
+    white-space: pre;
+    font-family: var(--ki-font);
+    font-size: 6px;
+    /* Reduced size as requested */
+    line-height: 6px;
+    color: var(--ki-fg);
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed rgba(168, 110, 34, 0.3);
+    /* Optional: nice scrollbar styling integrated */
+    scrollbar-color: var(--ki-acc) transparent;
+    scrollbar-width: thin;
+}
+
+#aperture+.ascii-display {
+    font-size: 10px;
+    line-height: 10px;
+}
+
+#lain+.ascii-display {
+    font-size: 8px;
+    line-height: 8px;
+}
+
+.ascii-display:last-child {
+    border-bottom: none;
+}
+
+.ascii-display::-webkit-scrollbar {
+    height: 8px;
+}
+
+.ascii-display::-webkit-scrollbar-thumb {
+    background: var(--ki-acc);
+}
+
+/* ===== DYNAMIC RIGHT COLUMN LOGOS ===== */
+.ki-col-right {
+    position: relative;
+    overflow: hidden;
+    /* Prevent spillover */
+    /* Essential for absolute positioning of children */
+}
+
+.ki-logo-item {
+    position: absolute;
+    /* right: 0;  <-- Removed for random positioning */
+    width: 64px;
+    /* Increased size */
+    height: 64px;
+    /* Increased size */
+    display: block;
+    /* Ensure anchor behaves like block */
+    text-decoration: none;
+    /* No underline */
+    border: none;
+    transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1), left 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s;
+    /* ✨ Smooth movement */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    /* Added shadow */
+}
+
+/* Base Logo Style */
+.ki-logo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.8;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+/* Framed State (Toggled Class on Body) */
+body.show-frames .ki-logo-item img {
+    background-color: var(--ki-bg);
+    border: 1px solid var(--ki-acc);
+    /* Inner Frame (Gold) */
+    padding: 3px;
+    /* Mat (Passe-partout) */
+    box-shadow: 0 0 0 1px var(--ki-border),
+        /* Outer Frame (Darker) */
+        0 4px 6px rgba(0, 0, 0, 0.5);
+    /* Drop Shadow (Depth) */
+}
+
+/* Header Toggle Styling */
+.ki-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ki-frame-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--ki-font);
+    color: var(--ki-fg);
+}
+
+/* SWITCH TOGGLE (MINIMALIST PORTAL STICK) */
+.ki-switch-btn {
+    position: relative;
+    width: 60px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    margin-top: 16px;
+    /* Precision alignment (Final 1px down) */
+    perspective: 200px;
+    /* Enable 3D perspective for stick rotation */
+    overflow: visible;
+}
+
+/* Base Plate REMOVED (Invisible/Guide only) */
+.ki-switch-track {
+    /* Previously visual track, now just a layout helper if needed */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    /* No plate */
+    border: none;
+    box-shadow: none;
+    /* Maintain layout logic */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    pointer-events: none;
+}
+
+/* Remove Text/Screws/Backgrounds - EXCEPTION: btn::before used for Base */
+.ki-switch-track::before,
+.ki-switch-track::after,
+.ki-switch-btn::after {
+    display: none !important;
+}
+
+/* HALF-CIRCLE BASE (Dome) */
+.ki-switch-btn::before {
+    display: block !important;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 12px;
+
+    /* Unified Material Style - Darker (Border Color) for OFF state */
+    background-color: var(--ki-border);
+    border-radius: 12px 12px 0 0;
+
+    /* Connect to thumb visually */
+    z-index: 10;
+    opacity: 1;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* The Lever (Stick) - Portal Minimalist */
+.ki-switch-thumb {
+    position: absolute;
+    bottom: 4px;
+    /* Raised to prevent rotation clipping below base */
+    left: 50%;
+    width: 8px;
+    height: 38px;
+    /* Slightly shorter to compensate raise */
+
+    /* Unified Material Style - Darker (Border Color) for OFF state */
+    background-color: var(--ki-border);
+    border-radius: 4px;
+
+    /* Remove separation shadows */
+    box-shadow: none;
+
+    /* Mechanics */
+    transform-origin: bottom center;
+    transform: translate(-50%, 0) rotate(-35deg);
+    /* OFF: Leans Left */
+
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s, box-shadow 0.2s;
+    z-index: 10;
+}
+
+/* Minimalist Cap (Optional, simple highlight) - REMOVED for seamless look */
+.ki-switch-thumb::after {
+    display: none;
+}
+
+
+/* --- ON STATE --- */
+
+/* Both parts light up together */
+.ki-switch-btn[aria-pressed="true"]::before,
+.ki-switch-btn[aria-pressed="true"] .ki-switch-thumb {
+    background-color: var(--ki-acc);
+    /* Active Amber */
+    box-shadow: 0 0 10px var(--ki-dot);
+    /* Shared Glow - Stronger */
+}
+
+/* Lever flips right */
+.ki-switch-btn[aria-pressed="true"] .ki-switch-thumb {
+    transform: translate(-50%, 0) rotate(35deg);
+    /* ON: Leans Right */
+}
+
+/* Keep external label hidden */
+.ki-label-status {
+    display: none !important;
+}
+
+/* Highlight ON label */
+.ki-switch-btn[aria-pressed="true"]+.ki-label-status {
+    color: var(--ki-acc);
+    opacity: 1;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--ki-dot);
+}
+
+.ki-logo-item:hover {
+    z-index: 100 !important;
+    cursor: pointer;
+    transform: scale(1.1);
+    /* Pop effect */
+}
+
+/* Playlist Thumbnails (Wide) */
+.ki-logo-item[data-for^="playlist."] {
+    width: 114px;
+    /* 16:9 ratio */
+    border-radius: 8px;
+}
+
+.ki-logo-item[data-for^="playlist."] img {
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ki-logo-item:hover {
+    opacity: 1;
+    filter: none;
+}

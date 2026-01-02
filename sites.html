@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Sites utiles et ressources pour le développement">
+    <meta name="keywords" content="développement, web, ressources, outils, design">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#B3C7D6">
+    <meta name="robots" content="index, follow">
+
+    <title>Youen | Sites Utiles</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon-perso.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-perso.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/web-app-manifest-512x512.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/web-app-manifest-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!-- On utilise des polices Google Fonts proches pour simuler le style si les locales sont manquantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+
+<body>
+
+    <div class="portal-index-root">
+
+        <!-- HEADER / TOOLBAR -->
+        <header class="ki-header">
+            <div class="ki-toolbar">
+                <div class="ki-fontrow">
+                    <span class="ki-label">Font :</span>
+                    <!-- Wrapper for alignment -->
+                    <div style="position: relative; display: inline-flex; flex-direction: column;">
+                        <span class="ki-trigger" id="font-trigger">
+                            <span class="ki-lb">[</span>
+                            <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
+                            <span class="ki-rb">]</span>
+                        </span>
+                        <!-- MENU (aligné sur le trigger) -->
+                        <div class="ki-menu" id="font-menu">
+                            <div class="ki-item" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                            <div class="ki-item" data-font="CascadiaMono">Cascadia Mono</div>
+                            <div class="ki-item" data-font="Tenebris">Tenebris</div>
+                            <div class="ki-item" data-font="TerminalGothic">Terminal Gothic</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ki-frame-toggle-wrapper">
+                    <button id="frame-toggle-btn" class="ki-switch-btn" aria-pressed="false"
+                        aria-label="Basculer l'affichage des cadres">
+                        <span class="ki-switch-track"></span>
+                        <span class="ki-switch-thumb"></span>
+                    </button>
+                    <!-- Label visual indicator -->
+                    <span id="frame-status-label" class="ki-label-status">ON</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GRID FRAME -->
+        <div class="ki-frame">
+            <div class="ki-grid">
+
+                <!-- COLONNE GAUCHE -->
+                <div class="ki-box ki-col-left">
+
+                    <div class="ki-titlebar">
+                        <h1>INDEX :: SITES</h1>
+                        <div class="ki-dotline"></div>
+                        <span class="ki-count">000 item(s)</span>
+                    </div>
+
+                    <div class="ki-prompt">
+                        <span class="ps-prefix">PS></span>
+                        <span class="ps-query" id="typing-effect" data-text="curl -I https://useful.sites"></span><span
+                            class="ki-caret"></span>
+                    </div>
+
+                    <div class="ki-games">
+                        <div class="ki-section-title">Développement</div>
+                        <ul class="ki-list">
+                            <li data-domain="github.com"><a href="https://github.com/search" target="_blank"
+                                    rel="noopener noreferrer" aria-label="GitHub (nouvelle fenêtre)">GitHub</a>
+                            </li>
+                            <li data-domain="code.visualstudio.com"><a href="https://code.visualstudio.com/"
+                                    target="_blank" rel="noopener noreferrer"
+                                    aria-label="VSCode (nouvelle fenêtre)">VSCode</a></li>
+                            <li data-domain="antigravity.google"><a href="https://antigravity.google/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Antigravity (nouvelle fenêtre)">Antigravity</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">Design & UI</div>
+                        <ul class="ki-list">
+                            <li data-domain="codepen.io"><a href="https://codepen.io/trending" target="_blank"
+                                    rel="noopener noreferrer" aria-label="CodePen (nouvelle fenêtre)">CodePen</a></li>
+                            <li data-domain="uiball.com"><a href="https://uiball.com/ldrs/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Uiball (nouvelle fenêtre)">Uiball</a>
+                            </li>
+                            <li data-domain="inkscape.org"><a href="https://inkscape.org/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Inkscape (nouvelle fenêtre)">Inkscape</a>
+                            </li>
+                            <li data-domain="gimp.org"><a href="https://www.gimp.org/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="GIMP (nouvelle fenêtre)">GIMP</a></li>
+                            <li data-domain="realfavicongenerator.net"><a href="https://realfavicongenerator.net/"
+                                    target="_blank" rel="noopener noreferrer"
+                                    aria-label="RealFaviconGenerator (nouvelle fenêtre)">RealFaviconGenerator</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">Outils</div>
+                        <ul class="ki-list">
+                            <li data-domain="justgetflux.com"><a href="https://justgetflux.com/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="F.lux (nouvelle fenêtre)">F.lux</a></li>
+                            <li data-domain="obsidian.md"><a href="https://obsidian.md/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Obsidian (nouvelle fenêtre)">Obsidian</a>
+                            </li>
+                            <li data-domain="developer.chrome.com"><a
+                                    href="https://developer.chrome.com/docs/lighthouse/overview" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Lighthouse (nouvelle fenêtre)">Lighthouse</a>
+                                <span class="ki-desc">(Diag perf web)</span>
+                            </li>
+                            <li data-domain="prettier.io"><a href="https://prettier.io/playground/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Prettier Playground (nouvelle fenêtre)">Prettier Playground</a> <span
+                                    class="ki-desc">(Mis en forme
+                                    Code)</span></li>
+                            <li data-domain="webaim.org"><a href="https://wave.webaim.org/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="WAVE Contrast (nouvelle fenêtre)">WAVE
+                                    Contrast</a> <span class="ki-desc">(Check accessibilité)</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">Ambiance Musicale</div>
+                        <ul class="ki-list">
+                            <li data-domain="mynoise.net"><a href="https://mynoise.net/" target="_blank"
+                                    rel="noopener noreferrer" aria-label="Mynoise (nouvelle fenêtre)">Mynoise</a>
+                            </li>
+                            <li data-domain="playlist.dnb"><a
+                                    href="https://www.youtube.com/playlist?list=PL9P04TK4nkBZmWiWOiU0y68beSDqbaDEK"
+                                    target="_blank" rel="noopener noreferrer"
+                                    aria-label="D&B Youtube (nouvelle fenêtre)">D&B Youtube</a></li>
+                            <li data-domain="playlist.dnb2"><a
+                                    href="https://www.youtube.com/playlist?list=PL9P04TK4nkBbaq-rmSUXCC6n7mNlTOGh_"
+                                    target="_blank" rel="noopener noreferrer"
+                                    aria-label="D&B² Youtube (nouvelle fenêtre)">D&B² Youtube</a></li>
+                            <li data-domain="playlist.romantic"><a
+                                    href="https://www.youtube.com/playlist?list=PL9P04TK4nkBaNtZXR37Dm7o2q0wku_UIA"
+                                    target="_blank" rel="noopener noreferrer"
+                                    aria-label="Romantique Youtube (nouvelle fenêtre)">Romantique Youtube</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">NAVIGATION</div>
+                        <ul class="ki-list">
+                            <li><a href="perso.html" aria-label="Retour Index Perso"><span
+                                        aria-hidden="true">&lt;&lt;</span> Retour</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- BOTTOM DOTLINE (To close the 'notebook' box) -->
+
+                </div>
+
+                <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
+                <div class="ki-spiral">
+                    <!-- Dynamic Generation via portal.js -->
+                </div>
+
+                <!-- COLONNE DROITE -->
+                <div class="ki-box ki-col-right">
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+    <!-- SCRIPT ASCII ART DYNAMIQUE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="assets/js/fleurs_data.js"></script>
+    <script src="assets/js/ascii-art.js"></script>
+    <script src="assets/js/portal.js"></script>
+    <script src="assets/js/ki-logos.js"></script>
+
+
+</body>
+
+</html>

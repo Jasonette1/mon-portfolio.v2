@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ASCII Archive - Collection de créations ASCII">
+    <meta name="keywords" content="ascii art, retro, text art, portal style">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#B3C7D6">
+    <meta name="robots" content="index, follow">
+
+    <title>Youen | ASCII Archive</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon-perso.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-perso.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/web-app-manifest-512x512.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/web-app-manifest-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/portal.css">
+
+</head>
+
+<body>
+
+
+
+    <div class="portal-index-root">
+
+        <!-- HEADER / TOOLBAR -->
+        <header class="ki-header">
+            <div class="ki-toolbar">
+                <div class="ki-fontrow" style="position: relative;">
+                    <span class="ki-label">Font :</span>
+                    <div style="position: relative; display: inline-flex; flex-direction: column;">
+                        <span class="ki-trigger" id="font-trigger">
+                            <span class="ki-lb">[</span>
+                            <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
+                            <span class="ki-rb">]</span>
+                        </span>
+                        <div class="ki-menu" id="font-menu">
+                            <div class="ki-item" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                            <div class="ki-item" data-font="CascadiaMono">Cascadia Mono</div>
+                            <div class="ki-item" data-font="Tenebris">Tenebris</div>
+                            <div class="ki-item" data-font="TerminalGothic">Terminal Gothic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GRID FRAME -->
+        <div class="ki-frame">
+            <div class="ki-grid ki-grid-wide-right">
+
+                <!-- COLONNE GAUCHE (Navigation) -->
+                <div class="ki-box ki-col-left">
+
+                    <div class="ki-titlebar">
+                        <h1>ARCHIVE</h1>
+                        <div class="ki-dotline"></div>
+                        <span class="ki-count">003</span>
+                    </div>
+
+                    <div class="ki-prompt">
+                        <span class="ps-prefix">PS></span>
+                        <span class="ps-query" id="typing-effect" data-text="dir *.asc"></span><span
+                            class="ki-caret"></span>
+                    </div>
+
+                    <div class="ki-games">
+                        <div class="ki-section-title">CATALOGUE</div>
+                        <ul class="ki-list">
+                            <!-- Dynamic Content via portal.js -->
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 40px;">
+                        <div class="ki-section-title">NAVIGATION</div>
+                        <ul class="ki-list">
+                            <li><a href="perso.html" aria-label="Retour Index Perso"><span
+                                        aria-hidden="true">&lt;&lt;</span> Retour</a></li>
+                        </ul>
+                    </div>
+
+
+
+                </div>
+
+                <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
+                <div class="ki-spiral">
+                    <!-- Dynamic Generation via portal.js -->
+                </div>
+
+                <!-- COLONNE DROITE (Contenu) -->
+                <div class="ki-box ki-col-right">
+
+                    <div id="aperture" class="ki-section-title">Aperture Science</div>
+                    <pre class="ascii-display" role="img" aria-label="Logo Aperture Science en ASCII Art">
+               .,-:;//;:=,
+          . :H@@@MM@M#H/.,+%;,
+       ,/X+ +M@@M@MM%=,-%HMMM@X/,
+     -+@MM; $M@@MH+-,;XMMMM@MMMM@+-
+    ;@M@@M- XM@X;. -+XXXXXHHH@M@M#@/.
+  ,%MM@@MH ,@%=             .---=-=:=,.
+  =@#@@@MX.,                -%HX$$%%%:;
+ =-./@M@M$                   .;@MMMM@MM:
+ X@/ -$MM/                    . +MM@@@M$
+,@M@H: :@:                    . =X#@@@@-
+,@@@MMX, .                    /H- ;@M@M=
+.H@@@@M@+,                    %MM+..%#$.
+ /MMMM@MMH/.                  XM@MH; =;
+  /%+%$XHH@$=              , .H@@@@MX,
+   .=--------.           -%H.,@@@@@MX,
+   .%MM@@@HHHXX$$$%+- .:$MMX =M@@MM%.
+     =XMMM@MM@MM#H;,-+HMM@M+ /MMMX=
+       =%@M@M#@$-.=$@MM@@@M; %M%=
+         ,:+$+-,/H#MMMMMMM@= =,
+               =++%%%%+/:-.`;
+</pre>
+                    <div class="ki-source">
+                        Source : <a href="https://archive.jamisonjudd.com/aperture-science-logo/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Source: Jamison Judd (nouvelle fenêtre)">Jamison
+                            Judd</a>
+                    </div>
+
+                    <div id="lain" class="ki-section-title">Lain</div>
+                    <pre class="ascii-display" role="img" aria-label="Portrait de Lain Iwakura en ASCII Art">
+⠀⠀⠀⠀⠀⠀⠀⠄⣀⠢⢀⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⡔⢀⠂⡜⢭⢻⣍⢯⡻⣝⣿⣿⡿⣟⠂
+⠀⠀⠀⠀⠀⠀⠀⠄⠀⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡔⡀⢂⠜⣪⢗⡾⣶⡽⣾⣟⣯⠛⠀⠀
+⠀⠀⠀⠀⠀⠄⠀⠠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣔⠨⡸⡝⣯⣳⢏⣿⠳⠉⠀⢠⣬⡶
+⠠⣓⢤⣂⣄⣀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠁⣞⡱⣝⠎⠀⢀⠠⣥⠳⡞⡹
+⠀⡄⢉⠲⢿⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡔⣧⡽⠋⠀⣰⣶⣻⣶⣿⢾⣷
+⢤⡈⠉⠲⢤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⢀⡴⢏⡳⢮⡿⣽⣞⠻⡜
+⠒⣭⠳⢶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⡙⠮⣜⣯⡽⣳⢌⡓⠈
+⡸⣰⢋⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣻⢿⣻⣿⡽⣗⠋⠄⠀
+⠣⢇⢟⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢟⡿⢣⣟⡻⠘⠀⠀⠀
+⠱⡊⠤⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠨⠗⠋⣁⣤⠖⠊⢁⣀
+⠀⠁⠂⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⣿⡂⠹⣿⣿⣿⣿⣿⠙⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⠒⢋⣉⡤⣔⣮⣽⣾
+⢢⠣⣌⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⢰⣿⡅⠀⣿⣿⣿⣿⣿⠀⠸⢿⣹⣿⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣻⣿⣿⣿⣿⣿⣿⣿
+⢃⡉⠠⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣼⢹⠀⠀⠀⠀⣾⠿⡇⠀⣿⣿⣿⣿⡏⠀⠀⣞⣧⣻⠟⢿⣿⣿⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣧⠱⣌⣳⣽⣻⣿⣿⣻
+⠀⢒⡕⣺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⡇⠈⣇⠀⠀⠀⠈⡆⢳⠀⠇⡟⠋⠉⠀⠀⠀⠃⢙⣠⣤⣤⣼⣯⣚⣟⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠌⠑⠌⢳⠛⡛⠏⠛⠉
+⡘⢷⣌⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉⢻⣀⣧⣤⣽⣦⣤⣄⠀⠰⡀⠃⠀⠀⠀⠀⠀⠀⡴⠟⠛⣉⣉⡉⠉⠈⠉⠉⠉⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢈⠈⠈⠁⠛⠀⠀⠀⣒
+⠉⢣⡛⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⠖⠛⠉⠉⠉⠀⠀⠐⠒⢢⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡾⣠⣲⣾⣿⢿⣷⢶⡄⠀⠀⣽⣿⣿⣿⣿⡿⠟⣿⣿⣿⣿⣿⠛⢁⣤⡶⠿⠛⠋
+⠀⠀⠌⢽⣿⣿⣿⣿⣿⣿⣿⣿⡷⠀⠀⠀⣠⣶⣶⣿⣟⣿⣶⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠃⢿⣿⣿⣿⣿⠀⣿⡀⠀⢻⣬⣙⡻⡿⣡⣾⣿⣿⡍⠈⣀⣤⣬⣤⣶⣲⣶⣿
+⠀⢈⠐⡀⢻⣫⢿⣿⣿⣿⣿⠘⢧⠁⠀⣻⡏⠸⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠑⢄⣉⣛⣋⣡⡴⠃⠀⣿⣿⣿⠟⣠⡛⢿⣿⣿⣷⣲⣽⣿⣿⣷⣾⣷⣿⣿
+⠀⠀⢀⠐⡀⢃⡈⣿⢿⣿⣿⣟⡆⠀⠀⠉⠿⣦⣈⣉⣉⠤⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡟⣡⣶⣿⣿⣾⣿⣿⣿⢿⡿⣿⣿⡿⠿⠛⣋⣡
+⠠⠐⡀⢢⣶⣿⢧⠻⣯⣿⣯⡛⢿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠘⠐⠂⡁⠤⠔⢂⣉⣤⡴
+⣀⠥⠌⣳⢯⣟⣮⣗⣾⣟⣿⣿⣦⣭⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⣈⠥⡔⡤⣍⠣⣝⢾⡹
+⠀⠀⠀⠠⠈⠉⠈⠉⠉⠉⣨⣿⣿⣿⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⡟⠻⢞⣿⣝⣳⢎⢳⢻⡮⣕
+⠀⠀⢀⠀⡀⠀⠀⣀⣴⣾⣿⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⡗⢠⠘⡼⣽⣛⡞⠦⣧⢻⣽
+⠀⢈⠀⡀⡀⢤⠞⡉⢭⣹⣿⣿⣿⣿⣿⣿⣿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣍⣣⢾⣵⣯⣷⣽⣦⣑⣯⢿
+⠀⠂⣴⣾⡟⣧⠊⡔⢢⠛⣿⣿⣿⣿⣿⣿⣿⣿⣷⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠒⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉⣯⢹⣽⢻⣿⣿⣿⣿⣿⣿⣿⣿
+⣶⣟⠳⣏⡿⣎⠳⣈⡜⣺⣿⠿⢿⣝⡿⣫⢟⣽⣿⣿⠻⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠔⠛⣿⠿⣟⢩⢾⣿⣿⣿⣿⣇⠾⣜⡧⣯⣟⣿⣿⣿⣿⣿⣿⣿⣿
+⠋⢀⢱⣫⣟⢾⡹⢴⡸⣵⡏⣂⢾⡿⣽⣹⣟⣾⣿⡟⢠⡇⠀⣹⠂⠄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣷⣣⢟⡿⣾⣿⣿⣿⣿⢌⠫⢝⡻⣵⢻⡟⣿⢿⣿⢿⡿⣿⠿
+⠀⢢⠞⣴⢯⢯⣝⣦⢳⡝⡶⣭⣿⣽⣳⣟⡾⣽⡟⢀⡟⠀⢀⡿⠀⠀⠀⠁⠠⠤⠀⠀⠀⠤⠐⠀⠀⠀⠀⠀⠀⠀⢸⡗⠈⠭⣿⣿⣿⣿⡿⢌⠣⡀⡐⢈⠃⠚⠦⣉⠂⠣⠜⡄⢋
+⣜⣷⢻⡜⣯⣾⡞⣥⣓⢾⡽⢎⡷⢯⡷⣯⢟⣽⠃⣸⠁⠀⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡄⢹⣿⣿⣿⣿⢃⡮⡑⢰⢠⣂⡜⣦⡴⣱⣎⣴⣩⡜⣦
+⣿⣯⢷⡻⣏⣷⣟⠶⣙⠮⡙⢪⠜⣯⢽⣯⣿⠃⠄⢃⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣾⣿⣿⣿⡇⠢⢡⡙⢦⡓⡼⣽⣾⣿⣿⣿⣿⣷⣿⣿
+⣿⡹⢇⡳⡹⣞⠘⡈⢅⠢⢁⠂⡘⠤⣋⣶⣡⠴⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⠰⡁⢆⠘⣡⠻⣽⣳⣿⣿⣿⣿⢿⣿⣿⣿
+⢣⠝⡢⢍⠱⢈⣂⣌⡤⠦⠶⠶⠞⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⠛⠷⣭⣂⠌⢠⠓⡴⣻⣿⣿⣿⣿⣿⣿⣯⣿
+⣇⢾⡱⠞⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⡇⠀⠀⠀⠉⠛⠳⠿⣶⣽⣿⣿⣿⣿⣿⣿⣿⣿
+</pre>
+                    <div class="ki-source">
+                        Source : Internet (Inconnue)
+                    </div>
+
+                    <div id="heart" class="ki-section-title">Cœur Brisé</div>
+                    <pre class="ascii-display" role="img"
+                        aria-label="Illustration d'un cœur brisé en caractéristiques ASCII">
+
+
+                                                                                                             XXHMXXMXXH                                          
+                                                                                                      MM MX             MM                                       
+                                                                                                   MMM  M    MMM                                                 
+                                                                                                  M:*X:-*/+/+``:++/+/+/+/+++-/HMM                                
+                                                                                               M  +:MX``*::-/..`/:-/-::+-:/+.:HHH  MM                            
+                                                                                           #   H  HM MMMMM MMHHHM MMM MMM MMMMMM # H                             
+                                                                                        ##MHM XSSHXSSHSSHXSSHSSXHSSHSSXHSSHXSSHSSSHMMHHM                         
+                                                                                       MXHS::*` .-...` .-'. - .'`. -..'-..`'..:..`::`//-*M                       
+                                                                                        MMMX**:``+---/`-+:-`+``:/-`+---+-`/:``*--:+++SH*+HHM                     
+                                                                                       ### #                                          ##  M                      
+                                                                                      MXSSX//+*//S///*//S+//S//+SSM        X+SX//+*/:S/+/XSSHMMM                 
+                                                                                   MSXS+/:+  '`  -...` .-'. -  '/`-S       *`:+..'`  -.. -+:**++X                
+                                                                                      MXSXH++SS++X***S++S*++X++S HXH       X+SH++*S++X***XSSH MM                 
+                                     #  #                                       #     MMM MMM MM MMM MM MMM MMM M              M MMM MMM MMM                    
+                                    MMMMMM                                     MHM*--/-``+'`::``/```/'`/-``+'`:S-+H          M/:S/''/`--/'`//+/XMM              
+                             M   M  HHMMHH MM                                  HHM*''/`'':..``..:'''-.':'..:..-S:-H          M+`+:..:'''-..:/::XMH              
+                         ##  M # H  ###### MH##  ####                          ## MMMMHHHMXXHHXXMHHHMXHMHXXMXXH XH  #         HS HXXMHHHMXXHMMM                 
+                         HXHHMMHSXXHSSXXSSHMMHHMMHHMHM                            MSSHXXXHSXXHSSHXXXHSXHXXSHSSXHXSHSSXMXXM   MHMHHMMHXXXHSSHXXSHHHH             
+                      H M:`++-:/'..:..``. /-::/--++.:MMM                       MH /..-'.':..``..:'..-..-'..:..'-'.-..'*-:SMH X'`-/:`/'''- .-'..+-.+S**X         
+                  HH MX M*-**+++---+`-//``+/+++++*+:/HHM                    H  MH *``/:--+``:/`-+---/`-+:-`+``:/-`+--:X+:XMX X://++/*-:-+`-+:-`*/:*XXXM         
+                  M       M     MM  MM  MM               ####                       M   M M   MM     M    M MM   M MM  MM                MM  MM                 
+               S+HSSH*//S//+S//*+/+S//**//S+++S//S++/S//*SS*XMMM                         H//**//S+/+S//S+//S//+*+/S//+S//*+//S//+*//S+++S//S+//S//* MM          
+              X`**+:+`  -  .`. `...-  `'  -...`  `...-  `-'./+/+M                     MX *  '`  -...`  `.  -  '`. `. .-  `.  -  '`  -...`  `'. -  `H+*          
+           XM *S HS*H*++X+++S++S+++S++S*+/S+++S+/S+++S/+*SSSHMMM                      MH H/+**//S+++S/+S*++X/+*S+/S+++S++S*++X++*S+/S+*+S/+S*++X++* M           
+              MMM MMM MM MMM MM MMM MM  MM M M MM MMM MM   M      M                       ##   # MMM MM MMM MM  MM MMM MM MMM MM  MM MMM MM MMM MM  ##          
+       MMM XXH-``+``::``+``-/``/-`-+``::``+---/``/--`+``::``+/*/MX-H                        M*+SX-`-/`-/-``+``:/-`/``-+``/-``+``:/``+---/'`/:``+``:MXX          
+       XXHM**X'.':.'-`..:..'-'.-''':..-`..:'''-..-''.:..``../-:-X-*  M                       S:-/'''-..:`..:..`-'.:'.':'.-'..:..`-..:''': .:`'.:..`H**          
+       ##     HHHMXHHHXXMXHHMHXMHHHMXXHHXXMHHHHXXMHHXMXXHHHXMMMMHH  MH                         MMHHHHXXMHHXMXXHHHXMHHHMXXHHXXMXXHHXXMHHHHXXMHXXMXXH             
+       MM MMMHXXXHXXHHXXMXXXHXXHXXXHXXHHXSHXXXHXXHXXXHXXHHXXMXXXHXXH                          MSMXXXHXXHXXSHXXXHXXHXXXHXXHXXXHXXXHXSHXXXHSXHXXXMXXX             
+      X::*/:-/'..-..``..:..'-..-'..:..``. :..'-. -''.:..``. :...-..-***H                      /:S'..-..-'..:..`-'.-..'-..-'..:..'-. -'''- .-'..:..`MHM          
+       X++/++*-`-+`-/:``+``-/-`/-`-+``::``+---/``/--`+``::``+``-/`-/XXXM                     X-HH---/`-/-``+``:/-`/``-/``/-``+`-:/``+---/'`/:``+``:MHM          
+       ##      M  MM  MM M    M MMM  M  MM M   MM   M MM  MM M      ##                         #     MM  MM MM   M M    M  MM M   MM     MM     MM              
+      H*SS*//S++/S/+**+/S/++S+/S+++S//**//S+++S//S++/S//**+/S+/+S++S                         SXSS+++S/+S+//S//**+/S+/+S+/*+//X/++*//S+++S//S++/H                
+      H'.`- .`...- .`'  -  .`. `...-  `'  -...`  `...-  ''  -. .`..:                         /-`/...` .`'. -  '`. -...`. `'  -..'`  -...-  `'. SHH              
+      HSSS*++S+++S/+S*+/X+++S++S+++S++**//X+++S//S*++X/+**+/X+++S++S                      MM XXSX+++S/+S*++X/+*S++S+++S++S*//X++*S+/S+++S//S*+/HHM  H           
+           MM MMM MM  MM MMM MM MMM MMMMMM MMM MM MMM MM  MM MMM                                 MMM MM MMM MMM MM MMM MM MMM MMM MM MMM     ##                 
+      X*+*+`-+-``+`-/:``+``-/-`/-`-+``::``+---/``/--`+``::``+``-+++*                        MS+/S---/`-/-``+``:/-`/``-+``/-``+``:/``+---+/+*MM                  
+      *+//:..-'..:..-`..:..'-'.-'.':..``..:'''-..-''.:..``..:..'/--*                      M H++:*'''-..-'..:..`-'.:..':..-'..:..`-..:'''/--*MH  MM              
+       HXMHXXHXXXHXXHHXXMXXXHXXHXXXMXXHHXXMXXXHXXHXXXMXXHHXXMXXXHMMM                      HH HXXMXXXHSXHXXXMXXHHXXHXXXMXXHXXXMXXHHXXHXXXHMMM M                  
+      MHMHHXXHXXXMXXHHXXMXXXHXXHXXXMXXHHXXMXXXHXXHHXXMXXHHXXMXXXHXXM                          ## MXM ## HMMHXXHHXXMXXXMXXHHXXMXXHHXXMMMM                        
+      M:.+:..-'..:.'-`..:..'-..-'.':..``..:'''-..-''.:..``..:..'-../ #                       MXHM/-+S**S+':+..`-'.:..':..-'..:..`-..-+//MMM                     
+      H/-+/``/-``+`-/:``+``-/``/---+``::``+---/``/--`+``::``+``-/``+MH                        MMM*-+HXXX+-/*``:/-`+``-+``/-``+``:/``/***MHM                     
+           MM MMM MM  MM MMM MM  MM MM  MM MMM MM M M MM  MM MMM MM  M     ######             #   H         MMM MM MMM MM  MM MM  MM MM                         
+        *SHXSH+++S/+**+/S+++S+/S+++S//**//S+++S//S+++S//**+/X+++S++S+++X/+**//SXX                 #      M H//*S+/S+++S+/S+//X++*H*SM                           
+       *-S+/:+. .- .`'  -  .`. `...-  ''  -...`  `.. -  ''  -. .` .`.  - .'`  :/`/XXXM                  H/S*  '`. `  .-  `'  -  `*--HHXH                        
+       +S XS*H+//S//**//S//+S//S+/+S//**//S+++*//S++/S//**//S//+S/+S///S//**//XMXSM                      M H//**+/S//+S//*+//S//+H+*M                           
+                                                                                #                                              #                                
+           M M---+`-/:``+``-/-`/---+``:/``+---/``/--`+``//-`+-`-/`-+-`-+`-:/``*/:+M                     +:/*`-:/-`+-`-+-`/:``XHXM                               
+       MM  XMH'..:..``..:..'-..-'.':..``..:.''-. -''.:..``..:..'-.'-'..: .`-..+:./                   M  +.-+..`-'.-..':..-'..SS+M M                             
+        M  M  XXXHSXHHXXMXXXHXXHXXXMXXHHXXHXXXHXXHXXXMXXHHXXMXXXHXXHXXXMXXHHXXHHHH                   M  HHHHXXHHXXHXXXHXXHXXX     XM                            
+                 MMMMHXXMXXHHXXHXXHMXXHHXXMXXHHXXHXHXMXXHHXXMXXXHXXHXXXMXXHHXXM HH                   ## MMMMXXHHHXMXXHMXXH###                                   
+              MH S'`:`..:..'-..-'.':..``..:'''-..-''.:..``..:..'-.'-'..:.'`-. *H-S                  MHHM+'-+..`-'.:'.':..:H*X                                   
+           MM MX S-:/:``+``-``/-`-+``::`'+---/``/--`+'`::``+``-/``/-``+'`::`'*++                    MMM+-/*``::-`/``-/``+HSH MM                                
+                     MMM MMM MM MMM MM MMM MMM MM MMM MMMMMM MMM MM MMM MM MMM M                            MMM MM MMM MMM                                      
+                        MSSSS++S+++X++SS+/X+**S++S**+X++*S++X+++S++S+++X/+SS+/H                                XHXSSHSMM+H                                      
+                      HMM: +:. `...-  `'  -...`  `'..-  '`. -. .` .`. .- .'`  *                                +-`+---H/:M                                      
+                  HH MH H**S*//S+//S//**//S/++*//S++/S//**//S//+S//S+//S//**//HHX                           MM SSSS*SSX+H                                       
+                         ###    ##  ##                MM  MM     MM  MM MM  MM      M                          #        #                                       
+                                 M  HX S:+S/+:**+S+*++``//-`+-`-/--+-`-+`-//-`++*++``+*:*MMM                   X:+H+:SHHHH                                      
+                             M  MH  S*MS--S``'/+:*:--:..``. :...-..-...: .``. :--::..:+-:HHXM               MM X:-X+`/S++S                                      
+                             XM  M     MSXMHMHHXXMHMHHSSXXSSHSSXHSXHSSSHSXXHSSHMMHHSSHMSH  #                 M MSH HSM                                          
+                                        ## # # ##     ###### ##  ##  HM MM MHXMHHHMXHHMMMM                       XM #                                           
+                                                      HXHS**HMH M**M+`/*/:+-..:''`:..:+':MMM                MM  +:XS*SM                                         
+                                               HM MH  HHMHXXMHH  XS S-/S*+S/`'/`--/``/+-/HHM                HH X-HMXXXMHM                                       
+                                                  MM  ##  ##     ##  H  MM  MM M M MM                           M                                               
+                                                                     #  ##  ##  SSXSSHX*X                                                                       
+                                                                               X`XX'.S+`/MHM                MH  H                                               
+                                                                        MM  XM +S X**XX/* HM             M  MM  H  MX                                           
+                                                                                   ##                                                                           
+                                                                                       #                                                                        
+                                                                                       M                        M                                               
+                                                                                       M  HM                MM  M````
+</pre>
+                    <div class="ki-source">
+                        Source : <a href="#" onclick="return false;">Portal (2007)</a>
+                    </div>
+
+                    <div id="fleur-fixe-title" class="ki-section-title">Fleurs du Mal</div>
+                    <pre id="fleur-fixe" class="ascii-display" role="img"
+                        aria-label="Illustration Fleurs du Mal en ASCII Art"></pre>
+                    <div class="ki-source">
+                        Frame_42 tirée de x-image transformée sur x-site
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Import -->
+    <script src="assets/js/fleurs_data.js"></script>
+
+    <script type="module">
+        import './assets/js/portal.js';
+
+        // Custom Logic for Flowers
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof FLEURS_FRAMES !== 'undefined' && FLEURS_FRAMES.length > 0) {
+                // Static Version (Frame 42)
+                const fixedEl = document.getElementById('fleur-fixe');
+                if (fixedEl) {
+                    fixedEl.textContent = FLEURS_FRAMES[42];
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

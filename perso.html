@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Index personnel - Projets et pensées">
+    <meta name="keywords" content="pédagogie, éducation, technologies, ascii, obsidian, portal">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#B3C7D6">
+    <meta name="robots" content="index, follow">
+
+    <title>Youen | Index Perso</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon-perso.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-perso.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/web-app-manifest-512x512.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/web-app-manifest-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!-- On utilise des polices Google Fonts proches pour simuler le style si les locales sont manquantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+
+<body>
+
+
+
+    <div class="portal-index-root">
+
+        <!-- HEADER / TOOLBAR -->
+        <header class="ki-header">
+            <div class="ki-toolbar">
+                <div class="ki-fontrow">
+                    <span class="ki-label">Font :</span>
+                    <!-- Wrapper for alignment -->
+                    <div style="position: relative; display: inline-flex; flex-direction: column;">
+                        <span class="ki-trigger" id="font-trigger">
+                            <span class="ki-lb">[</span>
+                            <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
+                            <span class="ki-rb">]</span>
+                        </span>
+                        <!-- MENU (aligné sur le trigger) -->
+                        <div class="ki-menu" id="font-menu">
+                            <div class="ki-item" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                            <div class="ki-item" data-font="CascadiaMono">Cascadia Mono</div>
+                            <div class="ki-item" data-font="Tenebris">Tenebris</div>
+                            <div class="ki-item" data-font="TerminalGothic">Terminal Gothic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GRID FRAME -->
+        <div class="ki-frame">
+            <div class="ki-grid">
+
+                <!-- COLONNE GAUCHE -->
+                <div class="ki-box ki-col-left">
+
+                    <div class="ki-titlebar">
+                        <h1>INDEX :: PERSO</h1>
+                        <div class="ki-dotline"></div>
+                        <span class="ki-count">001 item(s)</span>
+                    </div>
+
+                    <div class="ki-prompt">
+                        <span class="ps-prefix">PS></span>
+                        <span class="ps-query" id="typing-effect" data-text="load user_profile --force"></span><span
+                            class="ki-caret"></span>
+                    </div>
+
+                    <div class="ki-games">
+                        <div class="ki-section-title">Projets & Pensées</div>
+                        <ul class="ki-list">
+                            <li><a href="ascii.html">ASCII Archive</a></li>
+                            <li><a href="#">Mon Obsidian</a></li>
+                            <li><a href="#">Musée</a></li>
+                            <li><a href="sites.html">Sites utiles</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">NAVIGATION</div>
+                        <ul class="ki-list">
+                            <li><a href="public.html" aria-label="Retour Accueil"><span
+                                        aria-hidden="true">&lt;&lt;</span> Retour</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- BOTTOM DOTLINE (To close the 'notebook' box) -->
+
+
+                </div>
+
+                <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
+                <div class="ki-spiral">
+                    <!-- Dynamic Generation via portal.js -->
+                </div>
+
+                <!-- COLONNE DROITE -->
+                <div class="ki-box ki-col-right">
+
+                    <div class="ki-creators">
+                        <div class="ki-section-title">Inspirations</div>
+                        <ul class="ki-list">
+                            <li><a href="https://littlebitspace.com/" target="_blank" rel="noopener noreferrer"
+                                    aria-label="LittleBitSpace (nouvelle fenêtre)">LittleBitSpace</a></li>
+                            <li><a href="#">Portal</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-flux-section">
+                        <div class="ki-section-title">Flux</div>
+                        <div class="ki-art-wrap">
+                            <div class="ki-art"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+    <!-- SCRIPT ASCII ART DYNAMIQUE -->
+    <script src="assets/js/fleurs_data.js"></script>
+    <script src="assets/js/ascii-art.js"></script>
+    <script src="assets/js/portal.js"></script>
+
+
+</body>
+
+</html>
