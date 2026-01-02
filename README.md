@@ -43,7 +43,7 @@ git clone https://github.com/Jasonette1/V2.git
 cd V2
 
 # 3. Ouvrir le projet
-# Vous pouvez simplement ouvrir public.html dans votre navigateur
+# Vous pouvez simplement ouvrir index.html dans votre navigateur
 # OU utiliser une extension comme "Live Server" sur VS Code pour une meilleure expérience.
 ```
 
@@ -57,7 +57,7 @@ Voici un aperçu de l'organisation des fichiers sources :
 │   ├── css/           # Feuilles de style (main.css, variables...)
 │   ├── js/            # Scripts (main.js, guestbook.js...)
 │   └── icons/         # Favicons et manifestes PWA
-├── public.html        # Page principale (SPA-like)
+├── index.html         # Page principale (SPA-like)
 ├── ascii.html         # Expérimentation ASCII Art
 ├── obsidian.html      # Rendu style Obsidian
 └── README.md          # Documentation du projet
