@@ -8,7 +8,7 @@
 
 > **Projet réalisé en "Vibe Coding"** : 95% du code a été généré avec l'assistance de l'agent **Google Antigravity** et du modèle **Gemini Pro 3**, offerte via GitHub Student Developer Pack ainsi que du programme Student de Google. Je me suis réservé la séléction des idées et de la rédaction des paragraphes plus personnels. Bonne découverte à vous.
 
-[Voir le Portfolio en ligne 🚀](https://lassiazyouen.page)
+[Voir le Portfolio en ligne](https://lassiazyouen.page)
 
 </div>
 
