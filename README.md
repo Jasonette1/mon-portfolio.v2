@@ -25,6 +25,7 @@ Il sert de CV en ligne dynamique et de plateforme de partage via un ***"Livre d'
 Ce projet est conçu comme un site statique moderne, privilégiant la performance et la simplicité, sans framework lourd.
 
 *   **Core** : HTML5 sémantique, CSS3 (Variables, Flexbox/Grid), JavaScript (ES6+ Vanilla).
+*   **3D / WebGL** : Three.js pour l'expérience du Musée virtuel.
 *   **Assets** : FontAwesome 6 (Icônes).
 *   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel.
 *   **Infrastructure** :
@@ -44,7 +45,7 @@ cd V2
 
 # 3. Ouvrir le projet
 # Vous pouvez simplement ouvrir index.html dans votre navigateur
-# OU utiliser une extension comme "Live Server" sur VS Code pour une meilleure expérience.
+# OU utiliser une extension comme "Live Server" sur VS Code pour une meilleure expérience (recommandé pour les modules JS).
 ```
 
 ## Structure du Projet
@@ -54,14 +55,28 @@ Voici un aperçu de l'organisation des fichiers sources :
 ```plaintext
 /
 ├── assets/
-│   ├── css/           # Feuilles de style (main.css, variables...)
-│   ├── js/            # Scripts (main.js, guestbook.js...)
-│   └── icons/         # Favicons et manifestes PWA
-├── index.html         # Page principale (SPA-like)
-├── ascii.html         # Expérimentation ASCII Art
-├── obsidian.html      # Rendu style Obsidian
+│   ├── css/           # Feuilles de style (main.css, portal.css, musee.css)
+│   ├── js/            # Scripts principaux (main.js, portal.js, guestbook.js...)
+│   │   ├── libs/      # Bibliothèques externes (Three.js, OrbitControls)
+│   │   └── components/# Composants modulaires (3D objects, logic)
+│   ├── icons/         # Favicons et manifestes PWA
+│   ├── img/           # Images du site et textures 3D
+│   ├── shaders/       # Shaders WebGL (GLSL)
+│   └── fonts/         # Polices personnalisées
+├── index.html         # Page d'accueil principale (CV, Compétences)
+├── perso.html         # Index personnel (Interface style Portal)
+├── sites.html         # Collection de sites utiles (avec moteur physique)
+├── ascii.html         # Galerie d'Art ASCII
+├── musee.html         # Expérience 3D interactive (Temple/Musée)
 └── README.md          # Documentation du projet
 ```
+
+## Fonctionnalités Clés
+
+*   **Mode Public / Privé** : Gestion de messages publics ou privés dans le Livre d'Or.
+*   **Interface Portal** : Design rétro-futuriste inspiré du jeu Portal pour la section personnelle.
+*   **Musée 3D** : Une scène 3D interactive (Three.js) avec gestion de la lumière, shaders personnalisés (herbe, lucioles) et caméras dynamiques.
+*   **Physique 2D** : Utilisation de Matter.js sur la page `sites.html` pour des interactions ludiques avec les icônes.
 
 ## Auteur
 

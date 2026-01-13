@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Musée - Expérience 3D Interactive">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#120900">
+    <title>Youen | Musée 3D</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon-perso.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-perso.svg">
+
+    <link rel="stylesheet" href="assets/css/musee.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+        <p>Chargement de l'expérience...</p>
+    </div>
+
+    <!-- Canvas 3D WebGL -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Back Button (shown after animation) -->
+    <a href="perso.html" id="back-button" class="back-button hidden" aria-label="Retour à l'index personnel">
+        <span aria-hidden="true">&lt;&lt;</span> Retour
+    </a>
+
+    <!-- Three.js Import Map & Library -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./assets/js/libs/three.module.js"
+            }
+        }
+    </script>
+    <!-- Temple Scene Script -->
+    <script type="module" src="assets/js/musee-scene.js"></script>
+</body>
+
+</html>

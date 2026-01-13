@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Portal - L'inspiration derrière le design">
+    <meta name="keywords" content="portal, valve, design, inspiration, aperture science">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#B3C7D6">
+    <meta name="robots" content="index, follow">
+
+    <title>Youen | Portal</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon-perso.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon-perso.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/web-app-manifest-512x512.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/web-app-manifest-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/portal.css">
+
+</head>
+
+<body>
+
+
+
+    <div class="portal-index-root">
+
+        <!-- HEADER / TOOLBAR -->
+        <header class="ki-header">
+            <div class="ki-toolbar">
+                <div class="ki-fontrow">
+                    <span class="ki-label">Font :</span>
+                    <div style="position: relative; display: inline-flex; flex-direction: column;">
+                        <span class="ki-trigger" id="font-trigger">
+                            <span class="ki-lb">[</span>
+                            <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
+                            <span class="ki-rb">]</span>
+                        </span>
+                        <div class="ki-menu" id="font-menu">
+                            <div class="ki-item" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                            <div class="ki-item" data-font="CascadiaMono">Cascadia Mono</div>
+                            <div class="ki-item" data-font="Tenebris">Tenebris</div>
+                            <div class="ki-item" data-font="TerminalGothic">Terminal Gothic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN GRID FRAME -->
+        <div class="ki-frame">
+            <div class="ki-grid">
+
+                <!-- COLONNE GAUCHE -->
+                <div class="ki-box ki-col-left">
+
+                    <div class="ki-titlebar">
+                        <h1>PORTAL :: INSPIRATION</h1>
+                        <div class="ki-dotline"></div>
+                        <span class="ki-count">001</span>
+                    </div>
+
+                    <div class="ki-prompt">
+                        <span class="ps-prefix">PS></span>
+                        <span class="ps-query" id="typing-effect" data-text="cat README.txt"></span><span
+                            class="ki-caret"></span>
+                    </div>
+
+                    <div class="ki-games">
+                        <div class="ki-section-title">SOMMAIRE</div>
+                        <ul class="ki-list">
+                            <li><a href="#aperture">Aperture Science</a></li>
+                            <li><a href="#design-philosophy">Philosophie Visuelle</a></li>
+                            <li><a href="#color-palette">Palette de Couleurs</a></li>
+                            <li><a href="#typography">Typographie Rétro</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ki-games" style="margin-top: 20px;">
+                        <div class="ki-section-title">NAVIGATION</div>
+                        <ul class="ki-list">
+                            <li><a href="perso.html" aria-label="Retour Index Perso"><span
+                                        aria-hidden="true">&lt;&lt;</span> Retour</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
+                <div class="ki-spiral">
+                    <!-- Dynamic Generation via portal.js -->
+                </div>
+
+                <!-- COLONNE DROITE -->
+                <div class="ki-box ki-col-right">
+
+                    <div id="aperture" class="ki-section-title">Aperture Science</div>
+                    <div style="margin-bottom: 2rem; line-height: 1.6;">
+                        <p style="margin-bottom: 1rem;">
+                            <strong>Portal</strong> (2007) est un jeu de puzzle à la première personne développé par
+                            <strong>Valve Corporation</strong>. Ce chef-d'œuvre ludique nous plonge dans les
+                            laboratoires
+                            d'Aperture Science, une entreprise de recherche scientifique fictive dirigée par l'IA
+                            GLaDOS.
+                        </p>
+                        <p style="margin-bottom: 1rem;">
+                            Au-delà de son gameplay innovant basé sur les portails dimensionnels, Portal excelle dans
+                            sa direction artistique. L'esthétique du jeu mêle science-fiction rétro-futuriste et design
+                            industriel vintage, créant une atmosphère unique et immédiatement reconnaissable.
+                        </p>
+                    </div>
+
+                    <div id="design-philosophy" class="ki-section-title">Philosophie Visuelle</div>
+                    <div style="margin-bottom: 2rem; line-height: 1.6;">
+                        <p style="margin-bottom: 1rem;">
+                            Les écrans présents dans Portal ne sont pas de simples éléments décoratifs : ils racontent
+                            une histoire. Ces terminaux vieillissants évoquent une époque révolue où Aperture Science
+                            était au sommet de sa gloire, dans les années 1950-1980.
+                        </p>
+                        <p style="margin-bottom: 1rem;">
+                            Cette esthétique "vintage computing" inspire profondément le design de ce site web. Chaque
+                            page reprend les codes visuels de ces écrans anciens : interfaces monochrome, polices
+                            bitmap,
+                            éléments géométriques simples et graphismes ASCII.
+                        </p>
+                    </div>
+
+                    <div id="color-palette" class="ki-section-title">Palette de Couleurs</div>
+                    <div style="margin-bottom: 2rem; line-height: 1.6;">
+                        <p style="margin-bottom: 1rem;">
+                            Le choix chromatique <strong>jaune/noir</strong> n'est pas anodin. Ces couleurs évoquent :
+                        </p>
+                        <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                            <li style="margin-bottom: 0.5rem;">⋮ Les écrans CRT phosphorescents ambrés des années
+                                1970-80</li>
+                            <li style="margin-bottom: 0.5rem;">⋮ Les affichages monochromes des premiers ordinateurs
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">⋮ L'ambiance de laboratoire scientifique vintage</li>
+                            <li style="margin-bottom: 0.5rem;">⋮ Les signalétiques de sécurité industrielle</li>
+                        </ul>
+                        <p style="margin-bottom: 1rem;">
+                            Les nuances d'ambre (#ffd8a3, #ffb000) sur fond noir profond (#120900) créent un contraste
+                            fort, améliorant la lisibilité tout en restituant l'atmosphère nostalgique des anciennes
+                            interfaces informatiques.
+                        </p>
+                    </div>
+
+                    <div id="typography" class="ki-section-title">Typographie Rétro</div>
+                    <div style="margin-bottom: 2rem; line-height: 1.6;">
+                        <p style="margin-bottom: 1rem;">
+                            Les polices à espacement fixe (monospace) comme <strong>PxPlus_IBM_VGA8</strong>,
+                            <strong>Tenebris</strong>, et <strong>Terminal Gothic</strong> renforcent l'immersion
+                            rétro-futuriste.
+                        </p>
+                        <p style="margin-bottom: 1rem;">
+                            Ces typographies bitmap rappellent les limitations techniques d'antan, où chaque pixel
+                            comptait.
+                            Elles évoquent directement les terminaux de commande MS-DOS, les systèmes Unix anciens, et
+                            bien
+                            sûr, les écrans d'Aperture Science.
+                        </p>
+                        <p style="margin-bottom: 1rem; color: var(--ki-acc); font-weight: bold;">
+                            En résumé, Portal n'est pas qu'un jeu exceptionnel : c'est une source d'inspiration
+                            inépuisable
+                            pour créer des interfaces qui mêlent nostalgie, science-fiction et élégance minimaliste.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT PORTAL DYNAMIQUE -->
+    <script src="assets/js/portal.js"></script>
+
+
+</body>
+
+</html>
