@@ -55,20 +55,20 @@ Voici un aperçu de l'organisation des fichiers sources :
 ```plaintext
 /
 ├── assets/
-│   ├── css/           # Feuilles de style (main.css, portal.css, musee.css)
-│   ├── js/            # Scripts principaux (main.js, portal.js, guestbook.js...)
-│   │   ├── libs/      # Bibliothèques externes (Three.js, OrbitControls)
-│   │   └── components/# Composants modulaires (3D objects, logic)
-│   ├── icons/         # Favicons et manifestes PWA
-│   ├── img/           # Images du site et textures 3D
-│   ├── shaders/       # Shaders WebGL (GLSL)
-│   └── fonts/         # Polices personnalisées
-├── index.html         # Page d'accueil principale (CV, Compétences)
-├── perso.html         # Index personnel (Interface style Portal)
-├── sites.html         # Collection de sites utiles (avec moteur physique)
-├── ascii.html         # Galerie d'Art ASCII
-├── musee.html         # Expérience 3D interactive (Temple/Musée)
-└── README.md          # Documentation du projet
+│   ├── css/            # Feuilles de style (main.css, portal.css, musee.css)
+│   ├── js/             # Scripts principaux (main.js, portal.js, guestbook.js...)
+│   │   ├── libs/       # Bibliothèques externes (Three.js, OrbitControls)
+│   │   └── components/ # Composants modulaires (3D objects, logic)
+│   ├── icons/          # Favicons et manifestes PWA
+│   ├── img/            # Images du site et textures 3D
+│   ├── shaders/        # Shaders WebGL (GLSL)
+│   └── fonts/          # Polices personnalisées
+├── index.html          # Page d'accueil principale (CV, Compétences)
+├── perso.html          # Index personnel (Interface style Portal)
+├── sites.html          # Collection de sites utiles (avec moteur physique)
+├── ascii.html          # Galerie d'Art ASCII
+├── musee.html          # Expérience 3D interactive (Temple/Musée)
+└── README.md           # Documentation du projet
 ```
 
 ## Fonctionnalités Clés

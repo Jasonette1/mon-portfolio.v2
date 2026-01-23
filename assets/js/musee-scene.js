@@ -5,6 +5,7 @@
 
 import * as THREE from 'three';
 import { TextureManager } from './components/texture-manager.js';
+import { createLainDesk } from './components/lain-desk.js';
 
 // Load shaders
 let grassVertexShader, grassFragmentShader;
@@ -205,7 +206,14 @@ function initTempleScene() {
     const frontViewPos = new THREE.Vector3(0, 5, 10);
     const leftViewPos = new THREE.Vector3(-15, 5, 25);
     const rightViewPos = new THREE.Vector3(15, 5, 25);
-    const altarViewPos = new THREE.Vector3(0, 2.5, 22.5);
+    const altarViewPos = new THREE.Vector3(0, 2.5, 22.5); // Vue face rapprochée
+
+    // Vues d'inspection (Temporaire pour validation setup)
+    const altarLeftViewPos = new THREE.Vector3(-2.5, 2.5, 25.5);
+    const altarRightViewPos = new THREE.Vector3(2.5, 2.5, 25.5);
+
+    // Vue ultra proche de l'écran (< 1m)
+    const screenCloseViewPos = new THREE.Vector3(0, 2.2, 26.2);
 
     function animateCamera(deltaTime) {
         // Animation initiale
@@ -241,13 +249,20 @@ function initTempleScene() {
             const startTransition = camera.position.clone();
             camera.position.lerpVectors(startTransition, targetCameraPos, easeInOutCubic(cameraTransitionProgress));
 
-            const lookTarget = new THREE.Vector3(0, 2.5, 30);
+            // Cible du regard : toujours vers l'autel (Z=27)
+            const lookTarget = new THREE.Vector3(0, 2.0, 27);
             camera.lookAt(lookTarget);
 
             if (cameraTransitionProgress >= 1) {
                 targetCameraPos = null;
                 cameraTransitionProgress = 0;
             }
+        }
+
+        // Si pas de transition, s'assurer qu'on regarde au bon endroit
+        if (cameraMode !== 'animation' && !targetCameraPos) {
+            const lookTarget = new THREE.Vector3(0, 2.0, 27);
+            camera.lookAt(lookTarget);
         }
 
         if (animationProgress >= 1) {
@@ -264,42 +279,65 @@ function initTempleScene() {
         const clickX = event.clientX;
 
         // Diviser l'écran en 3 zones
-        // Diviser l'écran en 3 zones
         if (clickX < screenWidth * 0.25) {
-            // Clic à gauche → vue de profil DROIT (Inversion demandée)
-            if (cameraMode !== 'right') {
-                cameraMode = 'right';
+            // Clic à GAUCHE
+            if (cameraMode === 'altar') {
+                // Si on est sur l'autel -> Inspection Gauche
+                cameraMode = 'altarLeft';
+                targetCameraPos = altarLeftViewPos.clone();
+                transitionSpeed = 1.5;
+                cameraTransitionProgress = 0;
+            } else if (cameraMode !== 'right' && cameraMode !== 'altarLeft') {
+                cameraMode = 'right'; // Profil général droit (inversion)
                 targetCameraPos = rightViewPos.clone();
-                transitionSpeed = 2.0; // Rapide
+                transitionSpeed = 2.0;
                 cameraTransitionProgress = 0;
             }
         } else if (clickX > screenWidth * 0.75) {
-            // Clic à droite → vue de profil GAUCHE (Inversion demandée)
-            if (cameraMode !== 'left') {
-                cameraMode = 'left';
+            // Clic à DROITE
+            if (cameraMode === 'altar') {
+                // Si on est sur l'autel -> Inspection Droite
+                cameraMode = 'altarRight';
+                targetCameraPos = altarRightViewPos.clone();
+                transitionSpeed = 1.5;
+                cameraTransitionProgress = 0;
+            } else if (cameraMode !== 'left' && cameraMode !== 'altarRight') {
+                cameraMode = 'left'; // Profil général gauche (inversion)
                 targetCameraPos = leftViewPos.clone();
-                transitionSpeed = 2.0; // Rapide
+                transitionSpeed = 2.0;
                 cameraTransitionProgress = 0;
             }
         } else {
-            // Clic au centre → Toggle entre vue frontale et vue autel
+            // Clic au CENTRE
             if (cameraMode === 'front') {
-                // Si on est déjà devant, on zoome sur l'autel
+                // Si on est devant -> Zoom Autel
                 cameraMode = 'altar';
                 targetCameraPos = altarViewPos.clone();
-                transitionSpeed = 0.5; // Lennnnnt (Cinématique)
+                transitionSpeed = 0.5;
                 cameraTransitionProgress = 0;
             } else if (cameraMode === 'altar') {
-                // Si on est sur l'autel, on recule
-                cameraMode = 'front';
-                targetCameraPos = frontViewPos.clone();
-                transitionSpeed = 0.5; // Lennnnnt (Cinématique)
+                // Si on est sur l'autel -> Vue ultra proche écran
+                cameraMode = 'screenClose';
+                targetCameraPos = screenCloseViewPos.clone();
+                transitionSpeed = 1.0;
+                cameraTransitionProgress = 0;
+            } else if (cameraMode === 'screenClose') {
+                // Si on est très proche -> Retour autel
+                cameraMode = 'altar';
+                targetCameraPos = altarViewPos.clone();
+                transitionSpeed = 1.0;
+                cameraTransitionProgress = 0;
+            } else if (['altarLeft', 'altarRight'].includes(cameraMode)) {
+                // Depuis les côtés -> Retour autel
+                cameraMode = 'altar';
+                targetCameraPos = altarViewPos.clone();
+                transitionSpeed = 1.5;
                 cameraTransitionProgress = 0;
             } else {
-                // Si on vient des côtés, on revient à la vue frontale par défaut
+                // Retour defaut
                 cameraMode = 'front';
                 targetCameraPos = frontViewPos.clone();
-                transitionSpeed = 2.0; // Rapide
+                transitionSpeed = 2.0;
                 cameraTransitionProgress = 0;
             }
         }
@@ -567,7 +605,7 @@ function createGodRays() {
     return mesh;
 }
 
-// ===== ALTAR CREATION =====
+// ===== ALTAR CREATION (WITH LAIN DESK ON TOP) =====
 function createAltar() {
     const altarGroup = new THREE.Group();
 
@@ -590,7 +628,7 @@ function createAltar() {
         side: THREE.DoubleSide
     });
 
-    // 2. Matériau pour la Dalle au sol (Pierre vieillie / Rock Tile) - Comme avant
+    // 2. Matériau pour la Dalle au sol (Pierre vieillie / Rock Tile)
     const floorMaps = textureManager.loadPBR('assets/textures/detail/rock_tile_floor', {
         repeat: 4,
         suffixes: {
@@ -602,63 +640,68 @@ function createAltar() {
     });
 
     const slabMaterial = new THREE.MeshStandardMaterial({
-        color: 0xbbbbbb, // Un peu plus sombre pour le sol
+        color: 0xbbbbbb,
         ...floorMaps,
         roughness: 0.9,
         side: THREE.DoubleSide
     });
 
     // DALLE DE BASE - Plateforme d'église 13m x 13.5m
-    // DALLE DE BASE - Plateforme d'église 13m x 13.5m
     const baseSlabGeometry = new THREE.BoxGeometry(13, 0.1, 13.5);
-    const baseSlab = new THREE.Mesh(baseSlabGeometry, slabMaterial); // Utilise slabMaterial (Rock Tile)
-    baseSlab.position.set(0, 0.05, -2);  // Décalée vers l'avant pour ne pas déborder derrière
+    const baseSlab = new THREE.Mesh(baseSlabGeometry, slabMaterial);
+    baseSlab.position.set(0, 0.05, -2);
     baseSlab.castShadow = true;
     baseSlab.receiveShadow = true;
     altarGroup.add(baseSlab);
 
     // MARCHES - Première marche (la plus large, au sol)
-    const step1Geometry = new THREE.BoxGeometry(6, 0.20, 3);  // +5cm
+    const step1Geometry = new THREE.BoxGeometry(6, 0.20, 3);
     const step1 = new THREE.Mesh(step1Geometry, marbleMaterial);
-    step1.position.y = 0.20;  // Ajusté
+    step1.position.y = 0.20;
     step1.castShadow = true;
     step1.receiveShadow = true;
     altarGroup.add(step1);
 
     // MARCHES - Deuxième marche (plus petite)
-    const step2Geometry = new THREE.BoxGeometry(5, 0.30, 2.5);  // +5cm
+    const step2Geometry = new THREE.BoxGeometry(5, 0.30, 2.5);
     const step2 = new THREE.Mesh(step2Geometry, marbleMaterial);
-    step2.position.y = 0.45;  // Ajusté
+    step2.position.y = 0.45;
     step2.castShadow = true;
     step2.receiveShadow = true;
     altarGroup.add(step2);
 
     // Socle en bas (sur les marches)
-    const pedestalGeometry = new THREE.BoxGeometry(3.4, 0.25, 1.9);  // +5cm
+    const pedestalGeometry = new THREE.BoxGeometry(3.4, 0.25, 1.9);
     const pedestal = new THREE.Mesh(pedestalGeometry, marbleMaterial);
-    pedestal.position.y = 0.725;  // Ajusté
+    pedestal.position.y = 0.725;
     pedestal.castShadow = true;
     pedestal.receiveShadow = true;
     altarGroup.add(pedestal);
 
     // Base de l'autel (bloc rectangulaire)
-    const baseGeometry = new THREE.BoxGeometry(3, 0.85, 1.5);  // +5cm
+    const baseGeometry = new THREE.BoxGeometry(3, 0.85, 1.5);
     const base = new THREE.Mesh(baseGeometry, marbleMaterial);
-    base.position.y = 1.275;  // Ajusté
+    base.position.y = 1.275;
     base.castShadow = true;
     base.receiveShadow = true;
     altarGroup.add(base);
 
-    // Plateau supérieur (plus large)
-    const topGeometry = new THREE.BoxGeometry(3.2, 0.20, 1.7);  // +5cm
+    // Plateau supérieur (plus large) - Surface où sera posé le setup
+    const topGeometry = new THREE.BoxGeometry(3.2, 0.20, 1.7);
     const top = new THREE.Mesh(topGeometry, marbleMaterial);
-    top.position.y = 1.80;  // Ajusté
+    top.position.y = 1.80;
     top.castShadow = true;
     top.receiveShadow = true;
     altarGroup.add(top);
 
+    // === LAIN DESK SETUP ON TOP OF ALTAR ===
+    const lainDesk = createLainDesk();
+    // Position on top of the altar surface (y = 1.80 + 0.10 for top surface + 0.01 margin)
+    lainDesk.position.set(0, 1.91, 0);
+    altarGroup.add(lainDesk);
+
     // Position reculée pour coller au mur arrière
-    altarGroup.position.set(0, 0, 27);  // Reculé de 2m pour être contre le mur
+    altarGroup.position.set(0, 0, 27);
 
     return altarGroup;
 }
@@ -1267,8 +1310,8 @@ function createColumns() {
     const archCapitalHeight = 0.3;
     const archCenterZ = (row2Z + row4Z) / 2;  // Point milieu entre les deux colonnes
 
-    // ARCHE GAUCHE
-    for (let i = 0; i <= numSegments; i++) {
+    // ARCHE GAUCHE (Skip i=0 et i=numSegments pour éviter les segments horizontaux)
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;  // De 0 à π
         const segmentLength = (archRadius * Math.PI) / numSegments;
 
@@ -1287,7 +1330,7 @@ function createColumns() {
     }
 
     // ARCHE DROITE
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (archRadius * Math.PI) / numSegments;
 
@@ -1320,7 +1363,7 @@ function createColumns() {
     const outerArchZOffset = 0.15; // Décalage vers l'arrière (vers le mur)
 
     // ARCHE EXTÉRIEURE GAUCHE
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (outerArchRadius * Math.PI) / numSegments;
 
@@ -1337,7 +1380,7 @@ function createColumns() {
     }
 
     // ARCHE EXTÉRIEURE DROITE
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (outerArchRadius * Math.PI) / numSegments;
 
@@ -1358,7 +1401,7 @@ function createColumns() {
     const newArchCenterZ = (newRowZ + row3Z) / 2;  // Centre entre nouvelle rangée et rangée 3
 
     // ARCHE INTÉRIEURE GAUCHE (nouvelle)
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (archRadius * Math.PI) / numSegments;
 
@@ -1375,7 +1418,7 @@ function createColumns() {
     }
 
     // ARCHE INTÉRIEURE DROITE (nouvelle)
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (archRadius * Math.PI) / numSegments;
 
@@ -1392,7 +1435,7 @@ function createColumns() {
     }
 
     // ARCHE EXTÉRIEURE GAUCHE (nouvelle)
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (outerArchRadius * Math.PI) / numSegments;
 
@@ -1409,7 +1452,7 @@ function createColumns() {
     }
 
     // ARCHE EXTÉRIEURE DROITE (nouvelle)
-    for (let i = 0; i <= numSegments; i++) {
+    for (let i = 1; i < numSegments; i++) {
         const angle = (Math.PI / numSegments) * i;
         const segmentLength = (outerArchRadius * Math.PI) / numSegments;
 
@@ -1426,69 +1469,66 @@ function createColumns() {
     }
 
     // ===== MUR DE REMPLISSAGE (GAUCHE - "PAN ESCALIER") =====
-    // On crée un mur plein percé par les arches pour le côté gauche
+    // Version corrigée: le bas de la forme suit les arches au lieu d'être une ligne droite
 
     // Paramètres
-    const wallBaseY = columnHeight + 0.3; // Même hauteur que la base des arches
-    const wallTopY = wallBaseY + outerArchRadius + 0.25; // Bande plate beaucoup plus fine (0.8 -> 0.25)
+    const wallBaseY = columnHeight + 0.3; // Niveau de base (bas des arches)
+    const wallTopY = wallBaseY + outerArchRadius + 0.25; // Haut du mur
 
-    const wallShape = new THREE.Shape();
-
-    // Rectangle global du mur (couvrant les deux arches de gauche)
-    // Marges réduites pour moins d'encombrement (0.6 -> 0.15)
+    // Marges réduites 
     const startZ_Wall = newRowZ - 0.15;
     const endZ_Wall = row4Z + 0.15;
 
-    // Shape définie en 2D (x=Z_World, y=Y_World)
-    // Sens anti-horaire : Bas-Droite -> Bas-Gauche -> Haut-Gauche -> Haut-Droite -> Bas-Droite
-    // MAIS ici : Start=LowZ (Droite écran), End=HighZ (Gauche écran).
-    // MoveTo(Start, Base) -> LineTo(End, Base) -> LineTo(End, Top) -> ...
+    // Points clés des arches
+    const arch1LeftFoot = newArchCenterZ - outerArchRadius + 0.05;
+    const arch1RightFoot = newArchCenterZ + outerArchRadius - 0.05;
+    const arch2LeftFoot = archCenterZ - outerArchRadius + 0.05;
+    const arch2RightFoot = archCenterZ + outerArchRadius - 0.05;
 
+    const wallShape = new THREE.Shape();
+
+    // Tracé de la forme (sens anti-horaire, coordonnées: x=Z_World, y=Y_World)
+    // On commence en bas à droite et on trace en évitant les ouvertures d'arches
+
+    // 1. Départ: bas à droite (près de startZ_Wall)
     wallShape.moveTo(startZ_Wall, wallBaseY);
-    wallShape.lineTo(endZ_Wall, wallBaseY);
-    wallShape.lineTo(endZ_Wall, wallTopY);
 
-    // Coin Haut-Droite (StartZ) "Abimé"
-    // Au lieu d'aller tout droit jusqu'à (startZ_Wall, wallTopY), on s'arrête avant et on fait des zigzags
+    // 2. Monter au niveau du sommet gauche abimé
+    wallShape.lineTo(startZ_Wall, wallTopY - 0.35);
 
-    // 1. On avance sur le plat du haut jusqu'à 40cm du bord
+    // 3. Coin abimé
+    wallShape.lineTo(startZ_Wall + 0.1, wallTopY - 0.1);
+    wallShape.lineTo(startZ_Wall + 0.25, wallTopY - 0.15);
     wallShape.lineTo(startZ_Wall + 0.4, wallTopY);
 
-    // 2. On crée l'angle abimé (escalier/cassure irrégulière)
-    wallShape.lineTo(startZ_Wall + 0.25, wallTopY - 0.15); // Petit décroché bas
-    wallShape.lineTo(startZ_Wall + 0.1, wallTopY - 0.1);  // Petit plat (ou remontée légère)
-    wallShape.lineTo(startZ_Wall, wallTopY - 0.35);       // Cassure franche vers le coin
+    // 4. Haut du mur jusqu'à l'autre côté
+    wallShape.lineTo(endZ_Wall, wallTopY);
 
-    // 3. On redescend vers la base (vertical) depuis le point abimé
-    // wallShape.lineTo(startZ_Wall, wallBaseY); // La suite (déjà vertical aligné sur startZ_Wall)
+    // 5. Descendre à droite
+    wallShape.lineTo(endZ_Wall, wallBaseY);
+
+    // 6. Aller vers le pied droit de l'arche 2, puis arc au-dessus
+    wallShape.lineTo(arch2RightFoot, wallBaseY);
+    wallShape.absarc(archCenterZ, wallBaseY, outerArchRadius - 0.05, 0, Math.PI, false);
+
+    // 7. Du pied gauche arche 2 au pied droit arche 1
+    wallShape.lineTo(arch1RightFoot, wallBaseY);
+    wallShape.absarc(newArchCenterZ, wallBaseY, outerArchRadius - 0.05, 0, Math.PI, false);
+
+    // 8. Retour au point de départ
     wallShape.lineTo(startZ_Wall, wallBaseY);
-
-    // Trous pour les arches (correspondant aux arches extérieures)
-    const hole1 = new THREE.Path();
-    hole1.absarc(newArchCenterZ, wallBaseY, outerArchRadius - 0.05, 0, Math.PI, false);
-    wallShape.holes.push(hole1);
-
-    const hole2 = new THREE.Path();
-    hole2.absarc(archCenterZ, wallBaseY, outerArchRadius - 0.05, 0, Math.PI, false);
-    wallShape.holes.push(hole2);
 
     const wallExtrudeSettings = {
         steps: 1,
-        depth: outerArchWidth, // Largeur de l'arche
+        depth: outerArchWidth,
         bevelEnabled: false,
-        curveSegments: 12
+        curveSegments: 16
     };
 
     const wallGeo = new THREE.ExtrudeGeometry(wallShape, wallExtrudeSettings);
     const wallMesh = new THREE.Mesh(wallGeo, outerArchMaterial);
 
-    // Rotation pour aligner: -PI/2 fait correspondre X_shape -> Z_World
     wallMesh.rotation.y = -Math.PI / 2;
-    // Positionnement : on centre sur X = -5.5
-    // L'extrusion se fait selon Z_Local qui devient -X_World
-    // Donc ça part de la pos et ça va vers -X.
-    // Si on veut centrer sur -5.5 avec largeur 'outerArchWidth':
-    // PosX = -5.5 + outerArchWidth/2
     wallMesh.position.set(-5.5 + outerArchWidth / 2, 0, 0);
 
     wallMesh.castShadow = true;
