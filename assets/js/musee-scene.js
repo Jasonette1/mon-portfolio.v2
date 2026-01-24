@@ -88,7 +88,7 @@ function initTempleScene() {
     try {
         renderer = new THREE.WebGLRenderer({
             canvas: canvas,
-            antialias: true, // Re-enabled for quality check
+            antialias: true, // Re-enabled for better quality
             powerPreference: "default",
             failIfMajorPerformanceCaveat: false
         });
