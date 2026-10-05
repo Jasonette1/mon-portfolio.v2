@@ -70,22 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Gestion du clic sur le logo ----------
-    const logoLink = document.querySelector('.logo-link');
-    if (logoLink) {
-        // Prevent hash updates if needed, or simply reload
-        const currentUrlWithoutHash = window.location.href.split('#')[0];
-        // Optional: logoLink.setAttribute('href', currentUrlWithoutHash);
-        logoLink.addEventListener('click', (e) => {
-            // If internal anchor logic isn't desired
-            // here we perform a hard reload on click
-            if (e.button === 0) {
-                // e.preventDefault(); // Uncomment if href is "#"
-                // window.location.reload();
-            }
-        });
-    }
-
     // ---------- Mode Lite ----------
     const liteModeToggle = document.getElementById('lite-mode-toggle');
     if (liteModeToggle) {
@@ -124,23 +108,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- EASTER EGG 1: LE MOT DE PASSE ---
-    // Tapez "jaspe" n'importe où sur la page pour accéder à la section secrète
+    // --- EASTER EGG 1: LE MOT SECRET ---
+    // Deux entrées discrètes vers la partie cachée du site, sans aucun indice visuel :
+    // taper « jaspe » (ordinateur) ou toucher 4 fois de suite le titre (téléphone).
+    const secretUrl = 'perso.html';
+    const openSecret = () => { window.location.href = secretUrl; };
+
+    // 1) Le mot « jaspe » tapé au clavier, hors de tout champ de saisie
     const secretCode = 'jaspe';
     let inputSequence = '';
 
     document.addEventListener('keydown', (e) => {
-        // Ajoute la touche à la séquence
-        inputSequence += e.key.toLowerCase();
-
-        // Si la séquence devient trop longue, on garde juste la fin
-        if (inputSequence.length > secretCode.length) {
-            inputSequence = inputSequence.slice(-secretCode.length);
+        // Dans un champ (nom, message du livre d'or…), en pleine composition ou avec un raccourci
+        // (Ctrl, Cmd, Alt), ce n'est pas le mot secret : on oublie le début éventuel et on ne
+        // redirige jamais, pour qu'un visiteur qui écrit « Jaspe » ne perde pas son message.
+        if (e.target.matches('input, textarea, select') || e.target.isContentEditable ||
+            e.isComposing || e.ctrlKey || e.metaKey || e.altKey) {
+            inputSequence = '';
+            return;
         }
 
-        // Vérification
+        // Maj, Verr. Maj, flèches… ne sont pas des lettres : elles ne comptent pas dans le mot
+        if (e.key.length !== 1) return;
+
+        // Ajoute la lettre à la séquence, en gardant seulement la fin (la longueur du mot)
+        inputSequence = (inputSequence + e.key.toLowerCase()).slice(-secretCode.length);
+
         if (inputSequence === secretCode) {
-            window.location.href = 'perso.html';
+            openSecret();
         }
     });
+
+    // 2) Quatre touches rapprochées sur le titre (logo -//_ compris), pensé pour le téléphone.
+    // On écoute « click » : souris, doigt et touche Entrée sur le logo passent tous par là,
+    // sans compter deux fois une même touche.
+    const siteTitle = document.querySelector('header h1');
+    const titleTapsRequired = 4;
+    const titleTapMaxGap = 700; // ms maximum entre deux touches, sinon le compte repart à 1
+    let titleTapCount = 0;
+    let lastTitleTap = 0;
+
+    if (siteTitle) {
+        siteTitle.addEventListener('click', (e) => {
+            titleTapCount = (e.timeStamp - lastTitleTap <= titleTapMaxGap) ? titleTapCount + 1 : 1;
+            lastTitleTap = e.timeStamp;
+
+            if (titleTapCount === titleTapsRequired) {
+                titleTapCount = 0;
+                openSecret();
+            }
+        });
+    }
 });
