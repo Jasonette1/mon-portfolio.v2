@@ -92,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Playlists
         'playlist.dnb': 'assets/img/thumb_dnb.jpg',
         'playlist.dnb2': 'assets/img/thumb_dnb2.jpg',
-        'playlist.romantic': 'assets/img/thumb_romantic.jpg'
+        'playlist.romantic': 'assets/img/thumb_romantic.jpg',
+        'playlist.wanderloots': 'assets/img/thumb_wanderloots.jpg'
     };
 
     // --- UTILS: Deterministic Random ---
