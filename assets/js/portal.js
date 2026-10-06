@@ -288,12 +288,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialisation
     initCatalogue();
 
-    // --- COMPTEUR INDEX PERSO & SITES (DYNAMIC COUNT) ---
-    function initPersoCount() {
-        const gamesDivs = document.querySelectorAll('.ki-games');
+    // --- COMPTEUR « N item(s) » (perso.html, sites.html) ---
+    // Le compteur à remplir est désigné par data-count="items" ; le chiffre écrit
+    // dans le HTML n'est qu'une valeur de secours, recalculée ici.
+    function initItemCount() {
+        const countSpan = document.querySelector('[data-count="items"]');
+        if (!countSpan) return;
+
         let totalCount = 0;
 
-        gamesDivs.forEach(div => {
+        document.querySelectorAll('.ki-games').forEach(div => {
             const title = div.querySelector('.ki-section-title');
             // On compte tout sauf la navigation
             if (title && !title.textContent.toUpperCase().includes('NAVIGATION')) {
@@ -304,20 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const countSpan = document.querySelector('.ki-count');
-        const titleBar = document.querySelector('.ki-titlebar span');
-
-        // On vérifie qu'on est sur une page de type INDEX (INDEX :: PERSO, INDEX :: SITES...)
-        // ascii.html a pour titre "ARCHIVE", donc il est exclu.
-        if (titleBar && titleBar.textContent.includes('INDEX')) {
-            if (countSpan) {
-                countSpan.textContent = totalCount.toString().padStart(3, '0') + " item(s)";
-            }
-        }
+        countSpan.textContent = totalCount.toString().padStart(3, '0') + " item(s)";
     }
 
     // Initialisation
-    initPersoCount();
+    initItemCount();
 
     // Initialisation et écoute du redimensionnement (Spirale)
     initSpiral();
