@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- MANUAL OVERRIDES (PRIORITY) ---
     const CUSTOM_LOGOS = {
         'antigravity.google': 'assets/img/antigravity.png',
+        'hermes-agent.nousresearch.com': 'assets/img/hermes.png',
         'github.com': 'assets/img/github.png',
         'code.visualstudio.com': 'assets/img/vscode.png',
         'codepen.io': 'assets/img/codepen.png',
