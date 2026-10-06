@@ -1,0 +1,105 @@
+/* ===== GALERIE : PAGE D'ATTENTE =====
+   Même bleu et même trame cathodique que l'écran de l'ordinateur de l'autel (musee.html) :
+   le passage de l'un à l'autre ne se voit pas. Tailles reprises de la maquette validée par Youen,
+   proportionnelles à la hauteur de la fenêtre. */
+
+/* Texte machine : sous-ensemble woff2 hébergé, licence SIL OFL 1.1 à côté du fichier */
+@font-face {
+    font-family: "Inconsolata";
+    src: url("../fonts/Inconsolata.woff2") format("woff2");
+    font-display: swap;
+}
+
+:root {
+    --bleu: #123a8c;
+    --texte: #cfe8ff;
+    color-scheme: dark;
+    background-color: var(--bleu);
+}
+
+body {
+    margin: 0;
+    color: var(--texte);
+    font-family: "Inconsolata", monospace;
+}
+
+/* Trame cathodique par-dessus toute la page */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
+}
+
+.attente {
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4.4vh;
+    animation: apparition 0.6s ease both;
+}
+
+/* Maquette : 22 px de Consolas pour 405 px de haut ; Inconsolata, plus étroite, à 110 % */
+.attente__titre {
+    margin: 0;
+    font-size: min(6vh, 9vw);
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+}
+
+.attente__curseur {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.91em;
+    margin-left: 0.17em;
+    vertical-align: -0.08em;
+    background-color: currentColor;
+    animation: clignotement 1s steps(1) infinite;
+}
+
+/* Zone de clic agrandie sans déplacer le lien (marges négatives) : facile à toucher au doigt */
+.attente__retour {
+    padding: 0.6em;
+    margin: -0.6em;
+    font-size: min(3.5vh, 5.2vw);
+    color: inherit;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+.attente__retour:hover,
+.attente__retour:focus-visible {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.attente__retour:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -0.3em;
+}
+
+@keyframes apparition {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes clignotement {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Réglage « moins d'animations » : curseur fixe */
+@media (prefers-reduced-motion: reduce) {
+    .attente__curseur {
+        animation: none;
+    }
+}

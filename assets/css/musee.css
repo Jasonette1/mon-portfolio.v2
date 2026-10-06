@@ -1,5 +1,28 @@
 /* ===== MUSÉE 3D - STYLES ===== */
 
+/* Polices de l'ordinateur de l'autel : sous-ensembles woff2 hébergés, licences SIL OFL 1.1 à côté des fichiers.
+   Michroma : grandes lettres des panneaux (capitales, chiffres, ponctuation courte, capitales accentuées).
+   Inconsolata : texte machine (latin de base, latin-1, ponctuation française) ; Δ, π et l'espace fine
+   insécable, qui lui manquent, viennent de Noto Sans Mono à la même chasse. */
+@font-face {
+    font-family: "Michroma";
+    src: url("../fonts/Michroma.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inconsolata";
+    src: url("../fonts/Inconsolata.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inconsolata";
+    src: url("../fonts/NotoSansMono-complement.woff2") format("woff2");
+    unicode-range: U+0394, U+03C0, U+202F;
+    font-display: swap;
+}
+
 /* Reset & Base */
 * {
     margin: 0;
@@ -26,6 +49,11 @@ body {
     top: 0;
     left: 0;
     z-index: 1;
+}
+
+/* Main au survol de l'ordinateur de l'autel */
+#webgl-canvas.est-cliquable {
+    cursor: pointer;
 }
 
 /* Loading Screen */
@@ -72,11 +100,11 @@ body {
     letter-spacing: 2px;
 }
 
-/* Back Button */
-.back-button {
+/* Boutons du musée : Retour (en haut à gauche) et Son (en haut à droite) */
+.back-button,
+.bouton-son {
     position: fixed;
     top: 20px;
-    left: 20px;
     padding: 12px 24px;
     background-color: rgba(18, 9, 0, 0.8);
     color: #ffd8a3;
@@ -90,24 +118,117 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.back-button:hover {
+.back-button {
+    left: 20px;
+}
+
+.bouton-son {
+    right: 20px;
+    font-family: inherit;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.back-button:hover,
+.bouton-son:hover {
     background-color: #ffb000;
     color: #120900;
+}
+
+.back-button:hover {
     transform: translateX(-5px);
 }
 
-.back-button.hidden {
+/* Voyant du bouton son : plein quand les bips sont actifs */
+.bouton-son::before {
+    content: "";
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-right: 0.6em;
+    border: 2px solid currentColor;
+}
+
+.bouton-son[aria-pressed="true"]::before {
+    background-color: currentColor;
+}
+
+/* Caché : ni visible, ni cliquable, ni atteignable au clavier */
+.back-button.hidden,
+.bouton-son.hidden {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
+}
+
+/* ===== Voiles de l'ordinateur de l'autel ===== */
+.voile {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+}
+
+.voile[hidden] {
+    display: none;
+}
+
+/* « Moins d'animations » : lignes tapées au centre d'un voile noir
+   (34 px de Consolas pour 810 px de haut dans la maquette ; Inconsolata, plus étroite, à 110 %) */
+.voile--calme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    color: #cfe8ff;
+    font-family: "Inconsolata", monospace;
+    font-size: min(4.6vh, 8vw);
+    line-height: 1.39;
+    white-space: pre;
+}
+
+.voile__reste {
+    visibility: hidden;
+}
+
+/* Curseur fixe, sans largeur dans la ligne : le texte ne bouge pas quand il avance */
+.voile__ligne.est-active .voile__tape::after {
+    content: "";
+    display: inline-block;
+    width: 0.48em;
+    height: 0.86em;
+    margin: 0 -0.64em 0 0.16em;
+    vertical-align: -0.11em;
+    background-color: currentColor;
+}
+
+/* Relais vers la galerie : même bleu et même trame que la page d'attente */
+.voile--final {
+    background-color: #123a8c;
+}
+
+.voile--final::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .back-button {
+    .back-button,
+    .bouton-son {
         top: 10px;
-        left: 10px;
         padding: 10px 20px;
         font-size: 14px;
+    }
+
+    .back-button {
+        left: 10px;
+    }
+
+    .bouton-son {
+        right: 10px;
     }
 
     .loader p {

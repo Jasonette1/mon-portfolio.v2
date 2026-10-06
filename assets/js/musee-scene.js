@@ -6,6 +6,7 @@
 import * as THREE from 'three';
 import { TextureManager } from './components/texture-manager.js';
 import { createLainDesk } from './components/lain-desk.js';
+import { Ordinateur2001 } from './components/ecran-2001.js';
 
 // Load shaders
 let grassVertexShader, grassFragmentShader;
@@ -189,6 +190,27 @@ function initTempleScene() {
     scene.add(scenery);
     console.log('✅ Décor ajouté!');
 
+    // ===== ORDINATEUR DE L'AUTEL (écran « 2001 ») =====
+    scene.updateMatrixWorld(); // positions du bureau à jour : l'ordinateur mesure l'écran et les zones cliquables
+    const backButton = document.getElementById('back-button');
+    const boutonSon = document.getElementById('bouton-son');
+    const dalle = altar.getObjectByName('dalle-acer');
+    const ordinateur = new Ordinateur2001({
+        dalle,
+        menton: altar.getObjectByName('menton-acer'),
+        zones: [dalle, altar.getObjectByName('clavier'), altar.getObjectByName('souris')],
+        voileCalme: document.getElementById('voile-calme'),
+        voileFinal: document.getElementById('voile-final'),
+        boutonSon,
+        aEffacer: [backButton, boutonSon],
+        quandEteint: () => {
+            cameraMode = 'screenClose';
+            majBoutonSon();
+        }
+    });
+    scene.add(ordinateur.lumiere);
+    ordinateur.preparer(renderer, camera, scene);
+
     // ===== CAMERA ANIMATION =====
     const clock = new THREE.Clock();
     let animationProgress = 0;
@@ -215,6 +237,9 @@ function initTempleScene() {
     // Vue ultra proche de l'écran (< 1m)
     const screenCloseViewPos = new THREE.Vector3(0, 2.2, 26.2);
 
+    // Cible du regard hors intro : l'autel (Z=27)
+    const regardAutel = new THREE.Vector3(0, 2.0, 27);
+
     function animateCamera(deltaTime) {
         // Animation initiale
         if (cameraMode === 'animation' && animationProgress < 1) {
@@ -238,8 +263,12 @@ function initTempleScene() {
 
             if (animationProgress >= 1) {
                 cameraMode = 'front';
+                backButton.classList.remove('hidden'); // bouton Retour visible après l'intro
             }
         }
+
+        // Ordinateur allumé : pendant le travelling, c'est lui qui pilote la caméra
+        if (cameraMode === 'ecran' && ordinateur.piloterCamera(camera, regardAutel)) return;
 
         // Transitions entre vues
         if (cameraMode !== 'animation' && targetCameraPos) {
@@ -248,10 +277,7 @@ function initTempleScene() {
 
             const startTransition = camera.position.clone();
             camera.position.lerpVectors(startTransition, targetCameraPos, easeInOutCubic(cameraTransitionProgress));
-
-            // Cible du regard : toujours vers l'autel (Z=27)
-            const lookTarget = new THREE.Vector3(0, 2.0, 27);
-            camera.lookAt(lookTarget);
+            camera.lookAt(regardAutel);
 
             if (cameraTransitionProgress >= 1) {
                 targetCameraPos = null;
@@ -261,19 +287,49 @@ function initTempleScene() {
 
         // Si pas de transition, s'assurer qu'on regarde au bon endroit
         if (cameraMode !== 'animation' && !targetCameraPos) {
-            const lookTarget = new THREE.Vector3(0, 2.0, 27);
-            camera.lookAt(lookTarget);
-        }
-
-        if (animationProgress >= 1) {
-            // Show UI buttons after animation
-            document.getElementById('back-button').classList.remove('hidden');
+            camera.lookAt(regardAutel);
         }
     }
 
     // ===== CONTRÔLES INTERACTIFS =====
-    window.addEventListener('click', (event) => {
+    const raycaster = new THREE.Raycaster();
+    const pointeur = new THREE.Vector2();
+    const pointeurGrossier = window.matchMedia('(pointer: coarse)'); // doigt : zones cliquables élargies
+
+    // Le pointeur est-il sur l'écran, le clavier ou la souris de l'ordinateur ?
+    function visePoste(event) {
+        pointeur.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+        raycaster.setFromCamera(pointeur, camera);
+        return ordinateur.vise(raycaster.ray, pointeurGrossier.matches);
+    }
+
+    // Main au survol de l'ordinateur, seulement tout près de l'écran
+    function majCurseur(event) {
+        canvas.classList.toggle('est-cliquable', cameraMode === 'screenClose' && event.pointerType === 'mouse' && visePoste(event));
+    }
+
+    // Le bouton son n'apparaît que tout près de l'écran (l'ordinateur l'efface pendant le travelling)
+    function majBoutonSon() {
+        boutonSon.classList.toggle('hidden', cameraMode !== 'screenClose');
+    }
+
+    function allumerOrdinateur() {
+        cameraMode = 'ecran';
+        canvas.classList.remove('est-cliquable');
+        ordinateur.allumer();
+    }
+
+    canvas.addEventListener('pointermove', majCurseur);
+
+    canvas.addEventListener('click', (event) => {
         if (cameraMode === 'animation') return; // Attendre la fin de l'animation initiale
+        if (cameraMode === 'ecran') return; // Ordinateur allumé : Échap seul l'interrompt
+
+        // Tout près de l'écran : un clic sur l'ordinateur l'allume, ailleurs on recule comme avant
+        if (cameraMode === 'screenClose' && visePoste(event)) {
+            allumerOrdinateur();
+            return;
+        }
 
         const screenWidth = window.innerWidth;
         const clickX = event.clientX;
@@ -341,6 +397,35 @@ function initTempleScene() {
                 cameraTransitionProgress = 0;
             }
         }
+
+        majBoutonSon();
+        majCurseur(event);
+    });
+
+    // Clavier : Entrée ou Espace allument l'ordinateur tout près de l'écran, Échap l'interrompt
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            if (cameraMode === 'ecran') ordinateur.interrompre();
+            return;
+        }
+        if ((event.key !== 'Enter' && event.key !== ' ') || cameraMode !== 'screenClose') return;
+        if (event.repeat || event.isComposing || event.altKey || event.ctrlKey || event.metaKey) return;
+        // Sur un lien ou un bouton, la touche garde son action propre
+        if (event.target instanceof Element && event.target.closest('a, button, input, select, textarea, [contenteditable]')) return;
+        event.preventDefault();
+        allumerOrdinateur();
+    });
+
+    // Retour arrière depuis la galerie, page restaurée telle quelle par le navigateur :
+    // l'ordinateur est rééteint et la caméra revient tout près de l'écran
+    window.addEventListener('pageshow', (event) => {
+        if (!event.persisted || cameraMode !== 'ecran') return;
+        ordinateur.reinitialiser();
+        camera.position.copy(screenCloseViewPos);
+        camera.lookAt(regardAutel);
+        targetCameraPos = null;
+        cameraMode = 'screenClose';
+        majBoutonSon();
     });
 
     // ===== ANIMATION LOOP =====
@@ -350,6 +435,7 @@ function initTempleScene() {
         const deltaTime = Math.min(clock.getDelta(), 0.1); // Prevent huge jumps if frame drops
         const elapsedTime = clock.getElapsedTime();
 
+        ordinateur.mettreAJour(deltaTime);
         animateCamera(deltaTime);
 
         if (grass.material.uniforms) {

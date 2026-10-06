@@ -129,6 +129,7 @@ export function createLainDesk() {
         Math.PI - arcAngle / 2, arcAngle
     );
     const smoothScreen = new THREE.Mesh(screenGeo, screenMat);
+    smoothScreen.name = 'dalle-acer'; // retrouvée par l'ordinateur de l'autel (ecran-2001.js)
     smoothScreen.scale.set(-1, 1, 1);
     screenGroup.add(smoothScreen);
 
@@ -152,6 +153,7 @@ export function createLainDesk() {
         Math.PI - arcAngle / 2 - 0.005, arcAngle + 0.01
     );
     const frontChin = new THREE.Mesh(frontChinGeo, blackMat);
+    frontChin.name = 'menton-acer'; // cache le bas de la dalle : compte pour le cadrage du travelling
     frontChin.scale.set(-1, 1, 1);
     frontChin.position.y = -acerH / 2 + chinH / 2;
     screenGroup.add(frontChin);
@@ -434,6 +436,7 @@ export function createLainDesk() {
     // ===== 4. CLAVIER RAZER BLACKWIDOW V3 MINI (REFONTE TOTALE) =====
     // Concept : Layout 65% Compact, Touches Flottantes, RGB subtil
     const kbGroup = new THREE.Group();
+    kbGroup.name = 'clavier'; // zone cliquable qui allume l'ordinateur
     kbGroup.position.set(0, 0, -0.35);
     // Inclinaison globale du clavier (Wedge shape + pieds)
     // Pente positive : L'arrière (Z-) est plus haut que l'avant (Z+)
@@ -643,6 +646,7 @@ export function createLainDesk() {
 
     // ===== 5. SOURIS PULSAR ZYWOO (BLANCHE) =====
     const mouseGroup = new THREE.Group();
+    mouseGroup.name = 'souris'; // zone cliquable qui allume l'ordinateur
     mouseGroup.position.set(-0.30, 0, -0.35);
     mouseGroup.rotation.y = Math.PI; // 180° - face à l'utilisateur
 
