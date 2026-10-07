@@ -170,7 +170,6 @@ a:hover {
     display: none;
     flex-direction: column;
     z-index: 100;
-    z-index: 100;
     background: transparent;
     /* Transparent background as requested */
     border: none;
@@ -224,7 +223,6 @@ a:hover {
 
 .ki-grid {
     display: grid;
-    display: grid;
     grid-template-columns: 1fr auto 1fr;
     /* Allow spiral to define its own width */
     gap: 0 16px;
@@ -254,7 +252,6 @@ a:hover {
     }
 }
 
-/* Colonnes avec bordures 'Notebook' */
 /* Colonnes avec bordures 'Notebook' */
 .ki-col-left {
     grid-column: 1;
@@ -552,12 +549,6 @@ body.show-frames .ki-logo-item img {
 }
 
 /* Header Toggle Styling */
-.ki-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .ki-frame-toggle-wrapper {
     display: flex;
     align-items: center;
@@ -698,6 +689,8 @@ body.show-frames .ki-logo-item img {
     cursor: pointer;
     transform: scale(1.1);
     /* Pop effect */
+    opacity: 1;
+    filter: none;
 }
 
 /* Playlist Thumbnails (Wide) */
@@ -710,9 +703,4 @@ body.show-frames .ki-logo-item img {
 .ki-logo-item[data-for^="playlist."] img {
     object-fit: cover;
     border-radius: 8px;
-}
-
-.ki-logo-item:hover {
-    opacity: 1;
-    filter: none;
 }
