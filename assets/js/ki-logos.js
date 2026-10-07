@@ -248,11 +248,15 @@ document.addEventListener('DOMContentLoaded', () => {
             logoLink.classList.add('ki-logo-item');
             logoLink.setAttribute('data-for', domain);
             logoLink.target = '_blank';
+            // Décoratif : le lien identique de la liste de gauche reste le chemin au clavier et au lecteur d'écran
+            logoLink.setAttribute('aria-hidden', 'true');
+            logoLink.tabIndex = -1;
             const linkInLi = liElement.querySelector('a');
             if (linkInLi && linkInLi.href) {
                 logoLink.href = linkInLi.href;
             }
             const img = document.createElement('img');
+            img.alt = '';
             if (CUSTOM_LOGOS[domain]) {
                 img.src = CUSTOM_LOGOS[domain];
             } else {
