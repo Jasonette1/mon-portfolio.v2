@@ -1011,8 +1011,9 @@ function createColumns() {
     const columnsGroup = new THREE.Group();
 
     // Matériau pierre pour colonnes (Medieval Blocks)
+    // Les colonnes réutilisent la pierre des murs (wall/) : mêmes images, téléchargées une seule fois
     const textureManager = new TextureManager();
-    const columnMaps = textureManager.loadPBR('assets/textures/column/medieval_blocks_03', {
+    const columnMaps = textureManager.loadPBR('assets/textures/wall/medieval_blocks_03', {
         repeat: 2,
         suffixes: {
             color: 'diff_2k',
@@ -1023,7 +1024,7 @@ function createColumns() {
     });
 
     // Texture verticale pour les fûts (repeat différent pour éviter l'écrasement)
-    const columnMapsVertical = textureManager.loadPBR('assets/textures/column/medieval_blocks_03', {
+    const columnMapsVertical = textureManager.loadPBR('assets/textures/wall/medieval_blocks_03', {
         repeat: 1, // Moins de répétition verticale pour les colonnes
         suffixes: {
             color: 'diff_2k',
