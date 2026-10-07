@@ -485,7 +485,6 @@ function createAnimatedGrass() {
             uTime: { value: 0 },
             uCameraPosition: { value: new THREE.Vector3() },
             uWindStrength: { value: 1.0 },
-            uWindStrength: { value: 1.0 },
             uMap: { value: new THREE.Texture() },
             uAlphaMap: { value: new THREE.Texture() },
             uColorTop: { value: new THREE.Color(0xb8e5b3) },
@@ -794,7 +793,6 @@ function createAltar() {
 function createBackWall() {
     const wallGroup = new THREE.Group();
 
-    // Matériau pierre (Reuse Castle Wall for now)
     // Matériau pierre (Medieval Blocks)
     const textureManager = new TextureManager();
     const wallMaps = textureManager.loadPBR('assets/textures/wall/medieval_blocks_03', {
@@ -932,7 +930,6 @@ function createRoseTracery(radius, centerY) {
 
     // Reuse texture from TextureManager, but we need to load it again if we don't pass it
     // Or just create a new instance (browser cache handles the file download)
-    // Reuse texture from TextureManager
     const textureManager = new TextureManager();
     const traceryMaps = textureManager.loadPBR('assets/textures/wall/medieval_blocks_03', {
         repeat: 1, // Detail is small
@@ -1033,11 +1030,8 @@ function createColumns() {
             ao: 'ao_2k'
         }
     });
-    // Ajustement de la répétition pour le vertical (wrapping)
-    // On doit le faire manuellement car loadPBR applique le même repeat partout
-    // Mais Three.js partage les textures si l'URL est la même... 
-    // ASTUCE : On va cloner les textures pour le vertical si besoin, ou juste accepter le repeat x2.
-    // Pour simplifier, gardons repeat x2 partout pour l'instant, ça fera de la pierre détaillée.
+    // Chaque appel à loadPBR crée ses propres textures : columnMapsVertical (cannelures des fûts)
+    // garde bien sa répétition de 1, columnMaps celle de 2 ; les images ne sont téléchargées qu'une fois.
 
     const columnMaterial = new THREE.MeshStandardMaterial({
         color: 0xdddddd,
@@ -1228,7 +1222,6 @@ function createColumns() {
             pillar.receiveShadow = true;
             columnsGroup.add(pillar);
 
-            // === IMPERFECTIONS AU SOMMET (débris proportionnels au rayon) ===
             // === IMPERFECTIONS AU SOMMET (débris proportionnels au rayon) ===
             const debrisMaterial = new THREE.MeshStandardMaterial({
                 color: 0xbcbcbc,
