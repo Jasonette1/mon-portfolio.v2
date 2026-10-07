@@ -103,8 +103,6 @@ function initTempleScene() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     // Dynamic shadows enabled for maximum correctness
     renderer.shadowMap.autoUpdate = true;
 
