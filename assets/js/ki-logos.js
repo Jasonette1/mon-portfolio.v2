@@ -118,98 +118,125 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- STATIC LAYOUT (Frames ON) ---
-    function updatePositions() {
-        if (!isFramesEnabled) return; // Do not calculate static layout if gravity is on
+    // Chaque logo est placé avec ses vraies dimensions (carré de 64 px ou miniature de playlist plus large).
+    // Le premier tirage est le tirage historique (graine = titre de la section). Si deux logos se touchent,
+    // on recommence avec une autre graine : pour une même largeur d'écran, la disposition reste toujours la même.
+    const MAX_LAYOUT_DRAWS = 300;
 
-        const colWidth = rightCol.clientWidth;
-        const sections = leftCol.querySelectorAll('.ki-games');
-        const allPlacedLogos = [];
+    function logosTouch(a, b) {
+        return a.x < b.x + b.w + SAFETY_PADDING && a.x + a.w + SAFETY_PADDING > b.x &&
+            a.y < b.y + b.h + SAFETY_PADDING && a.y + a.h + SAFETY_PADDING > b.y;
+    }
 
-        sections.forEach(section => {
+    function countTouching(placed) {
+        let count = 0;
+        for (let i = 0; i < placed.length; i++) {
+            for (let j = i + 1; j < placed.length; j++) {
+                if (logosTouch(placed[i], placed[j])) count++;
+            }
+        }
+        return count;
+    }
+
+    // Une zone par section de la colonne de gauche (hors NAVIGATION), avec ses logos et leurs dimensions.
+    function collectZones() {
+        const zones = [];
+        leftCol.querySelectorAll('.ki-games').forEach(section => {
             const listItems = section.querySelectorAll('li[data-domain]');
             if (listItems.length === 0) return;
 
             const titleEl = section.querySelector('.ki-section-title');
             if (titleEl && titleEl.textContent.trim().toUpperCase() === 'NAVIGATION') return;
 
-            // Zone Defs
-            const zoneTop = section.offsetTop;
-            const zoneHeight = section.offsetHeight;
-            const zoneBottom = zoneTop + zoneHeight;
-
-            const minX = SAFETY_MARGIN_LEFT;
-            const maxX = colWidth - LOGO_SIZE - SAFETY_MARGIN_RIGHT;
-
-            let minY = zoneTop + SAFETY_PADDING;
-            let maxY = zoneBottom - LOGO_SIZE - SAFETY_PADDING;
-
-            if (maxY < minY) {
-                const contentCenterY = zoneTop + (zoneBottom - zoneTop) / 2;
-                minY = contentCenterY - LOGO_SIZE / 2;
-                maxY = minY;
-            }
-
-            if (maxX < minX) return;
-
-            // PRNG
-            const sectionTitle = section.querySelector('.ki-section-title')?.textContent || 'Sec';
-            const rng = createPRNG(hashCode(sectionTitle + 'BaseSeed'));
-
+            const logos = [];
             listItems.forEach(li => {
                 const domain = li.getAttribute('data-domain');
                 if (!domain) return;
+                const link = getOrCreateLogo(domain, li, rightCol);
+                link.style.transform = 'none'; // Reset what gravity may have changed
+                link.style.position = 'absolute';
+                logos.push({ link, w: link.offsetWidth || LOGO_SIZE, h: link.offsetHeight || LOGO_SIZE });
+            });
 
-                let logoLink = getOrCreateLogo(domain, li, rightCol);
+            zones.push({
+                title: titleEl?.textContent || 'Sec',
+                top: section.offsetTop,
+                bottom: section.offsetTop + section.offsetHeight,
+                logos
+            });
+        });
+        return zones;
+    }
 
-                // Reset styles that gravity might have messed with
-                logoLink.style.transform = 'none';
-                logoLink.style.position = 'absolute';
+    // Un tirage complet : place tous les logos, section après section.
+    function drawLayout(zones, colWidth, draw) {
+        const placed = [];
 
-                // Find Best Spot
-                let bestCandidate = null;
+        zones.forEach(zone => {
+            const rng = createPRNG(hashCode(zone.title + 'BaseSeed' + (draw || '')));
+
+            zone.logos.forEach(({ link, w, h }) => {
+                const minX = SAFETY_MARGIN_LEFT;
+                const maxX = Math.max(minX, colWidth - w - SAFETY_MARGIN_RIGHT);
+
+                let minY = zone.top + SAFETY_PADDING;
+                let maxY = zone.bottom - h - SAFETY_PADDING;
+                if (maxY < minY) {
+                    minY = zone.top + (zone.bottom - zone.top) / 2 - h / 2;
+                    maxY = minY;
+                }
+
+                // Find Best Spot : le candidat libre le plus éloigné des logos déjà placés
+                let best = null;
                 let maxDist = -1;
-                const TRIALS = 50;
-
-                for (let i = 0; i < TRIALS; i++) {
-                    const cx = minX + rng() * (maxX - minX);
-                    const cy = minY + rng() * (maxY - minY);
-                    const centerX = cx + LOGO_SIZE / 2;
-                    const centerY = cy + LOGO_SIZE / 2;
+                for (let i = 0; i < NUM_CANDIDATES; i++) {
+                    const candidate = { link, w, h, x: minX + rng() * (maxX - minX), y: minY + rng() * (maxY - minY) };
                     let minDist = Infinity;
-                    let overlaps = false;
-                    for (const p of allPlacedLogos) {
-                        if (cx < p.x + LOGO_SIZE + SAFETY_PADDING && cx + LOGO_SIZE + SAFETY_PADDING > p.x &&
-                            cy < p.y + LOGO_SIZE + SAFETY_PADDING && cy + LOGO_SIZE + SAFETY_PADDING > p.y) {
-                            overlaps = true;
+                    for (const p of placed) {
+                        if (logosTouch(candidate, p)) {
+                            minDist = -1;
                             break;
                         }
-                        const pCenterX = p.x + LOGO_SIZE / 2;
-                        const pCenterY = p.y + LOGO_SIZE / 2;
-                        const d = Math.sqrt((centerX - pCenterX) ** 2 + (centerY - pCenterY) ** 2);
+                        const d = Math.hypot(candidate.x + w / 2 - (p.x + p.w / 2), candidate.y + h / 2 - (p.y + p.h / 2));
                         if (d < minDist) minDist = d;
-                    }
-
-                    if (overlaps) {
-                        minDist = -1;
                     }
                     if (minDist > maxDist) {
                         maxDist = minDist;
-                        bestCandidate = { x: cx, y: cy };
+                        best = candidate;
                     }
                 }
 
-                if (bestCandidate) {
-                    logoLink.style.left = bestCandidate.x + 'px';
-                    logoLink.style.top = bestCandidate.y + 'px';
-                    allPlacedLogos.push({ x: bestCandidate.x, y: bestCandidate.y });
-                } else {
-                    const fallbackX = minX + rng() * (maxX - minX);
-                    const fallbackY = minY + rng() * (maxY - minY);
-                    logoLink.style.left = fallbackX + 'px';
-                    logoLink.style.top = fallbackY + 'px';
-                    allPlacedLogos.push({ x: fallbackX, y: fallbackY });
-                }
+                // Aucun candidat libre : position au hasard, le tirage sera jugé (et sans doute refait) ensuite
+                placed.push(best || { link, w, h, x: minX + rng() * (maxX - minX), y: minY + rng() * (maxY - minY) });
             });
+        });
+
+        return placed;
+    }
+
+    function updatePositions() {
+        if (!isFramesEnabled) return; // Do not calculate static layout if gravity is on
+
+        const colWidth = rightCol.clientWidth;
+        if (colWidth < SAFETY_MARGIN_LEFT + LOGO_SIZE + SAFETY_MARGIN_RIGHT) return;
+
+        const zones = collectZones();
+
+        let layout = null;
+        let touching = Infinity;
+        for (let draw = 0; draw < MAX_LAYOUT_DRAWS && touching > 0; draw++) {
+            const candidate = drawLayout(zones, colWidth, draw);
+            const count = countTouching(candidate);
+            if (count < touching) {
+                layout = candidate;
+                touching = count;
+            }
+        }
+
+        if (!layout) return;
+        layout.forEach(({ link, x, y }) => {
+            link.style.left = x + 'px';
+            link.style.top = y + 'px';
         });
     }
 
