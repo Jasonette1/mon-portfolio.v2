@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!form || !messagesContainer) return;
 
-    // État actuel
-    let isPrivateMode = false;
+    // État actuel : le livre d'or s'ouvre en mode privé (état de départ écrit aussi dans index.html)
+    let isPrivateMode = true;
 
     // Liste des pseudonymes célèbres
     const anonymousNames = [
