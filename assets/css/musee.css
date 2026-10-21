@@ -38,7 +38,8 @@ body {
     overflow: hidden;
     background-color: #120900;
     /* Portal black */
-    font-family: 'PxPlus_IBM_VGA8', 'VT323', monospace;
+    /* Police choisie dans le menu des pages perso (polices.css, musee.html) */
+    font-family: var(--ki-font);
 }
 
 /* Canvas WebGL */

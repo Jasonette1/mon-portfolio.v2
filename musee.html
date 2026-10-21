@@ -13,7 +13,21 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-perso-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-perso.png">
 
+    <link rel="stylesheet" href="assets/css/polices.css">
     <link rel="stylesheet" href="assets/css/musee.css">
+    <script>
+        // Police choisie dans le menu des pages perso (clé « perso-font » de portal.js), appliquée avant le premier
+        // affichage. Clé inconnue ou stockage refusé par le navigateur : PxPlus, la police par défaut de polices.css.
+        try {
+            const cle = localStorage.getItem('perso-font');
+            const racine = document.documentElement;
+            if (cle && getComputedStyle(racine).getPropertyValue(`--font-${cle}`)) {
+                racine.style.setProperty('--ki-font', `var(--font-${cle})`);
+            }
+        } catch {
+            // La police par défaut reste
+        }
+    </script>
 </head>
 
 <body>

@@ -1,0 +1,70 @@
+@charset "UTF-8";
+/* =========================================================
+   POLICES DU MENU « Font » (perso, portal, sites, ascii) ET DU MUSÉE
+   Source unique : les quatre polices du menu, leurs variables et la police active.
+   Une clé du menu (data-font, portal.js) répond à la variable --font-<clé>.
+   Fichiers hébergés dans le site ; licence ou crédit à côté de chaque fichier (assets/fonts/).
+   ========================================================= */
+
+@font-face {
+    font-family: 'PxPlus_IBM_VGA8';
+    src: url('../fonts/PxPlus_IBM_VGA8.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Cascadia Mono 2407.24 (Microsoft), réduite aux caractères des pages et de leurs images ASCII, plus les blocs
+   latins, la ponctuation, les flèches, les filets et blocs, le jeu des vieux PC (CP437) et le Braille */
+@font-face {
+    font-family: 'Cascadia Mono';
+    src: url('../fonts/CascadiaMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0020-007E, U+00A0-017F, U+0192, U+0393-0394, U+0398, U+03A3, U+03A6, U+03A9, U+03B1, U+03B4-03B5,
+        U+03C0, U+03C3-03C4, U+03C6, U+2008, U+2010-2011, U+2013-2015, U+2017-201E, U+2020-2022, U+2024, U+2026,
+        U+2028, U+2030, U+2032-2033, U+2039-203A, U+203C, U+203E, U+2044, U+207F, U+20A7, U+2190-2195, U+21A8,
+        U+21B2, U+21E1, U+21E3, U+2219-221A, U+221E, U+2229, U+2248, U+2261, U+2264-2265, U+2310, U+2320-2321,
+        U+2500-25A0, U+2800-28FF;
+}
+
+@font-face {
+    font-family: 'Cascadia Mono';
+    src: url('../fonts/CascadiaMono-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0020-007E, U+00A0-017F, U+0192, U+0393-0394, U+0398, U+03A3, U+03A6, U+03A9, U+03B1, U+03B4-03B5,
+        U+03C0, U+03C3-03C4, U+03C6, U+2008, U+2010-2011, U+2013-2015, U+2017-201E, U+2020-2022, U+2024, U+2026,
+        U+2028, U+2030, U+2032-2033, U+2039-203A, U+203C, U+203E, U+2044, U+207F, U+20A7, U+2190-2195, U+21A8,
+        U+21B2, U+21E1, U+21E3, U+2219-221A, U+221E, U+2229, U+2248, U+2261, U+2264-2265, U+2310, U+2320-2321,
+        U+2500-25A0, U+2800-28FF;
+}
+
+@font-face {
+    font-family: 'Tenebris';
+    src: url('../fonts/Tenebris.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'TerminalGothic';
+    src: url('../fonts/TerminalGothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --font-PXVGA8: "PxPlus_IBM_VGA8", monospace;
+    --font-CascadiaMono: "Cascadia Mono", monospace;
+    --font-Tenebris: "Tenebris", monospace;
+    --font-TerminalGothic: "TerminalGothic", monospace;
+
+    /* Police active : PxPlus par défaut, remplacée par le choix du menu (portal.js)
+       ou par le choix mémorisé (script de musee.html) */
+    --ki-font: var(--font-PXVGA8);
+}

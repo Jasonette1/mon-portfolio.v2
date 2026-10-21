@@ -4,30 +4,7 @@
    Basé sur 'Apps-Index-ASCII.css'
    ========================================================= */
 
-/* IMPORTATION DES POLICES LOCALES */
-@font-face {
-    font-family: 'PxPlus_IBM_VGA8';
-    src: url('../fonts/PxPlus_IBM_VGA8.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Tenebris';
-    src: url('../fonts/Tenebris.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'TerminalGothic';
-    src: url('../fonts/TerminalGothic.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+/* Polices du menu « Font » et police active (--ki-font) : polices.css, chargée avant cette feuille */
 
 :root {
     --ki-bg: #120900;
@@ -35,16 +12,6 @@
     --ki-acc: #ffb000;
     --ki-border: #a86e22;
     --ki-dot: rgba(255, 176, 0, 0.95);
-
-    /* Polices (Locales + Fallback web) */
-    --font-PXVGA8: "PxPlus_IBM_VGA8", "VT323", monospace;
-    /* Cascadia non trouvée en local -> Fallback Web */
-    --font-CascadiaMono: "Fira Code", "Cascadia Mono", monospace;
-    --font-Tenebris: "Tenebris", monospace;
-    --font-TerminalGothic: "TerminalGothic", monospace;
-
-    /* Police active par défaut */
-    --ki-font: var(--font-PXVGA8);
 
     --ki-art-size: 12px;
     --ki-art-line: 13px;

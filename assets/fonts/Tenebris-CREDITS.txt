@@ -1,0 +1,12 @@
+Tenebris
+========
+
+Police du choix « Tenebris » du menu « Font » des pages perso du site.
+
+Fichier ...... Tenebris.woff2 (format web WOFF2)
+Police ....... Tenebris, version 1.0 du 8-9-2025 (lue dans le fichier)
+Auteur ....... littlebitspace (« littlebitspace | Script by littlebitspace », lu dans le fichier)
+Source ....... https://littlebitspace.com/resources/
+
+Licence : l'auteur n'en publie aucune. La police est proposée en téléchargement sur la page ci-dessus, sans
+conditions écrites ; ce site la crédite ici et ne la modifie pas.
