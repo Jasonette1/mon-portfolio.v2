@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const CUSTOM_LOGOS = {
         'antigravity.google': 'assets/img/antigravity.png',
         'hermes-agent.nousresearch.com': 'assets/img/hermes.png',
+        'ollama.com': 'assets/img/ollama.png',
         'firebase.google.com': 'assets/img/firebase.png',
         'github.com': 'assets/img/github.png',
         'code.visualstudio.com': 'assets/img/vscode.png',
