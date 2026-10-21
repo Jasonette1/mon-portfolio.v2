@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- MANUAL OVERRIDES (PRIORITY) ---
+    // --- LOGOS : un fichier du site par data-domain de la liste (rien n'est demandé à un autre site) ---
     const CUSTOM_LOGOS = {
         'antigravity.google': 'assets/img/antigravity.png',
         'hermes-agent.nousresearch.com': 'assets/img/hermes.png',
@@ -97,6 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         'playlist.romantic': 'assets/img/thumb_romantic.jpg',
         'playlist.wanderloots': 'assets/img/thumb_wanderloots.jpg'
     };
+
+    // Un domaine sans logo déclaré n'a pas de logo (son lien dans la liste reste le chemin) : prévenir le développeur
+    leftCol.querySelectorAll('li[data-domain]').forEach(li => {
+        if (!Object.hasOwn(CUSTOM_LOGOS, li.dataset.domain)) {
+            console.warn(`ki-logos.js : aucun logo déclaré dans CUSTOM_LOGOS pour « ${li.dataset.domain} »`);
+        }
+    });
 
     // --- UTILS: Deterministic Random ---
     function hashCode(str) {
@@ -152,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const logos = [];
             listItems.forEach(li => {
                 const domain = li.getAttribute('data-domain');
-                if (!domain) return;
+                if (!Object.hasOwn(CUSTOM_LOGOS, domain)) return;
                 const link = getOrCreateLogo(domain, li, rightCol);
                 link.style.transform = 'none'; // Reset what gravity may have changed
                 link.style.position = 'absolute';
@@ -257,11 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const img = document.createElement('img');
             img.alt = '';
-            if (CUSTOM_LOGOS[domain]) {
-                img.src = CUSTOM_LOGOS[domain];
-            } else {
-                img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=256`;
-            }
+            img.src = CUSTOM_LOGOS[domain];
             // Dragging fix for mouse interaction
             img.style.pointerEvents = 'none';
 

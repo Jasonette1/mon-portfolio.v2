@@ -435,7 +435,6 @@ a:hover {
     opacity: 0.6;
     margin-top: -30px;
     margin-bottom: 40px;
-    font-family: var(--ki-font-ui);
     font-style: italic;
 }
 
