@@ -26,7 +26,7 @@ Il sert de CV en ligne dynamique et de plateforme de partage via un ***"Livre d'
 
 ## Historique
 
-*   **11 février 2025** : première version en ligne connue, l'accueil seul, publiée sur Netlify.
+*   **Février 2025** : l'accueil seul, publié sur Netlify en huit versions successives, du 2 au 11 février environ.
 *   **26 décembre 2025** : dernière version publiée sur Netlify, avec le livre d'or et les premières pages personnelles.
 *   **2 janvier 2026** : création de ce dépôt ; le site passe sur GitHub Pages, à l'adresse [lassiazyouen.page](https://lassiazyouen.page).
 *   **Janvier 2026** : construction du musée 3D et de la page *Portal* avec [Google Antigravity](https://antigravity.google/) et Gemini Pro 3.
