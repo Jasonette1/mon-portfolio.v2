@@ -28,17 +28,69 @@
             // La police par défaut reste
         }
     </script>
+    <!-- JavaScript désactivé : ni chargement sans fin ni scène muette, mais le message « 3D impossible » et le bouton
+         Retour -->
+    <noscript>
+        <style>
+            .loader,
+            #webgl-canvas {
+                display: none;
+            }
+
+            .sans-3d[hidden] {
+                display: flex;
+            }
+
+            .back-button.hidden {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+        </style>
+    </noscript>
 </head>
 
 <body>
+    <!-- Raccourci du clavier, premier arrêt de Tab, visible au seul focus : tout près de l'écran de l'ordinateur.
+         Caché tant que la scène n'a pas démarré. -->
+    <a href="#webgl-canvas" id="raccourci" class="raccourci" hidden>Aller directement à l'ordinateur</a>
+
     <!-- Loading Screen -->
     <div id="loader" class="loader">
         <div class="spinner"></div>
         <p>Chargement de l'expérience...</p>
     </div>
 
-    <!-- Canvas 3D WebGL -->
-    <canvas id="webgl-canvas"></canvas>
+    <!-- Canvas 3D WebGL : nommé « Musée en 3D » et décrit pour les lecteurs d'écran par les deux textes cachés qui
+         suivent (la description est de la plume de Youen) ; rôle « application » : quand il a le focus, le lecteur
+         d'écran laisse passer les touches à la page -->
+    <canvas id="webgl-canvas" role="application" aria-label="Musée en 3D"
+        aria-describedby="scene-description scene-touches" tabindex="-1"></canvas>
+    <p id="scene-description" hidden>Petite chapelle, ruine au milieu d'un plateau d'herbe – des collines ferment
+        l'horizon. Le rosé du crépuscule épouse le granit des pierres qui la composent, des lucioles luisent. Au fond,
+        déposé comme une invitation, un ordinateur domine l'autel, éteint.</p>
+    <p id="scene-touches" hidden>Pour se déplacer : flèches, ou Z Q S D (W A S D sur un clavier anglais). Tout près de
+        l'écran, Entrée allume l'ordinateur et Échap l'éteint.</p>
+
+    <!-- Vue atteinte, annoncée aux lecteurs d'écran -->
+    <p id="annonce-vue" class="visuellement-cache" role="status"></p>
+
+    <!-- Indication des touches, montrée à qui se sert du clavier puis effacée (même contenu que la description
+         du canvas pour les lecteurs d'écran, d'où aria-hidden) -->
+    <p id="indication-touches" class="indication" aria-hidden="true" hidden>
+        <kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> ou flèches : se déplacer<br>
+        <kbd>Entrée</kbd>, tout près de l'écran : allumer l'ordinateur
+    </p>
+
+    <!-- Voile des déplacements en fondu au noir (réglage « réduire les animations », raccourci du clavier) -->
+    <div id="voile-deplacement" class="voile-deplacement" hidden></div>
+
+    <!-- 3D impossible : message à la place du chargement sans fin (le bouton Retour reste en haut à gauche) -->
+    <div id="sans-3d" class="sans-3d" tabindex="-1" hidden>
+        <p>Le musée en 3D n'a pas pu démarrer dans ce navigateur.</p>
+        <p>Il lui faut JavaScript et la 3D (WebGL 2) : un autre navigateur, ou l'accélération graphique activée dans
+            ses réglages, devrait suffire.</p>
+    </div>
 
     <!-- Back Button (shown after animation) -->
     <a href="perso.html" id="back-button" class="back-button hidden" aria-label="Retour à l'index personnel">

@@ -84,7 +84,6 @@ function initTempleScene() {
     // ===== RENDERER =====
     const canvas = document.getElementById('webgl-canvas');
 
-    // Attempt to create renderer with fallback options
     let renderer;
     try {
         renderer = new THREE.WebGLRenderer({
@@ -93,9 +92,10 @@ function initTempleScene() {
             powerPreference: "default",
             failIfMajorPerformanceCaveat: false
         });
-    } catch (e) {
-        console.error("WebGL Context Creation Failed", e);
-        alert("Impossible de démarrer la 3D. Votre navigateur ou carte graphique semble avoir un problème (WebGL).");
+    } catch {
+        // 3D impossible (WebGL 2 absent ou refusé ; three.js en écrit la raison dans la console) :
+        // un message dans la page à la place du chargement sans fin
+        afficherSans3D(canvas);
         return;
     }
 
@@ -202,8 +202,9 @@ function initTempleScene() {
         boutonSon,
         aEffacer: [backButton, boutonSon],
         quandEteint: () => {
-            cameraMode = 'screenClose';
+            cameraMode = 'presEcran';
             majBoutonSon();
+            annoncerVue();
         }
     });
     scene.add(ordinateur.lumiere);
@@ -213,7 +214,8 @@ function initTempleScene() {
     const clock = new THREE.Clock();
     let animationProgress = 0;
     const animationDuration = 8;
-    let cameraMode = 'animation'; // 'animation', 'front', 'left', 'right'
+    // 'animation' (intro), une vue fixe (clé de VUES) ou 'ecran' (ordinateur allumé)
+    let cameraMode = 'animation';
     let targetCameraPos = null;
     let cameraTransitionProgress = 0;
     let transitionSpeed = 2.0; // Vitesse par défaut
@@ -222,23 +224,35 @@ function initTempleScene() {
     const midPos = new THREE.Vector3(0, 0.3, -20);
     const endPos = new THREE.Vector3(0, 5, 10);
 
-    // Positions des différentes vues
-    const frontViewPos = new THREE.Vector3(0, 5, 10);
-    const leftViewPos = new THREE.Vector3(-15, 5, 25);
-    const rightViewPos = new THREE.Vector3(15, 5, 25);
-    const altarViewPos = new THREE.Vector3(0, 2.5, 22.5); // Vue face rapprochée
-
-    // Vues d'inspection (Temporaire pour validation setup)
-    const altarLeftViewPos = new THREE.Vector3(-2.5, 2.5, 25.5);
-    const altarRightViewPos = new THREE.Vector3(2.5, 2.5, 25.5);
-
-    // Vue ultra proche de l'écran (< 1m)
-    const screenCloseViewPos = new THREE.Vector3(0, 2.2, 26.2);
+    // Vues fixes, nommées comme le visiteur les voit : la caméra regarde vers les z croissants, la gauche de l'image
+    // est donc du côté des x positifs (le pilier cassé, en x = 5,4, y apparaît à gauche)
+    const VUES = {
+        face: new THREE.Vector3(0, 5, 10),              // devant le temple, à la fin de l'intro
+        templeGauche: new THREE.Vector3(15, 5, 25),     // le temple de profil, depuis sa gauche
+        templeDroite: new THREE.Vector3(-15, 5, 25),
+        autel: new THREE.Vector3(0, 2.5, 22.5),         // devant l'autel
+        autelGauche: new THREE.Vector3(2.5, 2.5, 25.5), // l'autel de biais, depuis sa gauche
+        autelDroite: new THREE.Vector3(-2.5, 2.5, 25.5),
+        presEcran: new THREE.Vector3(0, 2.2, 26.2)      // tout près de l'écran (moins d'un mètre)
+    };
 
     // Cible du regard hors intro : l'autel (Z=27)
     const regardAutel = new THREE.Vector3(0, 2.0, 27);
 
+    // Réglage « réduire les animations » du système, relu à chaque image (il peut changer pendant la visite) :
+    // pas d'intro, et chaque déplacement devient un court fondu au noir au lieu d'un glissement de la caméra
+    const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const voileDeplacement = document.getElementById('voile-deplacement');
+    const DUREE_FONDU = 0.3; // s pour s'assombrir, autant pour revenir
+    let fondu = null; // fondu en cours : { sens: 1 vers le noir, -1 vers la scène ; opacite }
+
     function animateCamera(deltaTime) {
+        // Intro sautée (réglage « réduire les animations ») : vue de face d'emblée
+        if (cameraMode === 'animation' && reduireAnimations.matches) {
+            camera.position.copy(VUES.face);
+            finirIntro();
+        }
+
         // Animation initiale
         if (cameraMode === 'animation' && animationProgress < 1) {
             animationProgress += deltaTime / animationDuration;
@@ -259,34 +273,67 @@ function initTempleScene() {
             const lookTarget = new THREE.Vector3(0, 2.5, camera.position.z + 20);
             camera.lookAt(lookTarget);
 
-            if (animationProgress >= 1) {
-                cameraMode = 'front';
-                backButton.classList.remove('hidden'); // bouton Retour visible après l'intro
-            }
+            if (animationProgress >= 1) finirIntro();
         }
 
         // Ordinateur allumé : pendant le travelling, c'est lui qui pilote la caméra
         if (cameraMode === 'ecran' && ordinateur.piloterCamera(camera, regardAutel)) return;
 
-        // Transitions entre vues
+        // Transitions entre vues : glissement de la caméra, ou fondu au noir pendant lequel elle reste immobile
         if (cameraMode !== 'animation' && targetCameraPos) {
-            cameraTransitionProgress += deltaTime * transitionSpeed;
-            cameraTransitionProgress = Math.min(cameraTransitionProgress, 1);
+            if (reduireAnimations.matches) assombrir();
+            if (!fondu || fondu.sens < 0) {
+                cameraTransitionProgress += deltaTime * transitionSpeed;
+                cameraTransitionProgress = Math.min(cameraTransitionProgress, 1);
 
-            const startTransition = camera.position.clone();
-            camera.position.lerpVectors(startTransition, targetCameraPos, easeInOutCubic(cameraTransitionProgress));
-            camera.lookAt(regardAutel);
+                const startTransition = camera.position.clone();
+                camera.position.lerpVectors(startTransition, targetCameraPos, easeInOutCubic(cameraTransitionProgress));
+                camera.lookAt(regardAutel);
 
-            if (cameraTransitionProgress >= 1) {
-                targetCameraPos = null;
-                cameraTransitionProgress = 0;
+                if (cameraTransitionProgress >= 1) {
+                    targetCameraPos = null;
+                    cameraTransitionProgress = 0;
+                }
             }
         }
+        avancerFondu(deltaTime);
 
         // Si pas de transition, s'assurer qu'on regarde au bon endroit
         if (cameraMode !== 'animation' && !targetCameraPos) {
             camera.lookAt(regardAutel);
         }
+    }
+
+    // Fin de l'intro, ou intro sautée : vue de face, bouton Retour visible
+    function finirIntro() {
+        animationProgress = 1;
+        cameraMode = 'face';
+        backButton.classList.remove('hidden');
+        annoncerVue();
+        montrerIndication();
+    }
+
+    // Fondu au noir : l'écran s'assombrit (ou repart vers le noir s'il revenait déjà), la caméra saute à sa vue
+    // dans le noir complet, puis la scène réapparaît
+    function assombrir() {
+        if (!fondu || fondu.sens < 0) fondu = { sens: 1, opacite: fondu ? fondu.opacite : 0 };
+    }
+
+    function avancerFondu(deltaTime) {
+        if (!fondu) return;
+        fondu.opacite = Math.min(1, Math.max(0, fondu.opacite + (fondu.sens * deltaTime) / DUREE_FONDU));
+        if (fondu.sens > 0 && fondu.opacite === 1) {
+            if (targetCameraPos) {
+                camera.position.copy(targetCameraPos);
+                targetCameraPos = null;
+                cameraTransitionProgress = 0;
+            }
+            fondu.sens = -1;
+        } else if (fondu.sens < 0 && fondu.opacite === 0) {
+            fondu = null;
+        }
+        voileDeplacement.hidden = !fondu;
+        voileDeplacement.style.opacity = fondu ? fondu.opacite : '';
     }
 
     // ===== CONTRÔLES INTERACTIFS =====
@@ -303,18 +350,95 @@ function initTempleScene() {
 
     // Main au survol de l'ordinateur, seulement tout près de l'écran
     function majCurseur(event) {
-        canvas.classList.toggle('est-cliquable', cameraMode === 'screenClose' && event.pointerType === 'mouse' && visePoste(event));
+        canvas.classList.toggle('est-cliquable', cameraMode === 'presEcran' && event.pointerType === 'mouse' && visePoste(event));
     }
 
     // Le bouton son n'apparaît que tout près de l'écran (l'ordinateur l'efface pendant le travelling)
     function majBoutonSon() {
-        boutonSon.classList.toggle('hidden', cameraMode !== 'screenClose');
+        boutonSon.classList.toggle('hidden', cameraMode !== 'presEcran');
     }
 
     function allumerOrdinateur() {
         cameraMode = 'ecran';
         canvas.classList.remove('est-cliquable');
+        indication.hidden = true;
+        annoncerVue();
         ordinateur.allumer();
+    }
+
+    // Gestes qui relient les vues : clic dans le quart gauche, dans le quart droit ou ailleurs (« centre ») de la
+    // fenêtre, et les touches du clavier qui les reprennent ; « recul » n'existe qu'au clavier. Pour chaque geste :
+    // vue de départ → [vue d'arrivée, vitesse du trajet]. Gauche et droite font un pas sur la rangée de la vue (côté
+    // gauche, milieu, côté droit), sans passer d'un côté à l'autre ni de l'autel au temple ; tout près de l'écran, ils
+    // mènent sur le côté de l'autel.
+    const TRAJETS = {
+        gauche: {
+            face: ['templeGauche', 2.0], templeDroite: ['face', 2.0],
+            autel: ['autelGauche', 1.5], autelDroite: ['autel', 1.5], presEcran: ['autelGauche', 1.5]
+        },
+        droite: {
+            face: ['templeDroite', 2.0], templeGauche: ['face', 2.0],
+            autel: ['autelDroite', 1.5], autelGauche: ['autel', 1.5], presEcran: ['autelDroite', 1.5]
+        },
+        centre: {
+            face: ['autel', 0.5], autel: ['presEcran', 1.0], presEcran: ['autel', 1.0],
+            autelGauche: ['autel', 1.5], autelDroite: ['autel', 1.5], templeGauche: ['face', 2.0], templeDroite: ['face', 2.0]
+        },
+        recul: {
+            autel: ['face', 0.5], presEcran: ['autel', 1.0],
+            autelGauche: ['autel', 1.5], autelDroite: ['autel', 1.5], templeGauche: ['face', 2.0], templeDroite: ['face', 2.0]
+        }
+    };
+
+    // Vue atteinte, annoncée aux lecteurs d'écran
+    const LIBELLES_VUES = {
+        face: 'Devant le temple',
+        templeGauche: 'Côté gauche du temple',
+        templeDroite: 'Côté droit du temple',
+        autel: "Devant l'autel",
+        autelGauche: "L'autel, vu de gauche",
+        autelDroite: "L'autel, vu de droite",
+        presEcran: "Tout près de l'écran : Entrée pour allumer l'ordinateur",
+        ecran: "L'ordinateur s'allume ; Échap pour l'éteindre"
+    };
+    const annonce = document.getElementById('annonce-vue');
+
+    function annoncerVue() {
+        annonce.textContent = LIBELLES_VUES[cameraMode];
+    }
+
+    function allerVers(vue, vitesse) {
+        cameraMode = vue;
+        targetCameraPos = VUES[vue];
+        transitionSpeed = vitesse;
+        cameraTransitionProgress = 0;
+        majBoutonSon();
+        annoncerVue();
+    }
+
+    // Un geste depuis la vue courante ; rien si ce trajet n'existe pas
+    function deplacer(geste) {
+        const trajet = TRAJETS[geste][cameraMode];
+        if (trajet) allerVers(...trajet);
+    }
+
+    // Indication des touches : une seule fois, à qui se sert du clavier (jamais à la souris ni au doigt), dès que
+    // l'intro est finie, puis effacée en fondu au bout de quelques secondes
+    const indication = document.getElementById('indication-touches');
+    const DUREE_INDICATION = 8000, FONDU_INDICATION = 600; // ms
+    let clavierUtilise = false;
+    let indicationMontree = false;
+
+    function montrerIndication() {
+        if (!clavierUtilise || indicationMontree || cameraMode === 'animation' || cameraMode === 'ecran') return;
+        indicationMontree = true;
+        indication.hidden = false;
+        setTimeout(() => {
+            if (indication.hidden) return;
+            const effacement = [{ opacity: 1 }, { opacity: 0 }];
+            indication.animate(effacement, { duration: FONDU_INDICATION, easing: 'ease', fill: 'forwards' })
+                .finished.then(() => { indication.hidden = true; });
+        }, DUREE_INDICATION);
     }
 
     canvas.addEventListener('pointermove', majCurseur);
@@ -324,94 +448,73 @@ function initTempleScene() {
         if (cameraMode === 'ecran') return; // Ordinateur allumé : Échap seul l'interrompt
 
         // Tout près de l'écran : un clic sur l'ordinateur l'allume, ailleurs on recule comme avant
-        if (cameraMode === 'screenClose' && visePoste(event)) {
+        if (cameraMode === 'presEcran' && visePoste(event)) {
             allumerOrdinateur();
             return;
         }
 
+        // Trois zones : quart gauche, quart droit, et le reste de la fenêtre
         const screenWidth = window.innerWidth;
         const clickX = event.clientX;
-
-        // Diviser l'écran en 3 zones
-        if (clickX < screenWidth * 0.25) {
-            // Clic à GAUCHE
-            if (cameraMode === 'altar') {
-                // Si on est sur l'autel -> Inspection Gauche
-                cameraMode = 'altarLeft';
-                targetCameraPos = altarLeftViewPos.clone();
-                transitionSpeed = 1.5;
-                cameraTransitionProgress = 0;
-            } else if (cameraMode !== 'right' && cameraMode !== 'altarLeft') {
-                cameraMode = 'right'; // Profil général droit (inversion)
-                targetCameraPos = rightViewPos.clone();
-                transitionSpeed = 2.0;
-                cameraTransitionProgress = 0;
-            }
-        } else if (clickX > screenWidth * 0.75) {
-            // Clic à DROITE
-            if (cameraMode === 'altar') {
-                // Si on est sur l'autel -> Inspection Droite
-                cameraMode = 'altarRight';
-                targetCameraPos = altarRightViewPos.clone();
-                transitionSpeed = 1.5;
-                cameraTransitionProgress = 0;
-            } else if (cameraMode !== 'left' && cameraMode !== 'altarRight') {
-                cameraMode = 'left'; // Profil général gauche (inversion)
-                targetCameraPos = leftViewPos.clone();
-                transitionSpeed = 2.0;
-                cameraTransitionProgress = 0;
-            }
-        } else {
-            // Clic au CENTRE
-            if (cameraMode === 'front') {
-                // Si on est devant -> Zoom Autel
-                cameraMode = 'altar';
-                targetCameraPos = altarViewPos.clone();
-                transitionSpeed = 0.5;
-                cameraTransitionProgress = 0;
-            } else if (cameraMode === 'altar') {
-                // Si on est sur l'autel -> Vue ultra proche écran
-                cameraMode = 'screenClose';
-                targetCameraPos = screenCloseViewPos.clone();
-                transitionSpeed = 1.0;
-                cameraTransitionProgress = 0;
-            } else if (cameraMode === 'screenClose') {
-                // Si on est très proche -> Retour autel
-                cameraMode = 'altar';
-                targetCameraPos = altarViewPos.clone();
-                transitionSpeed = 1.0;
-                cameraTransitionProgress = 0;
-            } else if (['altarLeft', 'altarRight'].includes(cameraMode)) {
-                // Depuis les côtés -> Retour autel
-                cameraMode = 'altar';
-                targetCameraPos = altarViewPos.clone();
-                transitionSpeed = 1.5;
-                cameraTransitionProgress = 0;
-            } else {
-                // Retour defaut
-                cameraMode = 'front';
-                targetCameraPos = frontViewPos.clone();
-                transitionSpeed = 2.0;
-                cameraTransitionProgress = 0;
-            }
-        }
-
-        majBoutonSon();
+        deplacer(clickX < screenWidth * 0.25 ? 'gauche' : clickX > screenWidth * 0.75 ? 'droite' : 'centre');
         majCurseur(event);
     });
 
-    // Clavier : Entrée ou Espace allument l'ordinateur tout près de l'écran, Échap l'interrompt
+    // Clavier : touches lues à leur place sur le clavier (event.code), soit Z Q S D sur un clavier français et W A S D
+    // sur un clavier anglais, et les flèches ; Entrée ou Espace allument l'ordinateur tout près de l'écran, Échap
+    // l'interrompt
+    const GESTES_CLAVIER = {
+        KeyW: 'avancer', ArrowUp: 'avancer', KeyS: 'recul', ArrowDown: 'recul',
+        KeyA: 'gauche', ArrowLeft: 'gauche', KeyD: 'droite', ArrowRight: 'droite'
+    };
+
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             if (cameraMode === 'ecran') ordinateur.interrompre();
             return;
         }
-        if ((event.key !== 'Enter' && event.key !== ' ') || cameraMode !== 'screenClose') return;
         if (event.repeat || event.isComposing || event.altKey || event.ctrlKey || event.metaKey) return;
+        const cible = event.target instanceof Element ? event.target : null;
+        if (cible?.closest('input, select, textarea, [contenteditable]')) return;
+
+        const geste = GESTES_CLAVIER[event.code];
+        const allumage = event.key === 'Enter' || event.key === ' ';
+        if (geste || allumage || event.key === 'Tab') {
+            clavierUtilise = true;
+            montrerIndication();
+        }
+
+        // Déplacements : sans effet pendant l'intro et la séquence de l'écran (aucun trajet n'en part) ; tout près
+        // de l'écran, avancer ne mène nulle part (Entrée y allume l'ordinateur)
+        if (geste) {
+            event.preventDefault();
+            if (geste === 'avancer') {
+                if (cameraMode !== 'presEcran') deplacer('centre');
+            } else {
+                deplacer(geste);
+            }
+            return;
+        }
+
+        if (!allumage || cameraMode !== 'presEcran') return;
         // Sur un lien ou un bouton, la touche garde son action propre
-        if (event.target instanceof Element && event.target.closest('a, button, input, select, textarea, [contenteditable]')) return;
+        if (cible?.closest('a, button')) return;
         event.preventDefault();
         allumerOrdinateur();
+    });
+
+    // Raccourci « Aller directement à l'ordinateur » : intro sautée s'il le faut, saut en fondu au noir jusque tout
+    // près de l'écran ; le focus passe sur la scène, où Entrée allume l'ordinateur au lieu de réactiver le lien
+    const raccourci = document.getElementById('raccourci');
+    raccourci.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (cameraMode === 'ecran') return;
+        if (cameraMode === 'animation') finirIntro();
+        if (cameraMode !== 'presEcran') {
+            allerVers('presEcran', 1.0);
+            assombrir();
+        }
+        canvas.focus({ preventScroll: true });
     });
 
     // Retour arrière depuis la galerie, page restaurée telle quelle par le navigateur :
@@ -419,11 +522,12 @@ function initTempleScene() {
     window.addEventListener('pageshow', (event) => {
         if (!event.persisted || cameraMode !== 'ecran') return;
         ordinateur.reinitialiser();
-        camera.position.copy(screenCloseViewPos);
+        camera.position.copy(VUES.presEcran);
         camera.lookAt(regardAutel);
         targetCameraPos = null;
-        cameraMode = 'screenClose';
+        cameraMode = 'presEcran';
         majBoutonSon();
+        annoncerVue();
     });
 
     // ===== ANIMATION LOOP =====
@@ -466,10 +570,22 @@ function initTempleScene() {
         setTimeout(() => {
             loader.style.display = 'none';
         }, 500);
+        raccourci.hidden = false;
         animate();
     }, 1000);
 
     console.log('🎬 Animation démarrée!');
+}
+
+// 3D impossible : le chargement laisse place au message de musee.html et au bouton Retour ; la scène, sans objet,
+// quitte la page, et le message prend le focus pour être lu aussitôt par les lecteurs d'écran
+function afficherSans3D(canvas) {
+    document.getElementById('loader').style.display = 'none';
+    canvas.remove();
+    document.getElementById('back-button').classList.remove('hidden');
+    const message = document.getElementById('sans-3d');
+    message.hidden = false;
+    message.focus();
 }
 
 // ===== HELPER FUNCTIONS =====

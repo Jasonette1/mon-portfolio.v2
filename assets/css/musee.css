@@ -58,6 +58,13 @@ body {
     cursor: pointer;
 }
 
+/* La scène reçoit le focus après le raccourci du clavier ou un clic : un anneau autour de toute la fenêtre
+   n'indiquerait rien et encadrerait de sombre l'écran bord à bord de la fin du travelling ; les annonces et
+   l'indication des touches disent où l'on est */
+#webgl-canvas:focus {
+    outline: none;
+}
+
 /* Loading Screen */
 .loader {
     position: fixed;
@@ -141,6 +148,15 @@ body {
     transform: translateX(-5px);
 }
 
+/* Focus au clavier : anneau ambre décalé, dans la famille des boutons (l'anneau du navigateur, blanc, se confondait
+   avec leur bordure) */
+.back-button:focus-visible,
+.bouton-son:focus-visible,
+.raccourci:focus-visible {
+    outline: 2px solid #ffb000;
+    outline-offset: 3px;
+}
+
 /* Voyant du bouton son : plein quand les bips sont actifs */
 .bouton-son::before {
     content: "";
@@ -161,6 +177,107 @@ body {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+}
+
+/* ===== Clavier et lecteurs d'écran ===== */
+
+/* Lu par les lecteurs d'écran, invisible à l'écran ; de même le raccourci du clavier tant qu'il n'a pas le focus */
+.visuellement-cache,
+.raccourci:not(:focus) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Raccourci « Aller directement à l'ordinateur », au focus : même plaque que Retour, juste en dessous (hauteur de
+   Retour : sa ligne de texte, ses marges intérieures et sa bordure ; avec PxPlus, 74 px pour un navigateur sans
+   l'unité lh) */
+.raccourci:focus {
+    position: fixed;
+    top: 74px;
+    top: calc(20px + 1lh + 2 * (12px + 2px) + 10px);
+    left: 20px;
+    padding: 12px 24px;
+    background-color: rgba(18, 9, 0, 0.8);
+    color: #ffd8a3;
+    text-decoration: none;
+    border: 2px solid #ffb000;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+/* Indication des touches : même plaque, en bas au centre */
+.indication {
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100% - 40px);
+    padding: 12px 24px;
+    background-color: rgba(18, 9, 0, 0.8);
+    color: #ffd8a3;
+    border: 2px solid #ffb000;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.indication kbd {
+    padding: 0 0.3em;
+    border: 1px solid #ffb000;
+    border-radius: 3px;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+/* Fondu au noir des déplacements : au-dessus de la scène, sous les boutons (opacité menée par musee-scene.js) */
+.voile-deplacement {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background-color: #000;
+    pointer-events: none;
+}
+
+/* 3D impossible : message ambre sur noir, comme les pages perso */
+.sans-3d {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 90px 20px;
+    background-color: #120900;
+    color: #ffd8a3;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.sans-3d[hidden] {
+    display: none;
+}
+
+/* Le message reçoit le focus pour être lu aussitôt par les lecteurs d'écran ; ce n'est pas une commande */
+.sans-3d:focus {
+    outline: none;
+}
+
+.sans-3d p {
+    max-width: 36em;
 }
 
 /* ===== Voiles de l'ordinateur de l'autel ===== */
@@ -231,6 +348,21 @@ body {
 
     .bouton-son {
         right: 10px;
+    }
+
+    .raccourci:focus {
+        top: 57px;
+        top: calc(10px + 1lh + 2 * (10px + 2px) + 8px);
+        left: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .indication {
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        max-width: calc(100% - 20px);
+        padding: 10px 20px;
+        font-size: 14px;
     }
 
     .loader p {
