@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- LIEN ATTEINT AU CLAVIER : son logo grossit comme au survol (.ki-logo-focus, portal.css) ---
+    // --- LIEN DE LA LISTE SURVOLÉ OU ATTEINT AU CLAVIER : son logo grossit (.ki-logo-hover, .ki-logo-focus) ---
     // Logos décoratifs, hors du parcours du clavier : le lien du même site, dans la liste, en tient lieu
     function logoOf(link) {
         const domain = link.closest('li[data-domain]')?.dataset.domain;
@@ -426,6 +426,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     leftCol.addEventListener('focusout', (e) => {
         logoOf(e.target)?.classList.remove('ki-logo-focus');
+    });
+
+    leftCol.addEventListener('pointerover', (e) => {
+        const link = e.target.closest('li[data-domain] a');
+        if (link) logoOf(link)?.classList.add('ki-logo-hover');
+    });
+
+    leftCol.addEventListener('pointerout', (e) => {
+        const link = e.target.closest('li[data-domain] a');
+        if (link && !link.contains(e.relatedTarget)) logoOf(link)?.classList.remove('ki-logo-hover');
     });
 
     // --- INIT ---

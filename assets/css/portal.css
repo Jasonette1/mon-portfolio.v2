@@ -679,9 +679,11 @@ body.show-frames .ki-logo-item img {
     text-shadow: 0 0 5px var(--ki-dot);
 }
 
-/* Survol, ou lien du même site atteint au clavier dans la liste (.ki-logo-focus, ki-logos.js) */
+/* Survol du logo, ou lien du même site survolé ou atteint au clavier dans la liste (.ki-logo-hover, .ki-logo-focus,
+   ki-logos.js) */
 .ki-logo-item:hover,
-.ki-logo-item.ki-logo-focus {
+.ki-logo-item.ki-logo-focus,
+.ki-logo-item.ki-logo-hover {
     z-index: 100 !important;
     cursor: pointer;
     transform: scale(1.1);
