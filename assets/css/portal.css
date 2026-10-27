@@ -406,14 +406,39 @@ a:hover {
     opacity: 0.5;
 }
 
+/* Ligne « PS> » : les commandes de la boucle, copiées en invisible par portal.js, partagent la case de la ligne tapée ;
+   la case prend la hauteur de la plus haute, à toute largeur et dans toutes les polices : le texte en dessous ne bouge
+   plus quand une commande passe sur deux lignes */
 .ki-prompt {
+    display: grid;
     margin-bottom: 2rem;
     color: var(--ki-fg);
+}
+
+.ki-prompt-line {
+    grid-area: 1 / 1;
+}
+
+.ki-prompt-ghost {
+    visibility: hidden;
+}
+
+.ki-prompt-ghost .ki-caret {
+    animation: none;
 }
 
 .ps-prefix {
     color: var(--ki-acc);
     margin-right: 0.5em;
+}
+
+/* Cale invisible, de la hauteur du curseur, en tête de la ligne « PS> » : la première ligne garde sa hauteur quand le
+   curseur passe sur la seconde (sinon « PS> » remontait de quelques pixels quand une commande passe sur deux lignes) */
+.ps-prefix::before {
+    content: "";
+    display: inline-block;
+    height: 1.2em;
+    vertical-align: text-bottom;
 }
 
 .ki-caret {

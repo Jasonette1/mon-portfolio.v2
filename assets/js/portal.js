@@ -175,6 +175,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const deleteSpeedBase = 30;
         const pauseTime = 1000;
 
+        // Place réservée à la plus haute des commandes : chacune est copiée, invisible, dans la même case que la ligne
+        // tapée (portal.css) ; la hauteur suit d'elle-même la largeur et la police. Page encore en cache d'avant cette
+        // case (quelques minutes après une mise en ligne) : pas de copies, la ligne reste comme avant
+        const typingLine = typingElement.closest('.ki-prompt-line');
+        if (typingLine) scripts.forEach(text => {
+            const ghost = typingLine.cloneNode(true);
+            const query = ghost.querySelector('#typing-effect');
+            ghost.classList.add('ki-prompt-ghost');
+            query.removeAttribute('id');
+            query.removeAttribute('data-text');
+            query.textContent = text;
+            typingLine.after(ghost);
+        });
+
         let scriptIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
