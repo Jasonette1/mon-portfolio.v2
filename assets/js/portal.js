@@ -147,6 +147,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Défaut
         applyFont('PXVGA8');
     }
+
+    // --- INTERRUPTEUR « ANIMATIONS » (l'état vit dans mouvement.js) ---
+    // [ ON ] / [ OFF ] suit <html data-mouvement> (portal.css) ; aria-pressed le dit aux lecteurs d'écran
+    const motionToggle = document.getElementById('anim-toggle');
+    if (motionToggle) {
+        const syncMotionToggle = () => motionToggle.setAttribute('aria-pressed', String(!window.Mouvement?.reduit));
+        motionToggle.addEventListener('click', () => window.Mouvement?.basculer());
+        document.addEventListener('mouvementchange', syncMotionToggle);
+        syncMotionToggle();
+    }
+
     // --- EFFET DE FRAPPE GENÉRIQUE (TYPING EFFECT) ---
     const typingElement = document.getElementById('typing-effect');
     if (typingElement) {

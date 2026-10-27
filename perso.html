@@ -16,6 +16,8 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-perso-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-perso.png">
 
+    <!-- Animations allumées ou éteintes, posé avant le premier affichage -->
+    <script src="assets/js/mouvement.js"></script>
     <link rel="stylesheet" href="assets/css/polices.css">
     <link rel="stylesheet" href="assets/css/portal.css">
 </head>
@@ -49,6 +51,15 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Interrupteur des animations (état : mouvement.js ; bouton : portal.js). Tout le libellé est le bouton :
+                     nom lu « Animations », état enfoncé ou non ; le [ ON ] / [ OFF ] visible est caché aux lecteurs
+                     d'écran (l'état est déjà dit) -->
+                <button type="button" class="ki-animrow" id="anim-toggle" aria-pressed="true">
+                    <span class="ki-label">Animations<span aria-hidden="true"> :</span></span>
+                    <span class="ki-trigger" aria-hidden="true">[ <span class="ki-anim-on">ON</span><span
+                            class="ki-anim-off">OFF</span> ]</span>
+                </button>
             </div>
         </header>
 

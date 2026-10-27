@@ -118,10 +118,32 @@ a:hover {
     align-items: center;
 }
 
-.ki-fontrow {
+.ki-fontrow,
+.ki-animrow {
     display: flex;
     align-items: center;
     user-select: none;
+}
+
+/* Interrupteur « Animations » : un bouton qui porte son libellé (sans l'habillage du navigateur, il garde le rendu du
+   texte autour), à côté de « Font » à l'écart de la planche validée par Youen ; sur sites.html, le levier des cadres
+   reste à droite */
+.ki-animrow {
+    margin: 0 auto 0 3.5em;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* État visible, [ ON ] ou [ OFF ], réglé sur <html data-mouvement> que pose mouvement.js avant le premier affichage ;
+   sans JavaScript, l'interrupteur ne servirait à rien : caché */
+:root:not([data-mouvement]) .ki-animrow,
+:root[data-mouvement="reduit"] .ki-anim-on,
+:root[data-mouvement="normal"] .ki-anim-off {
+    display: none;
 }
 
 .ki-label {
@@ -194,6 +216,65 @@ a:hover {
     content: "]" / "";
     color: var(--ki-acc);
     margin-left: 4px;
+}
+
+/* Fenêtre étroite (téléphone, tablette en hauteur) : « Animations » passe sous « Font ». La première ligne reste où
+   elle était (centrée dans la hauteur d'origine de la barre), la barre grandit d'une ligne ; les deux boutons sont
+   assez écartés pour le doigt (centres à plus de 24 px, WCAG 2.5.8). Le menu des polices, ouvert, repousse aussi la
+   ligne « Animations », de sa hauteur et avec le même glissement que le cadre (--ki-menu-h, portal.js) ; un nom trop
+   long pour la largeur passe à la ligne entier. */
+@media (max-width: 768px) {
+    .ki-header {
+        --ki-header-pad: 15px;
+        height: auto;
+        padding-block: var(--ki-header-pad);
+    }
+
+    @supports (height: 1lh) {
+        .ki-header {
+            --ki-header-pad: calc((var(--ki-header-h) - 1lh) / 2);
+        }
+    }
+
+    .ki-toolbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: 12px;
+        row-gap: 6px;
+        justify-items: start;
+    }
+
+    .ki-fontrow,
+    .ki-animrow {
+        flex-wrap: wrap;
+    }
+
+    .ki-trigger {
+        white-space: nowrap;
+    }
+
+    .ki-animrow {
+        grid-column: 1;
+        margin-left: 0;
+        position: relative;
+        top: var(--ki-menu-h, 0px);
+        transition: top 0.2s ease-out;
+    }
+
+    /* Levier des cadres (sites.html) : à droite des deux lignes, son pied posé comme avant sur le bord du cadre (la
+       marge négative le fait descendre de l'espace sous la barre, plus 1 px) */
+    .ki-frame-toggle-wrapper {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: end;
+        margin-bottom: calc(-1 * (var(--ki-header-pad) + var(--ki-gap) + 1px));
+    }
+
+    /* Sans la marge d'alignement du grand écran : le levier tient dans la hauteur des deux lignes, la barre de
+       sites.html garde celle des autres pages (sélecteur double : la règle du levier, plus bas, l'emporterait) */
+    .ki-frame-toggle-wrapper .ki-switch-btn {
+        margin-top: 0;
+    }
 }
 
 
