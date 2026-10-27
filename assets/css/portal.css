@@ -66,6 +66,13 @@ a:hover {
     color: var(--ki-acc);
 }
 
+/* Focus au clavier : l'anneau ambre du musée (musee.css), décalé de 3 px, sur tout ce qu'on atteint au clavier ;
+   un clic de souris ne le fait pas apparaître (:focus-visible) */
+:focus-visible {
+    outline: 2px solid var(--ki-acc);
+    outline-offset: 3px;
+}
+
 /* ===== LAYOUT ROOT ===== */
 .portal-index-root {
     position: relative;
@@ -466,6 +473,12 @@ a:hover {
 
 .ascii-display:last-child {
     border-bottom: none;
+}
+
+/* Dessin plus grand que sa place (fenêtre étroite ou basse) : il défile et s'atteint au clavier. La colonne de droite
+   coupe ce qui dépasse à sa gauche : l'anneau se trace ici à l'intérieur du bord, pour rester entier */
+.ascii-display:focus-visible {
+    outline-offset: -2px;
 }
 
 .ascii-display::-webkit-scrollbar {
