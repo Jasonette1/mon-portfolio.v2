@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // UI Updates
         if (enabled) {
             body.classList.add('show-frames');
-            toggleBtn?.setAttribute('aria-pressed', 'false'); // "False" means switch is LEFT (ON due to CSS logic)
+            toggleBtn?.setAttribute('aria-pressed', 'false'); // « Faire tomber les logos » relâché : cadres affichés
             if (statusLabel) statusLabel.textContent = 'ON';
 
             // Disable Gravity -> Restore layout
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(updatePositions, 50);
         } else {
             body.classList.remove('show-frames');
-            toggleBtn?.setAttribute('aria-pressed', 'true'); // "True" means switch is RIGHT (OFF)
+            toggleBtn?.setAttribute('aria-pressed', 'true'); // enfoncé : les logos tombent, le levier s'allume
             if (statusLabel) statusLabel.textContent = 'OFF';
 
             // Enable Gravity!
