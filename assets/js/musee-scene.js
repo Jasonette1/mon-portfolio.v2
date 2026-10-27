@@ -1,6 +1,6 @@
 /**
- * TEMPLE GREC 3D - SCENE WITH ANIMATED GRASS v2
- * Terrain simplifié pour debugging
+ * MUSÉE 3D (musee.html) : temple grec en ruine au crépuscule, herbe animée, lucioles, rayons,
+ * et l'ordinateur de l'autel (components/ecran-2001.js)
  */
 
 import * as THREE from 'three';
@@ -34,8 +34,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initTempleScene() {
-    console.log('🚀 Initialisation scène temple...');
-
     // ===== SCENE SETUP =====
     const scene = new THREE.Scene();
     // Twilight fog color (matches horizon)
@@ -60,12 +58,10 @@ function initTempleScene() {
     scene.add(sky);
 
     // ===== FIREFLIES =====
-    console.log('✨ Ajout des lucioles...');
     const fireflies = createFireflies();
     scene.add(fireflies);
 
     // ===== GOD RAYS =====
-    console.log('✨ Ajout des rayons divins...');
     const godRays = createGodRays();
     scene.add(godRays);
 
@@ -135,7 +131,6 @@ function initTempleScene() {
     scene.add(fillLight);
 
     // ===== TERRAIN PLAT =====
-    console.log('🔥 TERRAIN PLAT - OPUS');
     const terrainGeo = new THREE.PlaneGeometry(200, 200);
 
     // Texture Loading
@@ -156,37 +151,26 @@ function initTempleScene() {
     terrain.position.y = -0.1;  // Juste sous l'herbe
     terrain.receiveShadow = true; // Fix: Ground was glowing because it didn't receive shadows from the wall
     scene.add(terrain);
-    console.log('✅ Terrain plat ajouté!');
 
     // ===== ANIMATED GRASS =====
-    console.log('🌾 Création de l\'herbe...');
     const grass = createAnimatedGrass();
     scene.add(grass);
-    console.log('✅ Herbe ajoutée à la scène!');
 
     // ===== AUTEL =====
-    console.log('⛪ Création de l\'autel...');
     const altar = createAltar();
     scene.add(altar);
-    console.log('✅ Autel ajouté!');
 
     // ===== MUR ARRIÈRE =====
-    console.log('🏛️ Création du mur arrière...');
     const backWall = createBackWall();
     scene.add(backWall);
-    console.log('✅ Mur arrière ajouté!');
 
     // ===== COLONNES =====
-    console.log('🏛️ Création des colonnes...');
     const columns = createColumns();
     scene.add(columns);
-    console.log('✅ Colonnes ajoutées!');
 
     // ===== DÉCOR D'ARRIÈRE-PLAN =====
-    console.log('🏔️ Création du décor d\'arrière-plan...');
     const scenery = createBackgroundScenery();
     scene.add(scenery);
-    console.log('✅ Décor ajouté!');
 
     // ===== ORDINATEUR DE L'AUTEL (écran « 2001 ») =====
     scene.updateMatrixWorld(); // positions du bureau à jour : l'ordinateur mesure l'écran et les zones cliquables
@@ -573,8 +557,6 @@ function initTempleScene() {
         raccourci.hidden = false;
         animate();
     }, 1000);
-
-    console.log('🎬 Animation démarrée!');
 }
 
 // 3D impossible : le chargement laisse place au message de musee.html et au bouton Retour ; la scène, sans objet,
