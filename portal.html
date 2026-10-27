@@ -52,7 +52,7 @@
         </header>
 
         <!-- MAIN GRID FRAME -->
-        <div class="ki-frame">
+        <main class="ki-frame">
             <div class="ki-grid">
 
                 <!-- COLONNE GAUCHE -->
@@ -64,41 +64,41 @@
                         <span class="ki-count">001</span>
                     </div>
 
-                    <div class="ki-prompt">
+                    <div class="ki-prompt" aria-hidden="true">
                         <span class="ps-prefix">PS></span>
                         <span class="ps-query" id="typing-effect" data-text="cat README.txt"></span><span
                             class="ki-caret"></span>
                     </div>
 
-                    <div class="ki-games">
-                        <div class="ki-section-title">SOMMAIRE</div>
+                    <nav class="ki-games" aria-labelledby="summary-title">
+                        <h2 class="ki-section-title" id="summary-title">SOMMAIRE</h2>
                         <ul class="ki-list">
                             <li><a href="#aperture">Aperture Science</a></li>
                             <li><a href="#design-philosophy">Philosophie Visuelle</a></li>
                             <li><a href="#color-palette">Palette de Couleurs</a></li>
                             <li><a href="#typography">Typographie Rétro</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
-                    <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">NAVIGATION</div>
+                    <nav class="ki-games" style="margin-top: 20px;" aria-labelledby="nav-title">
+                        <h2 class="ki-section-title" id="nav-title">NAVIGATION</h2>
                         <ul class="ki-list">
                             <li><a href="perso.html" aria-label="Retour Index Perso"><span
                                         aria-hidden="true">&lt;&lt;</span> Retour</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                 </div>
 
                 <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
-                <div class="ki-spiral">
+                <div class="ki-spiral" aria-hidden="true">
                     <!-- Dynamic Generation via portal.js -->
                 </div>
 
                 <!-- COLONNE DROITE -->
                 <div class="ki-box ki-col-right">
 
-                    <div id="aperture" class="ki-section-title">Aperture Science</div>
+                    <h2 id="aperture" class="ki-section-title">Aperture Science</h2>
                     <div style="margin-bottom: 2rem; line-height: 1.6;">
                         <p style="margin-bottom: 1rem;">
                             <strong>Portal</strong> (2007) est un jeu de puzzle à la première personne développé par
@@ -114,7 +114,7 @@
                         </p>
                     </div>
 
-                    <div id="design-philosophy" class="ki-section-title">Philosophie Visuelle</div>
+                    <h2 id="design-philosophy" class="ki-section-title">Philosophie Visuelle</h2>
                     <div style="margin-bottom: 2rem; line-height: 1.6;">
                         <p style="margin-bottom: 1rem;">
                             Les écrans présents dans Portal ne sont pas de simples éléments décoratifs : ils racontent
@@ -129,7 +129,7 @@
                         </p>
                     </div>
 
-                    <div id="color-palette" class="ki-section-title">Palette de Couleurs</div>
+                    <h2 id="color-palette" class="ki-section-title">Palette de Couleurs</h2>
                     <div style="margin-bottom: 2rem; line-height: 1.6;">
                         <p style="margin-bottom: 1rem;">
                             Le choix chromatique <strong>jaune/noir</strong> n'est pas anodin. Ces couleurs évoquent :
@@ -149,7 +149,7 @@
                         </p>
                     </div>
 
-                    <div id="typography" class="ki-section-title">Typographie Rétro</div>
+                    <h2 id="typography" class="ki-section-title">Typographie Rétro</h2>
                     <div style="margin-bottom: 2rem; line-height: 1.6;">
                         <p style="margin-bottom: 1rem;">
                             Les polices à espacement fixe (monospace) comme <strong>PxPlus_IBM_VGA8</strong>,
@@ -174,7 +174,7 @@
 
             </div>
 
-        </div>
+        </main>
     </div>
 
     <!-- SCRIPT PORTAL DYNAMIQUE -->

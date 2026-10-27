@@ -52,7 +52,7 @@
         </header>
 
         <!-- MAIN GRID FRAME -->
-        <div class="ki-frame">
+        <main class="ki-frame">
             <div class="ki-grid ki-grid-wide-right">
 
                 <!-- COLONNE GAUCHE (Navigation) -->
@@ -64,40 +64,40 @@
                         <span class="ki-count">004</span><!-- valeur de secours, recalculée par portal.js -->
                     </div>
 
-                    <div class="ki-prompt">
+                    <div class="ki-prompt" aria-hidden="true">
                         <span class="ps-prefix">PS></span>
                         <span class="ps-query" id="typing-effect" data-text="dir *.asc"></span><span
                             class="ki-caret"></span>
                     </div>
 
-                    <div class="ki-games">
-                        <div class="ki-section-title">CATALOGUE</div>
+                    <nav class="ki-games" aria-labelledby="catalogue-title">
+                        <h2 class="ki-section-title" id="catalogue-title">CATALOGUE</h2>
                         <ul class="ki-list">
                             <!-- Dynamic Content via portal.js -->
                         </ul>
-                    </div>
+                    </nav>
 
-                    <div class="ki-games" style="margin-top: 40px;">
-                        <div class="ki-section-title">NAVIGATION</div>
+                    <nav class="ki-games" style="margin-top: 40px;" aria-labelledby="nav-title">
+                        <h2 class="ki-section-title" id="nav-title">NAVIGATION</h2>
                         <ul class="ki-list">
                             <li><a href="perso.html" aria-label="Retour Index Perso"><span
                                         aria-hidden="true">&lt;&lt;</span> Retour</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
 
 
                 </div>
 
                 <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
-                <div class="ki-spiral">
+                <div class="ki-spiral" aria-hidden="true">
                     <!-- Dynamic Generation via portal.js -->
                 </div>
 
                 <!-- COLONNE DROITE (Contenu) -->
                 <div class="ki-box ki-col-right">
 
-                    <div id="aperture" class="ki-section-title">Aperture Science</div>
+                    <h2 id="aperture" class="ki-section-title">Aperture Science</h2>
                     <pre class="ascii-display" role="img" aria-label="Logo Aperture Science en ASCII Art">
                .,-:;//;:=,
           . :H@@@MM@M#H/.,+%;,
@@ -126,7 +126,7 @@
                             Judd</a>
                     </div>
 
-                    <div id="lain" class="ki-section-title">Lain</div>
+                    <h2 id="lain" class="ki-section-title">Lain</h2>
                     <pre class="ascii-display" role="img" aria-label="Portrait de Lain Iwakura en ASCII Art">
 ⠀⠀⠀⠀⠀⠀⠀⠄⣀⠢⢀⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⡔⢀⠂⡜⢭⢻⣍⢯⡻⣝⣿⣿⡿⣟⠂
 ⠀⠀⠀⠀⠀⠀⠀⠄⠀⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡔⡀⢂⠜⣪⢗⡾⣶⡽⣾⣟⣯⠛⠀⠀
@@ -166,7 +166,7 @@
                         Source : Internet (Inconnue)
                     </div>
 
-                    <div id="heart" class="ki-section-title">Cœur Brisé</div>
+                    <h2 id="heart" class="ki-section-title">Cœur Brisé</h2>
                     <pre class="ascii-display" role="img"
                         aria-label="Illustration d'un cœur brisé en caractéristiques ASCII">
 
@@ -248,7 +248,7 @@
                         Source : Internet (Inconnue)
                     </div>
 
-                    <div id="fleur-fixe-title" class="ki-section-title">Fleurs du Mal</div>
+                    <h2 id="fleur-fixe-title" class="ki-section-title">Fleurs du Mal</h2>
                     <pre id="fleur-fixe" class="ascii-display" role="img"
                         aria-label="Illustration Fleurs du Mal en ASCII Art"></pre>
                     <div class="ki-source">
@@ -260,7 +260,7 @@
                 </div>
 
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Data Import -->

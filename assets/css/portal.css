@@ -345,10 +345,12 @@ a:hover {
 }
 
 /* Listes */
+/* Titres de section : vrais titres (h2) pour les lecteurs d'écran, marges et taille du navigateur annulées */
 .ki-section-title {
     color: var(--ki-acc);
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    font-size: inherit;
+    margin: 0 0 0.5rem;
     border-bottom: 2px solid var(--ki-border);
     display: inline-block;
     text-transform: uppercase;
@@ -367,8 +369,10 @@ a:hover {
     align-items: baseline;
 }
 
+/* Puce décorative, que les lecteurs d'écran ne lisent pas (texte de remplacement vide, voir .ki-item::before) */
 .ki-list li::before {
     content: "⋮";
+    content: "⋮" / "";
     color: var(--ki-acc);
     margin-right: 12px;
     font-weight: bold;

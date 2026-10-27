@@ -53,7 +53,7 @@
         </header>
 
         <!-- MAIN GRID FRAME -->
-        <div class="ki-frame">
+        <main class="ki-frame">
             <div class="ki-grid">
 
                 <!-- COLONNE GAUCHE -->
@@ -65,29 +65,29 @@
                         <span class="ki-count" data-count="items">004 item(s)</span><!-- valeur de secours, recalculée par portal.js -->
                     </div>
 
-                    <div class="ki-prompt">
+                    <div class="ki-prompt" aria-hidden="true">
                         <span class="ps-prefix">PS></span>
                         <span class="ps-query" id="typing-effect" data-text="load user_profile --force"></span><span
                             class="ki-caret"></span>
                     </div>
 
-                    <div class="ki-games">
-                        <div class="ki-section-title">Projets & Pensées</div>
+                    <nav class="ki-games" aria-labelledby="projects-title">
+                        <h2 class="ki-section-title" id="projects-title">Projets & Pensées</h2>
                         <ul class="ki-list">
                             <li><a href="ascii.html">ASCII Archive</a></li>
                             <li><a href="#">Mon Obsidian</a></li>
                             <li><a href="musee.html">Musée</a></li>
                             <li><a href="sites.html">Sites utiles</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
-                    <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">NAVIGATION</div>
+                    <nav class="ki-games" style="margin-top: 20px;" aria-labelledby="nav-title">
+                        <h2 class="ki-section-title" id="nav-title">NAVIGATION</h2>
                         <ul class="ki-list">
                             <li><a href="index.html" aria-label="Retour Accueil"><span
                                         aria-hidden="true">&lt;&lt;</span> Retour</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                     <!-- BOTTOM DOTLINE (To close the 'notebook' box) -->
 
@@ -95,7 +95,7 @@
                 </div>
 
                 <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
-                <div class="ki-spiral">
+                <div class="ki-spiral" aria-hidden="true">
                     <!-- Dynamic Generation via portal.js -->
                 </div>
 
@@ -103,7 +103,7 @@
                 <div class="ki-box ki-col-right">
 
                     <div class="ki-creators">
-                        <div class="ki-section-title">Inspirations</div>
+                        <h2 class="ki-section-title">Inspirations</h2>
                         <ul class="ki-list">
                             <li><a href="https://littlebitspace.com/" target="_blank" rel="noopener noreferrer"
                                     aria-label="LittleBitSpace (nouvelle fenêtre)">LittleBitSpace</a></li>
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="ki-flux-section">
-                        <div class="ki-section-title">Flux</div>
+                        <h2 class="ki-section-title">Flux</h2>
                         <div class="ki-art-wrap">
                             <div class="ki-art"></div>
                         </div>
@@ -123,7 +123,7 @@
 
             </div>
 
-        </div>
+        </main>
     </div>
 
     <!-- SCRIPT ASCII ART DYNAMIQUE -->

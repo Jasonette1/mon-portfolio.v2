@@ -61,7 +61,7 @@
         </header>
 
         <!-- MAIN GRID FRAME -->
-        <div class="ki-frame">
+        <main class="ki-frame">
             <div class="ki-grid">
 
                 <!-- COLONNE GAUCHE -->
@@ -73,14 +73,14 @@
                         <span class="ki-count" data-count="items">021 item(s)</span><!-- valeur de secours, recalculée par portal.js -->
                     </div>
 
-                    <div class="ki-prompt">
+                    <div class="ki-prompt" aria-hidden="true">
                         <span class="ps-prefix">PS></span>
                         <span class="ps-query" id="typing-effect" data-text="curl -I https://useful.sites"></span><span
                             class="ki-caret"></span>
                     </div>
 
                     <div class="ki-games">
-                        <div class="ki-section-title">Développement</div>
+                        <h2 class="ki-section-title">Développement</h2>
                         <ul class="ki-list">
                             <li data-domain="github.com"><a href="https://github.com/search" target="_blank"
                                     rel="noopener noreferrer" aria-label="GitHub (nouvelle fenêtre)">GitHub</a>
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">Design & UI</div>
+                        <h2 class="ki-section-title">Design & UI</h2>
                         <ul class="ki-list">
                             <li data-domain="codepen.io"><a href="https://codepen.io/trending" target="_blank"
                                     rel="noopener noreferrer" aria-label="CodePen (nouvelle fenêtre)">CodePen</a></li>
@@ -120,7 +120,7 @@
                     </div>
 
                     <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">Outils</div>
+                        <h2 class="ki-section-title">Outils</h2>
                         <ul class="ki-list">
                             <li data-domain="justgetflux.com"><a href="https://justgetflux.com/" target="_blank"
                                     rel="noopener noreferrer" aria-label="F.lux (nouvelle fenêtre)">F.lux</a></li>
@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">Ambiance Musicale</div>
+                        <h2 class="ki-section-title">Ambiance Musicale</h2>
                         <ul class="ki-list">
                             <li data-domain="mynoise.net"><a href="https://mynoise.net/" target="_blank"
                                     rel="noopener noreferrer" aria-label="Mynoise (nouvelle fenêtre)">Mynoise</a>
@@ -168,7 +168,7 @@
                     </div>
 
                     <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">Supports Youtube</div>
+                        <h2 class="ki-section-title">Supports Youtube</h2>
                         <ul class="ki-list">
                             <li data-domain="playlist.wanderloots"><a
                                     href="https://www.youtube.com/playlist?list=PLWhMzDKA7vJ5VxoVa32JcCxYl8sHKP4Ds"
@@ -177,20 +177,20 @@
                         </ul>
                     </div>
 
-                    <div class="ki-games" style="margin-top: 20px;">
-                        <div class="ki-section-title">NAVIGATION</div>
+                    <nav class="ki-games" style="margin-top: 20px;" aria-labelledby="nav-title">
+                        <h2 class="ki-section-title" id="nav-title">NAVIGATION</h2>
                         <ul class="ki-list">
                             <li><a href="perso.html" aria-label="Retour Index Perso"><span
                                         aria-hidden="true">&lt;&lt;</span> Retour</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                     <!-- BOTTOM DOTLINE (To close the 'notebook' box) -->
 
                 </div>
 
                 <!-- LIGNE DE SÉPARATION CENTRALE (SPIRALE) -->
-                <div class="ki-spiral">
+                <div class="ki-spiral" aria-hidden="true">
                     <!-- Dynamic Generation via portal.js -->
                 </div>
 
@@ -200,7 +200,7 @@
 
             </div>
 
-        </div>
+        </main>
     </div>
 
     <!-- SCRIPTS : Matter.js (chute des logos), Portal (menu, texte tapé, spirale), logos -->
