@@ -148,6 +148,12 @@ body {
     transform: translateX(-5px);
 }
 
+/* Animations éteintes (mouvement.js) : le pas de côté du bouton Retour au survol se fait d'un coup ; couleurs et
+   apparition gardent leur fondu, ils ne déplacent rien */
+:root[data-mouvement="reduit"] .back-button {
+    transition-property: background-color, color, opacity, visibility;
+}
+
 /* Focus au clavier : anneau ambre décalé, dans la famille des boutons (l'anneau du navigateur, blanc, se confondait
    avec leur bordure) */
 .back-button:focus-visible,

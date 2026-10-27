@@ -223,16 +223,16 @@ function initTempleScene() {
     // Cible du regard hors intro : l'autel (Z=27)
     const regardAutel = new THREE.Vector3(0, 2.0, 27);
 
-    // Réglage « réduire les animations » du système, relu à chaque image (il peut changer pendant la visite) :
-    // pas d'intro, et chaque déplacement devient un court fondu au noir au lieu d'un glissement de la caméra
-    const reduireAnimations = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Animations éteintes (interrupteur des pages perso, sinon réglage « réduire les animations » du système :
+    // mouvement.js), relu à chaque image, car il peut changer pendant la visite : pas d'intro, et chaque déplacement
+    // devient un court fondu au noir au lieu d'un glissement de la caméra
     const voileDeplacement = document.getElementById('voile-deplacement');
     const DUREE_FONDU = 0.3; // s pour s'assombrir, autant pour revenir
     let fondu = null; // fondu en cours : { sens: 1 vers le noir, -1 vers la scène ; opacite }
 
     function animateCamera(deltaTime) {
-        // Intro sautée (réglage « réduire les animations ») : vue de face d'emblée
-        if (cameraMode === 'animation' && reduireAnimations.matches) {
+        // Intro sautée (animations éteintes) : vue de face d'emblée
+        if (cameraMode === 'animation' && window.Mouvement?.reduit) {
             camera.position.copy(VUES.face);
             finirIntro();
         }
@@ -265,7 +265,7 @@ function initTempleScene() {
 
         // Transitions entre vues : glissement de la caméra, ou fondu au noir pendant lequel elle reste immobile
         if (cameraMode !== 'animation' && targetCameraPos) {
-            if (reduireAnimations.matches) assombrir();
+            if (window.Mouvement?.reduit) assombrir();
             if (!fondu || fondu.sens < 0) {
                 cameraTransitionProgress += deltaTime * transitionSpeed;
                 cameraTransitionProgress = Math.min(cameraTransitionProgress, 1);

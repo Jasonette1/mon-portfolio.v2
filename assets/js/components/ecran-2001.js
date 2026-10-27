@@ -479,7 +479,7 @@ export class Ordinateur2001 {
     // À appeler pendant le geste du visiteur (clic, Entrée, Espace)
     allumer() {
         if (this.sequence) return;
-        const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const calme = window.Mouvement?.reduit; // animations éteintes (mouvement.js) : version calme
         this.bips.reveiller();
         this.sequence = { t: 0, calme, declenches: new Set(), depart: null, retour: null, fondus: [], partie: false };
         if (calme) {

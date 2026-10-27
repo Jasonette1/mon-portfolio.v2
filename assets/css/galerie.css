@@ -98,9 +98,15 @@ body::after {
     }
 }
 
-/* Réglage « moins d'animations » : curseur fixe */
+/* Animations éteintes (interrupteur des pages perso, sinon réglage du système : mouvement.js) : curseur fixe ;
+   l'apparition en fondu reste, elle ne déplace rien */
+:root[data-mouvement="reduit"] .attente__curseur {
+    animation: none;
+}
+
+/* Sans JavaScript (mouvement.js n'a rien posé), le réglage du système seul */
 @media (prefers-reduced-motion: reduce) {
-    .attente__curseur {
+    :root:not([data-mouvement]) .attente__curseur {
         animation: none;
     }
 }
