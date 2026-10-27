@@ -37,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let engine = null;
     let renderLoop = null;
     let runner = null;
-    let ground = null;
-    let walls = [];
     let bodiesMap = new Map(); // DOM Element -> Matter Body
 
     function updateState(enabled) {
@@ -283,8 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const Engine = Matter.Engine,
-            Render = Matter.Render, // We don't use the canvas render, but we need the runner
-            Runner = Matter.Runner,
             Bodies = Matter.Bodies,
             Composite = Matter.Composite;
 
@@ -317,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const rightWall = Bodies.rectangle(width + (wallThick / 2), height / 2, wallThick, height * 2, { isStatic: true });
 
         Composite.add(world, [groundBody, leftWall, rightWall]);
-        walls = [groundBody, leftWall, rightWall];
 
         // 3. Create Bodies for Logos
         const logos = rightCol.querySelectorAll('.ki-logo-item');
@@ -354,47 +349,76 @@ document.addEventListener('DOMContentLoaded', () => {
         // To make drag work on DOM elements, we have to map mouse events to the engine.
         // For now, let's just let them fall. Simplest implementation.
 
-        // 5. Run the engine
-        runner = Runner.create();
-        Runner.run(runner, engine);
+        // 5. Animations allumées : la chute se joue à l'écran ; éteintes (mouvement.js), les logos sont posés d'un
+        // coup là où ils s'arrêtent
+        if (window.Mouvement?.reduit) settleLogos();
+        else startFalling();
+    }
 
-        // 6. Custom Render Loop (Sync Physics -> DOM)
-        // We use requestAnimationFrame to update DOM positions
-        function step() {
-            if (!engine) return; // Stopped
+    // Logos placés et tournés comme les corps de Matter.js
+    function syncLogos() {
+        bodiesMap.forEach((body, domEl) => {
+            const { x, y } = body.position;
+            const angle = body.angle;
 
-            bodiesMap.forEach((body, domEl) => {
-                const { x, y } = body.position;
-                const angle = body.angle;
+            // Position top-left is center - half size (using actual element size)
+            const w = domEl.offsetWidth;
+            const h = domEl.offsetHeight;
 
-                // Update DOM
-                // Position top-left is center - half size (using actual element size)
-                const w = domEl.offsetWidth;
-                const h = domEl.offsetHeight;
+            domEl.style.top = `${y - h / 2}px`;
+            domEl.style.left = `${x - w / 2}px`;
+            // Propriété rotate (pas transform) : le grossissement du survol (transform, portal.css) s'y ajoute
+            domEl.style.rotate = `${angle}rad`;
+        });
+    }
 
-                const top = y - h / 2;
-                const left = x - w / 2;
-
-                domEl.style.top = `${top}px`;
-                domEl.style.left = `${left}px`;
-                // Propriété rotate (pas transform) : le grossissement du survol (transform, portal.css) s'y ajoute
-                domEl.style.rotate = `${angle}rad`;
-            });
-
-            renderLoop = requestAnimationFrame(step);
-        }
+    // Chute à l'écran : Matter.js avance au rythme de l'affichage, les logos suivent à chaque image
+    function startFalling() {
+        runner = Matter.Runner.create();
+        Matter.Runner.run(runner, engine);
         step();
     }
+
+    function step() {
+        if (!engine) return; // Stopped
+        syncLogos();
+        renderLoop = requestAnimationFrame(step);
+    }
+
+    function stopFalling() {
+        cancelAnimationFrame(renderLoop);
+        renderLoop = null;
+        if (runner) Matter.Runner.stop(runner);
+        runner = null;
+    }
+
+    // Animations éteintes : la chute est calculée d'un trait, sans rien afficher, jusqu'à ce que tous les logos soient
+    // immobiles depuis une demi-seconde de chute (20 s au plus), puis ils sont posés à leur place finale
+    const SETTLE_MAX_STEPS = 1200, SETTLE_CALM_STEPS = 30;
+
+    function settleLogos() {
+        const bodies = [...bodiesMap.values()];
+        let calmSteps = 0;
+        for (let i = 0; i < SETTLE_MAX_STEPS && calmSteps < SETTLE_CALM_STEPS; i++) {
+            Matter.Engine.update(engine);
+            calmSteps = bodies.every(b => b.speed < 0.05 && b.angularSpeed < 0.002) ? calmSteps + 1 : 0;
+        }
+        syncLogos();
+    }
+
+    // Animations éteintes pendant une chute : les logos vont d'un coup à leur place finale. Rallumées, rien ne
+    // repart : la chute est finie, les logos restent où ils sont ; la prochaine se verra de nouveau
+    document.addEventListener('mouvementchange', () => {
+        if (!engine || !window.Mouvement?.reduit) return;
+        stopFalling();
+        settleLogos();
+    });
 
     function disableGravity() {
         if (!engine) return;
 
-        // Stop updates
-        cancelAnimationFrame(renderLoop);
-        renderLoop = null;
-
-        // Stop Matter
-        Matter.Runner.stop(runner);
+        // Stop updates and Matter
+        stopFalling();
         Matter.Engine.clear(engine);
         if (engine.world) {
             Matter.Composite.clear(engine.world, false, true);
@@ -402,8 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Cleanup
         engine = null;
-        runner = null;
-        walls = [];
         bodiesMap.clear();
 
         // Logos remis droits (la position est recalculée ensuite par updatePositions)

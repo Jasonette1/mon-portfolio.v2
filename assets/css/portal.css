@@ -797,6 +797,19 @@ body.show-frames .ki-logo-item img {
     transition: none;
 }
 
+/* sites.html : logos posés, remis en place ou grossis d'un coup (ki-logos.js), cadre des logos et levier sans glissement */
+:root[data-mouvement="reduit"] .ki-logo-item {
+    transition: none;
+}
+
+:root[data-mouvement="reduit"] .ki-logo-item img {
+    transition-property: opacity, background-color, border-color, box-shadow;
+}
+
+:root[data-mouvement="reduit"] .ki-switch-thumb {
+    transition-property: background-color, box-shadow;
+}
+
 /* Sans JavaScript (mouvement.js n'a rien posé), le réglage du système seul : curseur fixe */
 @media (prefers-reduced-motion: reduce) {
     :root:not([data-mouvement]) .ki-caret {
