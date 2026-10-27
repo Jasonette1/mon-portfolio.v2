@@ -97,12 +97,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- DESSINS QUI DÉFILENT (ascii.html) : ATTEIGNABLES AU CLAVIER ---
+    // Un dessin plus grand que sa place (fenêtre étroite ou basse) défile ; Chrome et Firefox le rendent alors
+    // atteignable au clavier (les flèches le font défiler), Safari non : tabindex="0" tant qu'il déborde, retiré quand
+    // il tient. État revu quand sa taille change (fenêtre, fleur fixe remplie ensuite par le script d'ascii.html) et
+    // quand la police change (la largeur du dessin change, pas celle de son cadre).
+    const scrollableArts = [...document.querySelectorAll('.ascii-display')];
+
+    function updateScrollableArt(pre) {
+        if (pre.scrollWidth > pre.clientWidth || pre.scrollHeight > pre.clientHeight) pre.tabIndex = 0;
+        else pre.removeAttribute('tabindex');
+    }
+
+    const updateScrollableArts = () => scrollableArts.forEach(updateScrollableArt);
+
+    if (scrollableArts.length) {
+        const artObserver = new ResizeObserver(entries => entries.forEach(entry => updateScrollableArt(entry.target)));
+        scrollableArts.forEach(pre => artObserver.observe(pre));
+        document.fonts.addEventListener('loadingdone', updateScrollableArts);
+    }
+
     function applyFont(key) {
         const fontData = fonts[key];
         if (!fontData) return;
 
         // Mise à jour de la variable CSS globale
         root.style.setProperty('--ki-font', `var(${fontData.var})`);
+        updateScrollableArts();
 
         // Mise à jour du label
         if (currentFontLabel) {
