@@ -509,8 +509,9 @@ a:hover {
     text-decoration: none;
     /* No underline */
     border: none;
-    transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1), left 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s;
-    /* ✨ Smooth movement */
+    transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1), left 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.2s, rotate 0.2s;
+    /* ✨ Smooth movement ; rotate : logos qui tombent (ki-logos.js) */
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
     /* Added shadow */
 }
@@ -678,7 +679,9 @@ body.show-frames .ki-logo-item img {
     text-shadow: 0 0 5px var(--ki-dot);
 }
 
-.ki-logo-item:hover {
+/* Survol, ou lien du même site atteint au clavier dans la liste (.ki-logo-focus, ki-logos.js) */
+.ki-logo-item:hover,
+.ki-logo-item.ki-logo-focus {
     z-index: 100 !important;
     cursor: pointer;
     transform: scale(1.1);

@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const domain = li.getAttribute('data-domain');
                 if (!Object.hasOwn(CUSTOM_LOGOS, domain)) return;
                 const link = getOrCreateLogo(domain, li, rightCol);
-                link.style.transform = 'none'; // Reset what gravity may have changed
                 link.style.position = 'absolute';
                 logos.push({ link, w: link.offsetWidth || LOGO_SIZE, h: link.offsetHeight || LOGO_SIZE });
             });
@@ -378,7 +377,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 domEl.style.top = `${top}px`;
                 domEl.style.left = `${left}px`;
-                domEl.style.transform = `rotate(${angle}rad)`;
+                // Propriété rotate (pas transform) : le grossissement du survol (transform, portal.css) s'y ajoute
+                domEl.style.rotate = `${angle}rad`;
             });
 
             renderLoop = requestAnimationFrame(step);
@@ -406,12 +406,27 @@ document.addEventListener('DOMContentLoaded', () => {
         walls = [];
         bodiesMap.clear();
 
-        // Reset Styles on DOM elements so updatePositions can work
+        // Logos remis droits (la position est recalculée ensuite par updatePositions)
         const logos = rightCol.querySelectorAll('.ki-logo-item');
         logos.forEach(logo => {
-            logo.style.transform = 'none';
+            logo.style.removeProperty('rotate');
         });
     }
+
+    // --- LIEN ATTEINT AU CLAVIER : son logo grossit comme au survol (.ki-logo-focus, portal.css) ---
+    // Logos décoratifs, hors du parcours du clavier : le lien du même site, dans la liste, en tient lieu
+    function logoOf(link) {
+        const domain = link.closest('li[data-domain]')?.dataset.domain;
+        return domain ? rightCol.querySelector(`.ki-logo-item[data-for="${domain}"]`) : null;
+    }
+
+    leftCol.addEventListener('focusin', (e) => {
+        if (e.target.matches(':focus-visible')) logoOf(e.target)?.classList.add('ki-logo-focus');
+    });
+
+    leftCol.addEventListener('focusout', (e) => {
+        logoOf(e.target)?.classList.remove('ki-logo-focus');
+    });
 
     // --- INIT ---
     // Make sure we have logos generated (first pass)
