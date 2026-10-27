@@ -28,20 +28,22 @@
         <header class="ki-header">
             <div class="ki-toolbar">
                 <div class="ki-fontrow">
-                    <span class="ki-label">Font :</span>
+                    <span class="ki-label" id="font-label">Font :</span>
                     <!-- Wrapper for alignment -->
                     <div style="position: relative; display: inline-flex; flex-direction: column;">
-                        <span class="ki-trigger" id="font-trigger">
+                        <button type="button" class="ki-trigger" id="font-trigger" aria-haspopup="menu"
+                            aria-expanded="false" aria-controls="font-menu"
+                            aria-labelledby="font-label current-font-name">
                             <span class="ki-lb">[</span>
                             <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
                             <span class="ki-rb">]</span>
-                        </span>
+                        </button>
                         <!-- MENU (aligné sur le trigger) -->
-                        <div class="ki-menu" id="font-menu">
-                            <div class="ki-item" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
-                            <div class="ki-item" data-font="CascadiaMono">Cascadia Mono</div>
-                            <div class="ki-item" data-font="Tenebris">Tenebris</div>
-                            <div class="ki-item" data-font="TerminalGothic">Terminal Gothic</div>
+                        <div class="ki-menu" id="font-menu" role="menu" aria-labelledby="font-label">
+                            <div class="ki-item" role="menuitem" tabindex="-1" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                            <div class="ki-item" role="menuitem" tabindex="-1" data-font="CascadiaMono">Cascadia Mono</div>
+                            <div class="ki-item" role="menuitem" tabindex="-1" data-font="Tenebris">Tenebris</div>
+                            <div class="ki-item" role="menuitem" tabindex="-1" data-font="TerminalGothic">Terminal Gothic</div>
                         </div>
                     </div>
                 </div>

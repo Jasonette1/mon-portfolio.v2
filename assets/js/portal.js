@@ -29,90 +29,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (fontTrigger && fontMenu) {
-        // Accessibility: ARIA setup
-        fontTrigger.setAttribute('aria-haspopup', 'listbox');
-        fontTrigger.setAttribute('aria-expanded', 'false');
-        fontTrigger.setAttribute('role', 'button');
-        fontTrigger.setAttribute('tabindex', '0');
+        // Bouton de menu (rôles et états écrits dans le HTML). La police en cours est cachée du menu
+        // (.ki-item.selected, portal.css) : le clavier ne parcourt que les autres entrées.
+        const items = [...fontMenu.querySelectorAll('.ki-item')];
+        const choices = () => items.filter(item => !item.classList.contains('selected'));
+        const isOpen = () => fontMenu.classList.contains('show');
 
-        fontMenu.setAttribute('role', 'listbox');
-
-        document.querySelectorAll('.ki-item').forEach(item => {
-            item.setAttribute('role', 'option');
-            item.setAttribute('tabindex', '-1'); // Manage focus manually
-        });
-
-        const toggleMenu = (show) => {
-            const isShown = show !== undefined ? show : !fontMenu.classList.contains('show');
-            if (isShown) {
-                fontMenu.classList.add('show');
-                fontTrigger.setAttribute('aria-expanded', 'true');
-                // Focus first item
-                const firstItem = fontMenu.querySelector('.ki-item');
-                if (firstItem) firstItem.focus();
-            } else {
-                fontMenu.classList.remove('show');
-                fontTrigger.setAttribute('aria-expanded', 'false');
-                fontTrigger.focus();
-            }
+        const openMenu = (focusLast = false) => {
+            fontMenu.classList.add('show');
+            fontTrigger.setAttribute('aria-expanded', 'true');
             updateMenuHeight();
+            const list = choices();
+            list[focusLast ? list.length - 1 : 0]?.focus();
         };
 
-        // Click Logic
-        fontTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMenu();
-        });
+        // Échap et le choix d'une police ramènent le focus sur le bouton ; Tab et un clic ailleurs le laissent aller
+        const closeMenu = (returnFocus = true) => {
+            if (!isOpen()) return;
+            fontMenu.classList.remove('show');
+            fontTrigger.setAttribute('aria-expanded', 'false');
+            updateMenuHeight();
+            if (returnFocus) fontTrigger.focus();
+        };
 
-        // Keyboard Logic for Trigger
+        const selectItem = (item) => {
+            applyFont(item.dataset.font);
+            closeMenu();
+        };
+
+        // Entrée et Espace passent par le clic du bouton
+        fontTrigger.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
+
         fontTrigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
                 e.preventDefault();
-                toggleMenu();
+                openMenu(e.key === 'ArrowUp');
+            } else if (e.key === 'Escape') {
+                closeMenu();
             }
         });
 
-        // Close on click outside
-        document.addEventListener('click', () => {
-            if (fontMenu.classList.contains('show')) {
-                toggleMenu(false);
+        fontMenu.addEventListener('click', (e) => {
+            const item = e.target.closest('.ki-item');
+            if (item) selectItem(item);
+        });
+
+        fontMenu.addEventListener('keydown', (e) => {
+            const list = choices();
+            const index = list.indexOf(document.activeElement);
+            switch (e.key) {
+                case 'ArrowDown': list[(index + 1) % list.length].focus(); break;
+                case 'ArrowUp': list[(index - 1 + list.length) % list.length].focus(); break;
+                case 'Home': list[0].focus(); break;
+                case 'End': list[list.length - 1].focus(); break;
+                case 'Enter':
+                case ' ': if (index >= 0) selectItem(list[index]); break;
+                case 'Escape': closeMenu(); break;
+                case 'Tab': closeMenu(false); return; // le focus continue son chemin
+                default: return;
             }
+            e.preventDefault();
         });
 
-        // Selection Logic
-        const items = document.querySelectorAll('.ki-item');
-        items.forEach((item, index) => {
-            // Click
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                selectItem(item);
-            });
-
-            // Keyboard Navigation within Menu
-            item.addEventListener('keydown', (e) => {
-                e.stopPropagation(); // Prevent page scroll
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    selectItem(item);
-                } else if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    const next = items[index + 1];
-                    if (next) next.focus();
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    const prev = items[index - 1];
-                    if (prev) prev.focus();
-                } else if (e.key === 'Escape') {
-                    toggleMenu(false);
-                }
-            });
+        // Clic hors du menu et de son bouton : le menu se ferme
+        document.addEventListener('click', (e) => {
+            if (!fontTrigger.contains(e.target) && !fontMenu.contains(e.target)) closeMenu(false);
         });
-
-        function selectItem(item) {
-            const fontKey = item.getAttribute('data-font');
-            applyFont(fontKey);
-            toggleMenu(false);
-        }
     }
 
     function applyFont(key) {
@@ -127,16 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFontLabel.textContent = fontData.label;
         }
 
-        // Mise à jour de la classe .selected dans le menu
+        // La police choisie est cachée du menu (.ki-item.selected, portal.css)
         document.querySelectorAll('.ki-item').forEach(item => {
-            const isSelected = item.getAttribute('data-font') === key;
-            if (isSelected) {
-                item.classList.add('selected');
-                item.setAttribute('aria-selected', 'true');
-            } else {
-                item.classList.remove('selected');
-                item.setAttribute('aria-selected', 'false');
-            }
+            item.classList.toggle('selected', item.dataset.font === key);
         });
 
         // Sauvegarde préférence (localStorage)
