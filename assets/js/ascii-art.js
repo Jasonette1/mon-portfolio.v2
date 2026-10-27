@@ -3,15 +3,10 @@
    Adapté de Obsidian DataviewJS pour le Web
    ========================================================= */
 
-const ASCII_DATA = {
-    // Placeholder static data if needed
-};
-
 /* ===== CONSTANTES ===== */
-const BASE_ART_PX = 12, MIN_ART_PX = 9, HARD_MIN_PX = 7, BREAKPOINT_PX = 760;
+const BASE_ART_PX = 12, HARD_MIN_PX = 7;
 const MIDLINE_W_PX = 22, RIGHT_MIN_FR = 0.35, RIGHT_MAX_FR = 0.94, LEFT_MIN_W = 260;
 const EDGE_FUDGE = 3, SAFETY_MARGIN = 6;
-const ROTATE_MS = 20000;
 
 /* ===== HELPERS ===== */
 const px = v => Number.isFinite(parseFloat(v)) ? parseFloat(v) : 0;
@@ -102,7 +97,7 @@ function adjustColumnsAndFit() {
     }
 }
 
-/* ===== ANIMATION & ROTATION LOGIC ===== */
+/* ===== ANIMATION ===== */
 
 const FPS = 12;
 const FRAME_DURATION = 1000 / FPS;
@@ -148,7 +143,6 @@ function playAnimation(timestamp) {
 function initAsciiManager() {
     // 1. Si FLEURS_FRAMES est dispo (généré par le script PowerShell/Node)
     if (typeof FLEURS_FRAMES !== 'undefined' && FLEURS_FRAMES.length > 0) {
-        console.log("Starting Fleur du Mal animation...");
         pingPongSequence = buildPingPongSequence(FLEURS_FRAMES);
 
         // Initial fit sur le premier frame
@@ -158,12 +152,11 @@ function initAsciiManager() {
         // Démarrer boucle
         animationId = requestAnimationFrame(playAnimation);
 
-        // Resize observer pour re-fit fenêtre
+        // Nouvel ajustement quand la fenêtre change de taille
         window.addEventListener('resize', adjustColumnsAndFit);
     }
-    // 2. Fallback
+    // 2. Images absentes (fleurs_data.js non chargé : le navigateur le signale déjà dans la console)
     else {
-        console.warn("FLEURS_FRAMES not found. Please run extraction script.");
         art.textContent = "ANIMATION DATA MISSING";
         adjustColumnsAndFit();
     }
