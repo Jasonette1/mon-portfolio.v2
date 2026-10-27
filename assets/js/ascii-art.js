@@ -138,6 +138,26 @@ function playAnimation(timestamp) {
     animationId = requestAnimationFrame(playAnimation);
 }
 
+/* --- Animations éteintes (mouvement.js) : fleur figée sur l'image 42, la même que la fleur fixe d'ascii.html, et
+       nommée sans « animée » (data-still-label) ; rallumées, elle repart de cette image --- */
+const STILL_FRAME = 42;
+const animatedLabel = art?.getAttribute('aria-label');
+
+function startAnimation() {
+    if (animationId) return;
+    lastFrameTime = 0;
+    animationId = requestAnimationFrame(playAnimation);
+    art.setAttribute('aria-label', animatedLabel);
+}
+
+function stopAnimation() {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+    frameIndex = STILL_FRAME;
+    art.textContent = pingPongSequence[STILL_FRAME];
+    art.setAttribute('aria-label', art.dataset.stillLabel);
+}
+
 /* --- Init --- */
 
 function initAsciiManager() {
@@ -149,8 +169,10 @@ function initAsciiManager() {
         art.textContent = pingPongSequence[0];
         adjustColumnsAndFit();
 
-        // Démarrer boucle
-        animationId = requestAnimationFrame(playAnimation);
+        // Démarrer la boucle, ou figer la fleur si les animations sont éteintes
+        const followMotion = () => (window.Mouvement?.reduit ? stopAnimation() : startAnimation());
+        followMotion();
+        document.addEventListener('mouvementchange', followMotion);
 
         // Nouvel ajustement quand la fenêtre change de taille
         window.addEventListener('resize', adjustColumnsAndFit);

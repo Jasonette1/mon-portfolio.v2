@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let charIndex = 0;
         let isDeleting = false;
         let currentText = scripts[0];
+        let typingTimer = 0;
 
         function type() {
             if (isDeleting) {
@@ -209,10 +210,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 delta = 500; // Pause avant de recommencer
             }
 
-            setTimeout(type, delta);
+            typingTimer = setTimeout(type, delta);
         }
 
-        setTimeout(type, 500);
+        // Animations éteintes (mouvement.js) : la commande de la page, écrite en entier et immobile (curseur fixe,
+        // portal.css) ; rallumées, la frappe reprend là, par une pause puis l'effacement
+        function stopTyping() {
+            clearTimeout(typingTimer);
+            scriptIndex = 0;
+            currentText = scripts[0];
+            charIndex = currentText.length;
+            isDeleting = false;
+            typingElement.textContent = currentText;
+        }
+
+        document.addEventListener('mouvementchange', () => (window.Mouvement?.reduit ? stopTyping() : type()));
+
+        if (window.Mouvement?.reduit) stopTyping();
+        else typingTimer = setTimeout(type, 500);
     }
 
     // --- RELIURE SPIRALE DYNAMIQUE (DYNAMIC SPIRAL) ---

@@ -784,3 +784,22 @@ body.show-frames .ki-logo-item img {
     object-fit: cover;
     border-radius: 8px;
 }
+
+/* ===== ANIMATIONS ÉTEINTES (interrupteur « Animations » ou réglage du système : mouvement.js) =====
+   Plus rien ne bouge de lui-même (curseur fixe ; ligne tapée et fleur : portal.js, ascii-art.js), et ce qui glisse au
+   geste du visiteur se fait d'un coup. Les fondus de couleur et d'opacité restent : ils ne déplacent rien. */
+:root[data-mouvement="reduit"] .ki-caret {
+    animation: none;
+}
+
+:root[data-mouvement="reduit"] .ki-frame,
+:root[data-mouvement="reduit"] .ki-animrow {
+    transition: none;
+}
+
+/* Sans JavaScript (mouvement.js n'a rien posé), le réglage du système seul : curseur fixe */
+@media (prefers-reduced-motion: reduce) {
+    :root:not([data-mouvement]) .ki-caret {
+        animation: none;
+    }
+}
