@@ -41,8 +41,8 @@ Ce projet est conçu comme un site statique moderne, privilégiant la performanc
 *   **3D / WebGL** : Three.js (r170, hébergé dans `assets/js/libs/` avec ses compléments `RectAreaLight`) pour l'expérience du Musée virtuel, et des shaders GLSL (`assets/shaders/`).
 *   **Physique 2D** : Matter.js 0.19.0, hébergé dans `assets/js/libs/`, pour la page des sites utiles.
 *   **Polices** : celles des pages personnelles et du musée sont hébergées dans `assets/fonts/`, avec leurs licences ; l'accueil utilise les polices du système.
-*   **Assets** : FontAwesome 6.0.0 (icônes de l'accueil, chargées depuis cdnjs).
-*   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel, avec le SDK web 10.7.1 chargé depuis gstatic.com.
+*   **Assets** : FontAwesome 6.0.0 (icônes de l'accueil, chargées depuis cdnjs ; la copie de l'accueil gardée pour la Rétrospective les héberge dans `assets/libs/`).
+*   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel, avec le SDK web 10.7.1 chargé depuis gstatic.com sur l'accueil et hébergé dans `assets/js/libs/` pour sa copie de la Rétrospective.
 *   **Infrastructure** :
     *   Hébergé sur **GitHub Pages**.
     *   Domaine personnalisé : `lassiazyouen.page` fourni par Name.com.
@@ -76,8 +76,9 @@ Voici un aperçu de l'organisation des fichiers sources :
 ├── assets/
 │   ├── css/            # Feuilles de style (main.css, portal.css, polices.css, musee.css, galerie.css)
 │   ├── js/             # Scripts principaux (main.js, portal.js, guestbook.js...)
-│   │   ├── libs/       # Bibliothèques externes hébergées (Three.js et ses compléments RectAreaLight, Matter.js)
+│   │   ├── libs/       # Bibliothèques externes hébergées (Three.js et ses compléments RectAreaLight, Matter.js, SDK Firebase)
 │   │   └── components/ # Composants modulaires du musée 3D (bureau, ordinateur de l'autel, textures)
+│   ├── libs/           # Bibliothèques hébergées avec leurs fichiers (Font Awesome)
 │   ├── icons/          # Favicons et manifeste PWA
 │   ├── img/            # Images du site (logos des sites utiles, miniatures, image d'aperçu de l'accueil)
 │   ├── textures/       # Textures 3D du musée (marbre, pierre, herbe, feuillage)
@@ -90,6 +91,7 @@ Voici un aperçu de l'organisation des fichiers sources :
 ├── ascii.html          # Archive d'art ASCII
 ├── musee.html          # Expérience 3D interactive (Temple/Musée)
 ├── galerie.html        # Galerie (en travaux), ouverte par l'ordinateur du musée
+├── retrospective/      # Versions successives de l'accueil, chacune avec ses fichiers (2026-10-21/ : la version actuelle)
 ├── CNAME               # Domaine personnalisé pour GitHub Pages
 ├── LICENSE             # Licence MIT du code
 ├── .gitattributes      # Fins de ligne des fichiers texte
@@ -131,8 +133,8 @@ Ce dépôt réunit trois sortes de contenus :
 | Fleur en ASCII d'après une image de l'anime *Aku no Hana* (`ascii.html`) | Source inconnue | Inconnue |
 | Logos des sites utiles (`assets/img/`) | Leurs propriétaires respectifs ; l'icône d'Ollama vient du dépôt [ollama/ollama](https://github.com/ollama/ollama) | Marques de leurs propriétaires ; icône d'Ollama sous licence MIT |
 | Miniatures des playlists YouTube (`assets/img/thumb_*.jpg`) | Les auteurs des vidéos | Droits de leurs auteurs |
-| Font Awesome Free 6.0.0 (chargé depuis cdnjs, non hébergé ici) | [Fonticons](https://fontawesome.com/license/free) | Icônes CC BY 4.0, polices SIL OFL 1.1, code MIT |
-| SDK web de Firebase 10.7.1 (chargé depuis gstatic.com, non hébergé ici) | [Google](https://github.com/firebase/firebase-js-sdk) | Apache 2.0 |
+| Font Awesome Free 6.0.0 (`assets/libs/fontawesome-free-6.0.0/`, pour la Rétrospective ; l'accueil le charge encore depuis cdnjs) | [Fonticons](https://fontawesome.com/license/free) | Icônes CC BY 4.0, polices SIL OFL 1.1, code MIT ; texte joint |
+| SDK web de Firebase 10.7.1 (`assets/js/libs/firebase-10.7.1/`, pour la Rétrospective ; l'accueil le charge encore depuis gstatic.com) | [Google](https://github.com/firebase/firebase-js-sdk) | Apache 2.0, texte joint |
 
 Les noms et marques cités (*Portal* et Aperture Science de Valve, *Serial Experiments Lain*, *Aku no Hana*, *2001 : l'Odyssée de l'espace*, les services de la page des sites utiles) appartiennent à leurs propriétaires.
 

@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Bibliothèques d'autres auteurs reprises telles quelles : gardées à l'octet près, fins de ligne comprises
+/assets/libs/** -text
+/assets/js/libs/firebase-10.7.1/** -text
