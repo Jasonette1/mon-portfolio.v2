@@ -13,6 +13,10 @@
     /* Couleurs spécifiques Guestbook */
     --input-bg: #FFFFFF;
     --input-border: #E0E0E0;
+    /* Messages écrits depuis la Rétrospective (voir .message-retrospective) */
+    --retrospective-border: #FFB000;
+    --retrospective-text: #8A5A00;
+
     /* Case atteinte au clavier : bordure et anneau (voir la règle .focus-clavier) */
     --keyboard-focus-border: #4F7592;
     --keyboard-focus-ring: rgba(79, 117, 146, 0.3);
@@ -356,6 +360,18 @@ main {
     font-size: 0.75rem;
 }
 
+/* Message écrit depuis la Rétrospective : liseré ambre, et la mention « écrit depuis la Rétrospective » entre le
+   bandeau et le texte */
+.message-card.message-retrospective {
+    border-left-color: var(--retrospective-border);
+}
+
+.message-origine {
+    font-size: 0.75rem;
+    margin: 0 0 0.5rem;
+    color: var(--retrospective-text);
+}
+
 .message-content {
     white-space: pre-wrap;
     /* Conserve les retours à la ligne */
@@ -478,6 +494,7 @@ main {
     --input-border: #5A5A5A;
     --keyboard-focus-border: #B3C7D6;
     --keyboard-focus-ring: rgba(179, 199, 214, 0.35);
+    --retrospective-text: #FFB000;
     --on-primary-color: #000000;
     --high-contrast-text: var(--dark-high-contrast-text);
 }

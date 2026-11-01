@@ -134,6 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = doc.data();
             const messageCard = document.createElement('div');
             messageCard.className = 'message-card';
+            // Message écrit depuis cette copie de l'accueil (champ « origine ») : liseré ambre et mention écrite
+            const depuisRetrospective = data.origine === 'retrospective';
+            if (depuisRetrospective) messageCard.classList.add('message-retrospective');
 
             // Formatage de la date en français
             const date = new Date(data.timestamp);
@@ -153,6 +156,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="message-date">${dateStr}</span>
                     </div>
                 `;
+            if (depuisRetrospective) {
+                // Hors du bandeau (son opacité pâlirait la mention) ; lue par les lecteurs d'écran avec la carte
+                const origine = document.createElement('p');
+                origine.className = 'message-origine';
+                origine.textContent = 'écrit depuis la Rétrospective';
+                messageCard.appendChild(origine);
+            }
             messageCard.appendChild(contentDiv);
             messagesContainer.appendChild(messageCard);
         });
@@ -198,7 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 author_name: name,
                 content: content,
                 timestamp: Date.now(),
-                is_private: isPrivateMode // Flag utile
+                is_private: isPrivateMode, // Flag utile
+                origine: "retrospective" // écrit depuis la copie de la Rétrospective (aussi pour les messages privés)
             });
 
             // Reset du formulaire
