@@ -27,6 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- Contour des cases du livre d'or : net au clavier seulement ----------
+    // :focus-visible ne suffit pas : les navigateurs l'appliquent aussi au clic dans une case de texte. On retient
+    // donc le dernier geste : une touche (sauf avec Ctrl, Alt ou Cmd, pour qu'un Alt+Tab vers une autre fenêtre ne
+    // compte pas) ou un appui de souris, de doigt ou de stylet. Avant tout geste, on compte le clavier.
+    let auClavier = true;
+    document.addEventListener('keydown', (e) => {
+        if (!e.altKey && !e.ctrlKey && !e.metaKey) auClavier = true;
+    }, true);
+    document.addEventListener('pointerdown', () => { auClavier = false; }, true);
+    document.querySelectorAll('.guestbook-input, .guestbook-textarea').forEach((champ) => {
+        champ.addEventListener('focus', () => champ.classList.toggle('focus-clavier', auClavier));
+    });
+
     // ---------- Smart Scroll Navigation ----------
     const nav = document.querySelector('nav');
     let lastScrollTop = 0;

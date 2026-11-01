@@ -13,6 +13,9 @@
     /* Couleurs spécifiques Guestbook */
     --input-bg: #FFFFFF;
     --input-border: #E0E0E0;
+    /* Case atteinte au clavier : bordure et anneau (voir la règle .focus-clavier) */
+    --keyboard-focus-border: #4F7592;
+    --keyboard-focus-ring: rgba(79, 117, 146, 0.3);
 
     /* Contrast fix variable */
     --on-primary-color: #4A4A4A;
@@ -275,6 +278,23 @@ main {
     border-color: var(--primary-color);
 }
 
+/* Case atteinte au clavier (main.js pose .focus-clavier) : bordure et anneau nets. Au clic ou au doigt, la bordure
+   reste celle du dessus. Le mode Lite retire l'anneau (comme toutes les ombres) : la bordure seule reste nette. */
+.guestbook-input.focus-clavier:focus,
+.guestbook-textarea.focus-clavier:focus {
+    border-color: var(--keyboard-focus-border);
+    box-shadow: 0 0 0 3px var(--keyboard-focus-ring);
+}
+
+/* Contraste élevé de Windows : il efface les ombres et impose ses couleurs aux bordures ; un contour épais, coloré
+   par ce mode, signale la case à la place de l'anneau */
+@media (forced-colors: active) {
+    .guestbook-input.focus-clavier:focus,
+    .guestbook-textarea.focus-clavier:focus {
+        outline: 3px solid;
+    }
+}
+
 .btn-submit {
     padding: 0.8rem 1.5rem;
     background-color: var(--primary-color);
@@ -456,6 +476,8 @@ main {
     --shadow-color: rgba(255, 255, 255, 0.05);
     --input-bg: #4A4A4A;
     --input-border: #5A5A5A;
+    --keyboard-focus-border: #B3C7D6;
+    --keyboard-focus-ring: rgba(179, 199, 214, 0.35);
     --on-primary-color: #000000;
     --high-contrast-text: var(--dark-high-contrast-text);
 }
