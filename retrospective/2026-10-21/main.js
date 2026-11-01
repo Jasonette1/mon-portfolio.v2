@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeSwitch && themeIcon) {
         function setTheme(isDark) {
             rootElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            themeSwitch.setAttribute('aria-pressed', String(isDark));
             try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { }
             themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }

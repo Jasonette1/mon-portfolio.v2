@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages-list');
     const privateExplanation = document.getElementById('private-explanation');
     const submitBtn = document.getElementById('submitBtn');
+    const statut = document.getElementById('guestbook-status'); // annonces pour les lecteurs d'écran
 
     // Toggle Buttons
     const btnPublic = document.getElementById('mode-public');
@@ -187,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // UI : Désactiver le bouton pendant l'envoi
         submitBtn.disabled = true;
         submitBtn.textContent = "Envoi en cours...";
+        statut.textContent = "Envoi du message en cours.";
 
         try {
             // Choix de la collection en fonction du mode
@@ -206,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const successMsg = isPrivateMode ? "Message privé envoyé !" : "Message publié !";
             submitBtn.textContent = successMsg;
+            statut.textContent = isPrivateMode ? "Votre message privé a bien été envoyé." : "Votre message a bien été publié.";
 
             // Remettre le bouton normal après 2 secondes
             setTimeout(() => {
@@ -216,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Erreur d'envoi :", error);
             submitBtn.textContent = "Erreur, réessayez.";
+            statut.textContent = "Le message n'a pas pu être envoyé. Réessayez.";
             submitBtn.disabled = false;
         }
     });

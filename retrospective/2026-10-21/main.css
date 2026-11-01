@@ -75,6 +75,20 @@ body {
 }
 
 /* ===== ACCESSIBILITÉ ===== */
+/* Texte réservé aux lecteurs d'écran. Font Awesome définit la même classe avec les mêmes règles : la redire ici
+   garde ces textes cachés même si sa feuille ne se charge pas. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 .skip-link {
     position: absolute;
     top: -100px;

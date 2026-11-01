@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
     <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/web-app-manifest-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="../../assets/icons/web-app-manifest-512x512.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/web-app-manifest-96x96.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96x96.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,7 +36,7 @@
 
     <header role="banner">
         <h1>
-            <a href="#" class="logo-link" aria-label="Lien vers la page d'accueil d'Édu - Lassiaz Youen">-//_</a>
+            <a href="#" class="logo-link" aria-label="Haut de la page">-//_</a>
             Édu - Lassiaz Youen
         </h1>
         <p>Étudiant en Sciences De l'Éducation & Intéressé par la création de contenus didactiques</p>
@@ -112,10 +112,10 @@
                     <div class="guestbook-controls">
                         <div class="mode-toggle">
                             <button id="mode-public" class="toggle-btn" aria-pressed="false">
-                                <i class="fas fa-book-open"></i> Public
+                                <i class="fas fa-book-open" aria-hidden="true"></i> Public
                             </button>
                             <button id="mode-private" class="toggle-btn active" aria-pressed="true">
-                                <i class="fas fa-envelope"></i> Privé
+                                <i class="fas fa-envelope" aria-hidden="true"></i> Privé
                             </button>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <label for="authorName">Nom / Pseudo</label>
                                 <input type="text" id="authorName" class="guestbook-input" placeholder="Votre nom"
-                                    required>
+                                    maxlength="49" required>
                             </div>
 
                             <!-- Option Anonyme (Visible seulement en mode privé) -->
@@ -143,6 +143,7 @@
                                     placeholder="Écrivez votre message ici..." maxlength="280" required></textarea>
                             </div>
                             <button type="submit" class="btn-submit" id="submitBtn">Envoyer le message privé</button>
+                            <p id="guestbook-status" class="sr-only" role="status"></p>
                         </form>
                     </div>
                 </div>
@@ -155,7 +156,7 @@
                     <!-- Explication Mode Privé (affichée par défaut : le livre d'or s'ouvre en mode privé) -->
                     <div id="private-explanation" class="private-content">
                         <div class="explanation-card">
-                            <h3><i class="fas fa-lock"></i> Espace de discussion privée</h3>
+                            <h3><i class="fas fa-lock" aria-hidden="true"></i> Espace de discussion privée</h3>
                             <p>Les messages envoyés ici ne seront <strong>pas visibles publiquement</strong>.</p>
                             <p>Ils atterrissent directement dans une boîte aux lettres privée, me permettant de vous
                                 lire et de vous répondre si vous laissez un moyen de contact.</p>
@@ -202,20 +203,20 @@
             <p>
                 © 2026 lassiazyouen.page - Tous droits
                 réservés
-                <button id="lite-mode-toggle" aria-label="Activer le mode Lite">Mode Lite</button>
+                <button id="lite-mode-toggle">Mode Lite</button>
             </p>
         </footer>
     </div>
 
     <div class="theme-toggle">
-        <button id="theme-switch">
-            <i class="fas fa-moon"></i>
-            <span class="sr-only">Basculer le thème</span>
+        <button id="theme-switch" aria-pressed="false">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+            <span class="sr-only">Thème sombre</span>
         </button>
     </div>
 
     <button id="back-to-top" class="back-to-top" aria-label="Retour en haut">
-        <i class="fas fa-chevron-up"></i>
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
     </button>
 
     <!-- Scripts. Le SDK Firebase 10.7.1 est hébergé dans le site (fichiers officiels, non modifiés) : la carte d'import
