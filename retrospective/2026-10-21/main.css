@@ -17,6 +17,9 @@
     /* Contrast fix variable */
     --on-primary-color: #4A4A4A;
 
+    /* Textes bleus pour les visiteurs réglés sur « plus de contraste » (voir PLUS DE CONTRASTE) */
+    --high-contrast-text: #3A576C;
+
     /* Dark Theme Colors */
     --dark-primary: #7A8F9E;
     --dark-secondary: #B29494;
@@ -24,6 +27,7 @@
     --dark-text: #E0E0E0;
     --dark-background: #2B2B2B;
     --dark-card-background: #3A3A3A;
+    --dark-high-contrast-text: #D1DDE6;
 
     /* Espacements responsives */
     --space-xs: clamp(0.5rem, 1.5vw, 0.75rem);
@@ -453,6 +457,7 @@ main {
     --input-bg: #4A4A4A;
     --input-border: #5A5A5A;
     --on-primary-color: #000000;
+    --high-contrast-text: var(--dark-high-contrast-text);
 }
 
 [data-theme="dark"] nav {
@@ -797,4 +802,29 @@ input[type="checkbox"] {
     accent-color: var(--primary-color);
     width: 1.25em;
     height: 1.25em;
-}.guestbook-write-column { display: flex; flex-direction: column; gap: var(--space-md); }
+}
+
+.guestbook-write-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ===== PLUS DE CONTRASTE ===== */
+/* Réglage « plus de contraste » de l'appareil : les textes bleu pastel (titres, « En savoir plus », noms et dates
+   du livre d'or, titre de l'encart du mode privé) passent en bleu foncé en clair, en bleu clair en sombre, et le
+   bandeau des messages n'est plus pâli. Sans ce réglage, rien ne change. En fin de feuille, pour passer après les
+   règles qu'il remplace. */
+@media (prefers-contrast: more) {
+    .section h2,
+    .toggle-button,
+    .message-author,
+    .message-date,
+    .explanation-card h3 {
+        color: var(--high-contrast-text);
+    }
+
+    .message-header {
+        opacity: 1;
+    }
+}
