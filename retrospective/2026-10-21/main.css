@@ -828,3 +828,44 @@ input[type="checkbox"] {
         opacity: 1;
     }
 }
+
+/* ===== ANIMATIONS ÉTEINTES ===== */
+/* Interrupteur « Animations » des pages perso, sinon réglage « réduire les animations » de l'appareil : mouvement.js
+   pose data-mouvement="reduit" sur <html>, et tout change en direct. Plus rien ne glisse ni ne tourne : les blocs
+   apparaissent sans monter, le menu et le lien « Passer au contenu » apparaissent ou se cachent d'un coup, rien ne
+   bouge au survol ni quand la largeur change (téléphone tourné) ; les fondus de couleur restent. Les défilements
+   doux deviennent des sauts dans main.js. */
+[data-mouvement="reduit"] {
+    --transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-mouvement="reduit"] .section,
+[data-mouvement="reduit"] .message-card,
+[data-mouvement="reduit"] .private-content {
+    animation: none;
+}
+
+[data-mouvement="reduit"] nav,
+[data-mouvement="reduit"] .skip-link,
+[data-mouvement="reduit"] footer p {
+    transition: none;
+}
+
+[data-mouvement="reduit"] .btn-submit {
+    transition-property: background-color;
+}
+
+[data-mouvement="reduit"] #lite-mode-toggle,
+[data-mouvement="reduit"] .toggle-btn {
+    transition-property: color, background-color, border-color, box-shadow;
+}
+
+[data-mouvement="reduit"] nav ul li a:hover,
+[data-mouvement="reduit"] .skill-card:hover,
+[data-mouvement="reduit"] .contact-link:hover,
+[data-mouvement="reduit"] .theme-toggle button:hover,
+[data-mouvement="reduit"] .section:hover,
+[data-mouvement="reduit"] .btn-submit:hover {
+    transform: none;
+}

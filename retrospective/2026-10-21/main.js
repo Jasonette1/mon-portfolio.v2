@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Défilement doux, ou saut direct quand les animations sont éteintes (mouvement.js, lu à chaque geste : suit
+    // l'interrupteur en direct ; si ce fichier manque, le défilement reste doux)
+    const defilement = () => (window.Mouvement?.reduit ? 'auto' : 'smooth');
+
     // ---------- Gestion du Thème (Dark/Light) ----------
     const themeSwitch = document.getElementById('theme-switch');
     const rootElement = document.documentElement;
@@ -54,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 extraContent.classList.add('visible');
                 this.setAttribute('aria-expanded', 'true');
                 this.textContent = 'Réduire';
-                extraContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                extraContent.scrollIntoView({ behavior: defilement(), block: 'nearest' });
             }
         });
     }
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: defilement() });
         });
     }
 
