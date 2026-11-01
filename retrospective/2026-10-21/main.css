@@ -682,6 +682,19 @@ main {
     color: #007BFF !important;
 }
 
+/* Thème sombre : le gris #333 du mode Lite serait invisible sur les fonds foncés. Les boutons sans fond coloré
+   (« En savoir plus », Public ou Privé quand il n'est pas choisi) gardent le texte clair de la page, ceux sur fond
+   bleu-gris (le mode choisi, « Envoyer ») le texte foncé du thème sombre ; le survol reste celui du mode Lite. */
+.lite-mode[data-theme="dark"] .toggle-button:not(:hover),
+.lite-mode[data-theme="dark"] .toggle-btn:not(.active):not(:hover) {
+    color: var(--text-color) !important;
+}
+
+.lite-mode[data-theme="dark"] .toggle-btn.active:not(:hover),
+.lite-mode[data-theme="dark"] .btn-submit:not(:hover) {
+    color: var(--on-primary-color) !important;
+}
+
 .lite-mode nav ul li a:hover,
 .lite-mode .contact-link:hover,
 .lite-mode .theme-toggle button:hover {
