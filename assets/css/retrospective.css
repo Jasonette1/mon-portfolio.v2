@@ -133,8 +133,10 @@ body {
     border-top-style: dotted;
 }
 
-/* Le cran : son point, son nom, sa date ; le contour du clavier l'entoure au plus près */
+/* Le cran : son point, son nom, sa date ; le contour du clavier l'entoure au plus près. Placé au-dessus de la ligne
+   (positionnée elle aussi) : le point la cache et un clic sur le point choisit bien la version */
 .retro-frise ol a {
+    position: relative;
     display: inline-block;
     padding: 0 4px 4px;
     vertical-align: top;
