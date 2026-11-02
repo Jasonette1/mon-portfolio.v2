@@ -41,8 +41,8 @@ Ce projet est conçu comme un site statique moderne, privilégiant la performanc
 *   **3D / WebGL** : Three.js (r170, hébergé dans `assets/js/libs/` avec ses compléments `RectAreaLight`) pour l'expérience du Musée virtuel, et des shaders GLSL (`assets/shaders/`).
 *   **Physique 2D** : Matter.js 0.19.0, hébergé dans `assets/js/libs/`, pour la page des sites utiles.
 *   **Polices** : celles des pages personnelles et du musée sont hébergées dans `assets/fonts/`, avec leurs licences ; l'accueil utilise les polices du système.
-*   **Assets** : FontAwesome 6.0.0 (icônes de l'accueil, chargées depuis cdnjs ; la copie de l'accueil gardée pour la Rétrospective les héberge dans `assets/libs/`).
-*   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel, avec le SDK web 10.7.1 chargé depuis gstatic.com sur l'accueil et hébergé dans `assets/js/libs/` pour sa copie de la Rétrospective.
+*   **Assets** : FontAwesome 6.0.0 (icônes de l'accueil, chargées depuis cdnjs ; les copies de l'accueil gardées pour la Rétrospective les hébergent dans `assets/libs/`).
+*   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel, avec le SDK web 10.7.1 chargé depuis gstatic.com sur l'accueil et hébergé dans `assets/js/libs/` pour ses copies de la Rétrospective.
 *   **Infrastructure** :
     *   Hébergé sur **GitHub Pages**.
     *   Domaine personnalisé : `lassiazyouen.page` fourni par Name.com.
@@ -74,7 +74,7 @@ Voici un aperçu de l'organisation des fichiers sources :
 ```plaintext
 /
 ├── assets/
-│   ├── css/            # Feuilles de style (main.css, portal.css, polices.css, musee.css, galerie.css)
+│   ├── css/            # Feuilles de style (main.css, portal.css, polices.css, musee.css, galerie.css, retrospective.css)
 │   ├── js/             # Scripts principaux (main.js, portal.js, guestbook.js...)
 │   │   ├── libs/       # Bibliothèques externes hébergées (Three.js et ses compléments RectAreaLight, Matter.js, SDK Firebase)
 │   │   └── components/ # Composants modulaires du musée 3D (bureau, ordinateur de l'autel, textures)
@@ -91,7 +91,8 @@ Voici un aperçu de l'organisation des fichiers sources :
 ├── ascii.html          # Archive d'art ASCII
 ├── musee.html          # Expérience 3D interactive (Temple/Musée)
 ├── galerie.html        # Galerie (en travaux), ouverte par l'ordinateur du musée
-├── retrospective/      # Versions successives de l'accueil, chacune avec ses fichiers (2026-10-21/ : la version actuelle)
+├── retrospective/      # Rétrospective : frise des versions successives de l'accueil (index.html), chacune dans son dossier
+│                       # avec ses fichiers (2026-01-02/ : janvier 2026 ; 2026-10-21/ : la version actuelle)
 ├── CNAME               # Domaine personnalisé pour GitHub Pages
 ├── LICENSE             # Licence MIT du code
 ├── .gitattributes      # Fins de ligne des fichiers texte
