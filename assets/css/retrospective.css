@@ -1,0 +1,453 @@
+@charset "UTF-8";
+/* =========================================================
+   RÉTROSPECTIVE (retrospective/index.html)
+   La frise des versions de l'accueil en haut, la version choisie à gauche (affichée pour de vrai dans un cadre),
+   son étiquette et les notes de Youen à droite ; sur une fenêtre étroite, les notes passent sous la version.
+   Couleurs, police active, barre du haut, titres et listes : portal.css (chargée avant cette feuille).
+   ========================================================= */
+
+:root {
+    /* Agrandissement du texte des pages cachées (portal.css le pose sur tout le corps de page). Ici, seulement sur
+       ce qui entoure la version : un zoom sur un parent du cadre agrandirait aussi la page affichée dedans. */
+    --retro-zoom: 1.2;
+    /* Texte secondaire (dates, vides de la frise, intitulés de l'étiquette) : l'ambre éteint des bordures, un rien
+       éclairci pour rester lisible sur les deux teintes des lignes de balayage (contraste 4,6 à 5,0) */
+    --retro-discret: #b07424;
+    /* Barre du haut un peu plus basse que sur les autres pages cachées : la place va à la version */
+    --ki-header-h: 38px;
+}
+
+body {
+    zoom: 1;
+}
+
+/* Lu par les lecteurs d'écran seulement */
+.retro-lu {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ===== MISE EN PAGE : le haut, puis la scène qui prend le reste de la hauteur de la fenêtre ===== */
+.retro-racine {
+    display: flex;
+    flex-direction: column;
+    max-width: 1400px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: 0 20px 20px;
+}
+
+.retro-haut {
+    zoom: var(--retro-zoom);
+}
+
+/* ===== BARRE DU HAUT (police, animations, retour) ===== */
+.retro-haut .ki-header {
+    padding-inline: 0;
+}
+
+/* Le menu des polices s'aligne sous son bouton */
+.retro-menu-polices {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.retro-retour {
+    white-space: nowrap;
+}
+
+/* ===== TITRE ; le menu des polices, ouvert, le repousse de sa hauteur (--ki-menu-h, portal.js) ===== */
+.retro-titre {
+    gap: 14px;
+    margin: calc(4px + var(--ki-menu-h, 0px)) 0 6px;
+    transition: margin-top 0.2s ease-out;
+}
+
+.retro-titre h1 {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.35);
+    white-space: nowrap;
+}
+
+.retro-titre .ki-count {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* ===== FRISE : un cran par version, chacun à la même place ; chaque cran trace son bout de ligne, ce qui laisse la
+   frise passer sur une seconde ligne quand la place manque ===== */
+.retro-frise {
+    margin: 4px 0 10px;
+    padding-top: 6px;
+}
+
+.retro-frise ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.retro-frise li {
+    position: relative;
+    flex: 1 1 0;
+    min-width: min-content;
+    text-align: center;
+}
+
+.retro-frise li::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    right: 0;
+    left: 0;
+    border-top: 2px solid var(--ki-border);
+}
+
+/* Un grand vide entre deux versions, écrit en toutes lettres sous un pointillé */
+.retro-frise .retro-vide {
+    flex: 0 0 auto;
+    min-width: 74px;
+    padding: 22px 4px 0;
+    color: var(--retro-discret);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.retro-frise .retro-vide::before {
+    right: 4px;
+    left: 4px;
+    border-top-style: dotted;
+}
+
+/* Le cran : son point, son nom, sa date ; le contour du clavier l'entoure au plus près */
+.retro-frise ol a {
+    display: inline-block;
+    padding: 0 4px 4px;
+    vertical-align: top;
+}
+
+.retro-point {
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin: 3px auto 6px;
+    border: 2px solid var(--ki-acc);
+    background: var(--ki-bg);
+}
+
+.retro-nom {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Crochets du cran affiché, sans voix (texte de remplacement vide, voir .ki-item::before de portal.css) ; leur place
+   est gardée sur les autres crans : rien ne bouge quand on change de version */
+.retro-nom::before {
+    content: "[ ";
+    content: "[ " / "";
+}
+
+.retro-nom::after {
+    content: " ]";
+    content: " ]" / "";
+}
+
+.retro-frise ol a:not([aria-current]) .retro-nom::before,
+.retro-frise ol a:not([aria-current]) .retro-nom::after {
+    visibility: hidden;
+}
+
+.retro-date {
+    display: block;
+    color: var(--retro-discret);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* Cran affiché : point plein et lumineux, nom en ambre entre crochets */
+.retro-frise ol a[aria-current] .retro-point {
+    background: var(--ki-acc);
+    box-shadow: 0 0 8px rgba(255, 176, 0, 0.7);
+}
+
+.retro-frise ol a[aria-current] .retro-nom {
+    color: var(--ki-acc);
+}
+
+/* Version d'avant à gauche, version d'après à droite (même seule), qui passe à la ligne si la place manque */
+.retro-suite {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    margin: 2px 0 8px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.retro-suivante {
+    margin-left: auto;
+}
+
+/* ===== SCÈNE : la version à gauche, son étiquette et les notes à droite ===== */
+.retro-scene {
+    display: grid;
+    flex: 1 0 auto;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 20px;
+    min-height: 420px;
+}
+
+.retro-fenetre {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 8px;
+    border: 2px dashed var(--ki-border);
+    background: rgba(18, 9, 0, 0.6);
+}
+
+.retro-fenetre-titre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 6px;
+    color: var(--ki-acc);
+    font-size: 13px;
+    zoom: var(--retro-zoom);
+}
+
+.retro-fenetre-titre .ki-dotline {
+    min-width: 1em;
+}
+
+.retro-fenetre-titre > :last-child {
+    white-space: nowrap;
+}
+
+/* Le cadre : une fenêtre de navigateur, blanche tant que la page n'a pas peint son propre fond */
+.retro-cadre {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    border: 0;
+    background: #fff;
+}
+
+/* Raccourci « Passer la version », visible au seul focus, posé sur le coin haut gauche du cadre */
+.retro-passer:not(:focus) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.retro-passer:focus {
+    position: absolute;
+    top: 40px;
+    left: 16px;
+    z-index: 10;
+    padding: 10px 16px;
+    border: 2px solid var(--ki-acc);
+    background: rgba(18, 9, 0, 0.92);
+    color: var(--ki-fg);
+    font-weight: bold;
+    zoom: var(--retro-zoom);
+}
+
+.retro-etiquettes {
+    min-width: 0;
+    padding: 14px 16px;
+    border: 2px dashed var(--ki-border);
+    background: rgba(18, 9, 0, 0.6);
+    font-size: 13px;
+    line-height: 1.5;
+    zoom: var(--retro-zoom);
+}
+
+/* Sans JavaScript, toutes les étiquettes l'une sous l'autre, séparées d'un pointillé */
+.retro-version:not([hidden]) ~ .retro-version:not([hidden]) {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--ki-border);
+}
+
+/* Le nom de la version, en titre des pages cachées mais avec sa casse : en capitales, Chrome le donne aussi en
+   capitales aux lecteurs d'écran (« JANV. 2026 ») */
+.retro-version > h2 {
+    margin-bottom: 12px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: none;
+}
+
+/* L'étiquette : des faits, en petit ; « quand : … », comme « source : … » au-dessus de la version */
+.retro-etiquette {
+    margin: 0 0 10px;
+    font-size: 12px;
+}
+
+.retro-etiquette > div {
+    margin: 0 0 6px;
+}
+
+.retro-etiquette dt,
+.retro-etiquette dd {
+    display: inline;
+    margin: 0;
+}
+
+.retro-etiquette dt {
+    color: var(--retro-discret);
+}
+
+.retro-etiquette dt::after {
+    content: "\a0: ";
+    content: "\a0: " / "";
+}
+
+.retro-version .ki-list {
+    margin: 0;
+}
+
+/* Une citation qui ne se coupe pas (Firefox couperait après la barre oblique de « /En travaux/ ») */
+.retro-entier {
+    white-space: nowrap;
+}
+
+/* Notes de Youen : rien tant qu'il n'a rien écrit */
+.retro-notes:empty {
+    display: none;
+}
+
+/* ===== FENÊTRE ÉTROITE : les notes passent sous la version ===== */
+@media (max-width: 999.98px) {
+    .retro-scene {
+        display: block;
+        min-height: 0;
+    }
+
+    .retro-cadre {
+        flex: none;
+        height: 60vh;
+        height: 60svh;
+    }
+
+    .retro-etiquettes {
+        margin-top: 14px;
+    }
+}
+
+/* ===== TÉLÉPHONE : texte à sa taille, noms seuls sur la frise (la date de la version affichée est au-dessus du
+   cadre), titre et compteur qui passent l'un sous l'autre si la place manque. Avec ses onze crans, la frise tiendra
+   sur deux lignes à 390 et 320 px dans les quatre polices (essayé le 2 novembre 2026). ===== */
+@media (max-width: 700px) {
+    :root {
+        --retro-zoom: 1;
+    }
+
+    .retro-racine {
+        padding: 0 12px 12px;
+    }
+
+    /* Retour à droite de la première ligne de la barre (portal.css la passe sur deux lignes) */
+    .retro-retour {
+        grid-row: 1;
+        grid-column: 2;
+        justify-self: end;
+    }
+
+    .retro-titre {
+        flex-wrap: wrap;
+        row-gap: 2px;
+    }
+
+    .retro-titre h1 {
+        font-size: 18px;
+    }
+
+    .retro-titre .ki-count {
+        margin-left: auto;
+        font-size: 12px;
+    }
+
+    /* Titre du cadre : la source passe à la ligne, à droite, si la place manque */
+    .retro-fenetre-titre {
+        flex-wrap: wrap;
+        row-gap: 2px;
+    }
+
+    .retro-fenetre-titre .ki-dotline {
+        flex: 1 1 1em;
+    }
+
+    .retro-fenetre-titre > :last-child {
+        margin-left: auto;
+    }
+
+    .retro-frise time {
+        display: none;
+    }
+
+    .retro-nom {
+        font-size: 12px;
+    }
+
+    /* Frise resserrée : sans crochets (le point plein désigne le cran affiché), vides sans points de suspension */
+    .retro-nom::before,
+    .retro-nom::after,
+    .retro-suspension {
+        display: none;
+    }
+
+    .retro-frise .retro-vide {
+        min-width: 0;
+    }
+}
+
+/* ===== RÉGLAGES DU VISITEUR ===== */
+/* Animations éteintes (mouvement.js) : le titre ne glisse pas quand le menu des polices s'ouvre */
+:root[data-mouvement="reduit"] .retro-titre {
+    transition: none;
+}
+
+/* Plus de contraste demandé : le texte secondaire prend la couleur du texte */
+@media (prefers-contrast: more) {
+    :root {
+        --retro-discret: var(--ki-fg);
+    }
+}
+
+/* Couleurs imposées (contraste élevé de Windows) : le point du cran affiché reste plein */
+@media (forced-colors: active) {
+    .retro-point {
+        forced-color-adjust: none;
+        border-color: CanvasText;
+        background: Canvas;
+    }
+
+    .retro-frise ol a[aria-current] .retro-point {
+        border-color: Highlight;
+        background: Highlight;
+        box-shadow: none;
+    }
+}

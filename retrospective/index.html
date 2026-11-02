@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Rétrospective&nbsp;: les versions successives de l'accueil, une frise et des notes">
+    <meta name="author" content="Youen Lassiaz">
+    <meta name="theme-color" content="#120900">
+    <meta name="robots" content="noindex">
+
+    <title>Youen | Rétrospective</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-perso-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/icons/favicon-perso-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon-perso.png">
+
+    <!-- Animations allumées ou éteintes, posé avant le premier affichage -->
+    <script src="../assets/js/mouvement.js"></script>
+    <link rel="stylesheet" href="../assets/css/polices.css">
+    <link rel="stylesheet" href="../assets/css/portal.css">
+    <link rel="stylesheet" href="../assets/css/retrospective.css">
+    <script>
+        // Police choisie dans le menu des pages perso (clé « perso-font » de portal.js), appliquée avant le premier
+        // affichage. Clé inconnue ou stockage refusé par le navigateur : PxPlus, la police par défaut de polices.css.
+        try {
+            const cle = localStorage.getItem('perso-font');
+            const racine = document.documentElement;
+            if (cle && getComputedStyle(racine).getPropertyValue(`--font-${cle}`)) {
+                racine.style.setProperty('--ki-font', `var(--font-${cle})`);
+            }
+        } catch {
+            // La police par défaut reste
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="retro-racine">
+
+        <header class="retro-haut">
+
+            <!-- BARRE DU HAUT : polices et animations (portal.js), retour -->
+            <div class="ki-header">
+                <div class="ki-toolbar">
+                    <div class="ki-fontrow">
+                        <span class="ki-label" id="font-label">Font :</span>
+                        <div class="retro-menu-polices">
+                            <button type="button" class="ki-trigger" id="font-trigger" aria-haspopup="menu"
+                                aria-expanded="false" aria-controls="font-menu"
+                                aria-labelledby="font-label current-font-name">
+                                <span class="ki-lb">[</span>
+                                <span class="ki-current" id="current-font-name">PxPlus_IBM_VGA8</span>
+                                <span class="ki-rb">]</span>
+                            </button>
+                            <div class="ki-menu" id="font-menu" role="menu" aria-labelledby="font-label">
+                                <div class="ki-item" role="menuitem" tabindex="-1" data-font="PXVGA8">PxPlus_IBM_VGA8</div>
+                                <div class="ki-item" role="menuitem" tabindex="-1" data-font="CascadiaMono">Cascadia Mono</div>
+                                <div class="ki-item" role="menuitem" tabindex="-1" data-font="Tenebris">Tenebris</div>
+                                <div class="ki-item" role="menuitem" tabindex="-1" data-font="TerminalGothic">Terminal Gothic</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interrupteur des animations (état : mouvement.js ; bouton : portal.js) : il vaut aussi pour la
+                         version « Aujourd'hui » affichée dans le cadre ; les versions plus anciennes gardent les
+                         animations de leur époque -->
+                    <button type="button" class="ki-animrow" id="anim-toggle" aria-pressed="true">
+                        <span class="ki-label">Animations<span aria-hidden="true"> :</span></span>
+                        <span class="ki-trigger" aria-hidden="true">[ <span class="ki-anim-on">ON</span><span
+                                class="ki-anim-off">OFF</span> ]</span>
+                    </button>
+
+                    <a class="retro-retour" href="../perso.html" aria-label="Retour Index Perso"><span
+                            aria-hidden="true">&lt;&lt;</span> Retour</a>
+                </div>
+            </div>
+
+            <div class="ki-titlebar retro-titre">
+                <h1>INDEX :: RÉTROSPECTIVE</h1>
+                <div class="ki-dotline"></div>
+                <span class="ki-count" data-count="versions">002 version(s)</span><!-- valeur de secours, recalculée par retrospective.js -->
+            </div>
+
+            <!-- FRISE : un cran par version, dans l'ordre du temps ; les grands vides sont écrits en toutes lettres.
+                 Ajouter une version : un <li> ici et son <article> dans les étiquettes, plus bas. -->
+            <nav class="retro-frise" aria-label="Versions de l'accueil">
+                <ol>
+                    <li>
+                        <a href="#janv-2026">
+                            <span class="retro-point"></span>
+                            <span class="retro-nom">Janv. 2026</span>
+                            <span class="retro-date"><time datetime="2026-01-02" aria-hidden="true">2 janv. 2026</time><span
+                                    class="retro-lu">, 2 janvier 2026</span></span>
+                        </a>
+                    </li>
+                    <li class="retro-vide"><span class="retro-suspension" aria-hidden="true">... </span>9 mois<span
+                            class="retro-suspension" aria-hidden="true"> ...</span></li>
+                    <li>
+                        <a href="#aujourd-hui" aria-current="true">
+                            <span class="retro-point"></span>
+                            <span class="retro-nom">Aujourd'hui</span>
+                            <span class="retro-date"><time datetime="2026-10-21" aria-hidden="true">21 oct. 2026</time><span
+                                    class="retro-lu">, depuis le 21 octobre 2026</span></span>
+                        </a>
+                    </li>
+                </ol>
+
+                <!-- Version d'avant, version d'après (adresses et noms tenus à jour par retrospective.js) -->
+                <div class="retro-suite">
+                    <a class="retro-precedente" href="#janv-2026"><span aria-hidden="true">&lt;&lt; </span>Version
+                        précédente<span class="retro-lu">, Janv. 2026</span></a>
+                    <a class="retro-suivante" hidden>Version suivante<span class="retro-lu"></span><span
+                            aria-hidden="true"> &gt;&gt;</span></a>
+                </div>
+            </nav>
+
+        </header>
+
+        <main class="retro-scene">
+
+            <!-- LA VERSION CHOISIE, affichée pour de vrai dans un cadre -->
+            <section class="retro-fenetre" aria-label="Version affichée">
+                <p class="retro-fenetre-titre">
+                    <span><span aria-hidden="true">[ </span><span id="retro-fenetre-nom">Aujourd'hui</span><span
+                            aria-hidden="true"> ]</span> <span id="retro-fenetre-periode">depuis le 21 octobre 2026</span></span>
+                    <span class="ki-dotline"></span>
+                    <span>source&nbsp;: <span id="retro-fenetre-source">GitHub</span></span>
+                </p>
+                <a class="retro-passer" href="#retro-etiquettes">Passer la version, aller à son étiquette</a>
+                <iframe class="retro-cadre" src="2026-10-21/" title="Accueil, version d'aujourd'hui"></iframe>
+            </section>
+
+            <!-- ÉTIQUETTES ET NOTES : un article par version. L'étiquette (faits seulement) est écrite par Hermes ; les
+                 notes sont de la plume de Youen, en texte seul, et n'apparaissent que lorsqu'il les a écrites. Sans
+                 JavaScript, toutes les étiquettes restent visibles, chacune avec le lien vers sa version. -->
+            <aside class="retro-etiquettes" id="retro-etiquettes" aria-label="Étiquette et notes">
+
+                <article class="retro-version" id="janv-2026" aria-labelledby="janv-2026-titre"
+                    data-cadre="2026-01-02/" data-titre-cadre="Accueil, version de janvier 2026">
+                    <h2 class="ki-section-title" id="janv-2026-titre" tabindex="-1">Janv. 2026</h2>
+                    <dl class="retro-etiquette">
+                        <div>
+                            <dt>quand</dt>
+                            <dd data-champ="periode">du 2 janvier au 20 octobre 2026</dd>
+                        </div>
+                        <div>
+                            <dt>source</dt>
+                            <dd data-champ="source">GitHub</dd>
+                        </div>
+                        <div>
+                            <dt>ce qui change</dt>
+                            <dd>le site passe sur GitHub Pages, à l'adresse lassiazyouen.page&nbsp;; textes
+                                <span class="retro-entier">«&nbsp;/En travaux/&nbsp;»</span>&nbsp;; livre d'or ouvert sur les messages publics</dd>
+                        </div>
+                        <div>
+                            <dt>livre d'or</dt>
+                            <dd>en lecture seule&nbsp;: les messages publics d'avant le 21 octobre 2026</dd>
+                        </div>
+                    </dl>
+                    <ul class="ki-list">
+                        <li><a href="2026-01-02/">Afficher cette version en pleine page</a></li>
+                        <li><a href="https://github.com/Jasonette1/mon-portfolio.v2/tree/6fa56bd" target="_blank"
+                                rel="noopener noreferrer" aria-label="Voir son code sur GitHub (nouvelle fenêtre)">Voir
+                                son code sur GitHub</a></li>
+                    </ul>
+                    <div class="retro-notes"><!-- Notes de Youen sur cette version, quand il les aura écrites --></div>
+                </article>
+
+                <article class="retro-version" id="aujourd-hui" aria-labelledby="aujourd-hui-titre"
+                    data-cadre="2026-10-21/" data-titre-cadre="Accueil, version d'aujourd'hui">
+                    <h2 class="ki-section-title" id="aujourd-hui-titre" tabindex="-1">Aujourd'hui</h2>
+                    <dl class="retro-etiquette">
+                        <div>
+                            <dt>quand</dt>
+                            <dd data-champ="periode">depuis le 21 octobre 2026</dd>
+                        </div>
+                        <div>
+                            <dt>source</dt>
+                            <dd data-champ="source">GitHub</dd>
+                        </div>
+                        <div>
+                            <dt>ce qui change</dt>
+                            <dd>le livre d'or s'ouvre en mode privé&nbsp;; trois retouches de texte (deux accents,
+                                «&nbsp;Certains droits réservés&nbsp;»)&nbsp;; cette copie est finalisée pour les lecteurs
+                                d'écran, le contraste et le clavier, sans changer d'aspect</dd>
+                        </div>
+                        <div>
+                            <dt>livre d'or</dt>
+                            <dd>ouvert&nbsp;: un message écrit d'ici porte la mention «&nbsp;écrit depuis la
+                                Rétrospective&nbsp;»</dd>
+                        </div>
+                    </dl>
+                    <ul class="ki-list">
+                        <li><a href="2026-10-21/">Afficher cette version en pleine page</a></li>
+                        <li><a href="https://github.com/Jasonette1/mon-portfolio.v2/commits/main/index.html"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Voir l'historique de l'accueil sur GitHub (nouvelle fenêtre)">Voir
+                                l'historique de l'accueil sur GitHub</a></li>
+                    </ul>
+                    <div class="retro-notes"><!-- Notes de Youen sur cette version, quand il les aura écrites --></div>
+                </article>
+
+            </aside>
+
+            <!-- Annonce, pour les lecteurs d'écran, de la version affichée quand le focus ne bouge pas (clic, Entrée,
+                 version d'avant ou d'après, bouton Précédent du navigateur) -->
+            <p class="retro-lu" id="retro-annonce" role="status"></p>
+
+        </main>
+    </div>
+
+    <!-- SCRIPTS : Portal (menu des polices, interrupteur des animations), Rétrospective (frise, cadre, adresse) -->
+    <script src="../assets/js/portal.js"></script>
+    <script src="../assets/js/retrospective.js"></script>
+
+</body>
+
+</html>
