@@ -92,7 +92,8 @@ Voici un aperçu de l'organisation des fichiers sources :
 ├── musee.html          # Expérience 3D interactive (Temple/Musée)
 ├── galerie.html        # Galerie (en travaux), ouverte par l'ordinateur du musée
 ├── retrospective/      # Rétrospective : frise des versions successives de l'accueil (index.html), chacune dans son dossier
-│                       # avec ses fichiers (2026-01-02/ : janvier 2026 ; 2026-10-21/ : la version actuelle)
+│                       # avec ses fichiers (2025-12-26/ : décembre 2025 ; 2026-01-02/ : janvier 2026 ;
+│                       # 2026-10-21/ : la version actuelle)
 ├── CNAME               # Domaine personnalisé pour GitHub Pages
 ├── LICENSE             # Licence MIT du code
 ├── .gitattributes      # Fins de ligne des fichiers texte
