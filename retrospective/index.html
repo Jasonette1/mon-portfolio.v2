@@ -80,13 +80,21 @@
             <div class="ki-titlebar retro-titre">
                 <h1>INDEX :: RÉTROSPECTIVE</h1>
                 <div class="ki-dotline"></div>
-                <span class="ki-count" data-count="versions">002 version(s)</span><!-- valeur de secours, recalculée par retrospective.js -->
+                <span class="ki-count" data-count="versions">003 version(s)</span><!-- valeur de secours, recalculée par retrospective.js -->
             </div>
 
             <!-- FRISE : un cran par version, dans l'ordre du temps ; les grands vides sont écrits en toutes lettres.
                  Ajouter une version : un <li> ici et son <article> dans les étiquettes, plus bas. -->
             <nav class="retro-frise" aria-label="Versions de l'accueil">
                 <ol>
+                    <li>
+                        <a href="#dec-2025">
+                            <span class="retro-point"></span>
+                            <span class="retro-nom">Déc. 2025</span>
+                            <span class="retro-date"><time datetime="2025-12-26" aria-hidden="true">26 déc. 2025</time><span
+                                    class="retro-lu">, 26 décembre 2025</span></span>
+                        </a>
+                    </li>
                     <li>
                         <a href="#janv-2026">
                             <span class="retro-point"></span>
@@ -136,6 +144,40 @@
                  notes sont de la plume de Youen, en texte seul, et n'apparaissent que lorsqu'il les a écrites. Sans
                  JavaScript, toutes les étiquettes restent visibles, chacune avec le lien vers sa version. -->
             <aside class="retro-etiquettes" id="retro-etiquettes" aria-label="Étiquette et notes">
+
+                <article class="retro-version" id="dec-2025" aria-labelledby="dec-2025-titre"
+                    data-cadre="2025-12-26/" data-titre-cadre="Accueil, version de décembre 2025">
+                    <h2 class="ki-section-title" id="dec-2025-titre" tabindex="-1">Déc. 2025</h2>
+                    <dl class="retro-etiquette">
+                        <div>
+                            <dt>quand</dt>
+                            <dd><span data-champ="periode">du 26 décembre 2025 au 1er janvier 2026</span>&nbsp;; remplacée le
+                                2 janvier 2026 par la version GitHub, elle est restée en ligne à l'adresse Netlify jusqu'au
+                                21 octobre 2026</dd>
+                        </div>
+                        <div>
+                            <dt>source</dt>
+                            <dd data-champ="source">Netlify</dd>
+                        </div>
+                        <div>
+                            <dt>ce qui change</dt>
+                            <dd>le livre d'or apparaît, avec son lien dans le menu&nbsp;; le site gagne une partie cachée,
+                                derrière cette page</dd>
+                        </div>
+                        <div>
+                            <dt>livre d'or</dt>
+                            <dd>en lecture seule&nbsp;: les messages publics d'avant le 2 janvier 2026</dd>
+                        </div>
+                    </dl>
+                    <ul class="ki-list">
+                        <li><a href="2025-12-26/">Afficher cette version en pleine page</a></li>
+                        <li><a href="https://github.com/Jasonette1/mon-portfolio.v2/blob/ffd93f0/retrospective/2025-12-26/index.html"
+                                target="_blank" rel="noopener noreferrer"
+                                aria-label="Voir son code d'époque sur GitHub (nouvelle fenêtre)">Voir son code d'époque
+                                sur GitHub</a></li>
+                    </ul>
+                    <div class="retro-notes"><!-- Notes de Youen sur cette version, quand il les aura écrites --></div>
+                </article>
 
                 <article class="retro-version" id="janv-2026" aria-labelledby="janv-2026-titre"
                     data-cadre="2026-01-02/" data-titre-cadre="Accueil, version de janvier 2026">
