@@ -10,34 +10,22 @@
         content="pédagogie, éducation, sciences de l'éducation, technologies éducatives, innovation pédagogique, self-made man">
     <meta name="author" content="Youen Lassiaz">
     <meta name="apple-mobile-web-app-title" content="Edu-Lassiazyouen">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noindex">
     <meta name="theme-color" content="#B3C7D6">
 
-    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/web-app-manifest-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/web-app-manifest-512x512.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/web-app-manifest-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-    <link rel="manifest" href="assets/icons/site.webmanifest">
-
-    <meta property="og:title" content="Edu-Lassiazyouen | Pédagogie Innovante">
-    <meta property="og:description" content="Pédagogie Innovante & Création de Contenus Éducatifs">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://edu-lassiazyouen.netlify.app/">
-    <meta property="og:image" content="https://edu-lassiazyouen.netlify.app/images/image-og.jpg">
-    <meta property="og:locale" content="fr_FR">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icons/web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../../assets/icons/web-app-manifest-512x512.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96x96.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval';">
-
-    <link rel="canonical" href="https://edu-lassiazyouen.netlify.app/">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline';">
 
     <title> Édu - Lassiaz Youen | Pédagogie Innovante </title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/libs/fontawesome-free-6.0.0/css/all.min.css">
 
     <style>
         /* ===== VARIABLES ===== */
@@ -831,6 +819,9 @@
                                 placeholder="Écrivez votre message ici..." maxlength="280" required></textarea>
                         </div>
                         <button type="submit" class="btn-submit" id="submitBtn">Publier le message</button>
+                        <!-- Archive en lecture seule : ce que dit le bouton quand on essaie d'écrire, répété pour les
+                             lecteurs d'écran (script du livre d'or, plus bas) -->
+                        <p id="guestbook-status" class="sr-only" role="status"></p>
                     </form>
                 </div>
 
@@ -849,16 +840,18 @@
                     <i class="fas fa-envelope fa-2x" aria-hidden="true"></i>
                     <span class="sr-only">Envoyer un email</span>
                 </a>
-                <a href="https://www.linkedin.com/in/youenlassiaz-education/" rel="noopener noreferrer"
-                    class="contact-link" aria-label="Profil LinkedIn (nouvelle fenêtre)">
+                <a href="https://www.linkedin.com/in/youenlassiaz-education/" class="contact-link" target="_blank"
+                    rel="noopener noreferrer" aria-label="Profil LinkedIn (nouvelle fenêtre)">
                     <i class="fab fa-linkedin fa-2x" aria-hidden="true"></i>
                     <span class="sr-only">Profil LinkedIn</span>
                 </a>
-                <a href="https://github.com/Jasonette1" class="contact-link">
+                <a href="https://github.com/Jasonette1" class="contact-link" target="_blank" rel="noopener noreferrer"
+                    aria-label="Profil GitHub (nouvelle fenêtre)">
                     <i class="fab fa-github fa-2x" aria-hidden="true"></i>
                     <span class="sr-only">Profil GitHub</span>
                 </a>
-                <a href="https://independent.academia.edu/YouenLASSIAZ" class="contact-link" target="_blank">
+                <a href="https://independent.academia.edu/YouenLASSIAZ" class="contact-link" target="_blank"
+                    rel="noopener noreferrer" aria-label="Profil Academia.edu (nouvelle fenêtre)">
                     <i class="fa fa-university fa-2x" aria-hidden="true"></i>
                     <span class="sr-only">Profil Academia.edu</span>
                 </a>
@@ -984,15 +977,29 @@
         });
     </script>
 
+    <!-- Le SDK Firebase 10.7.1 est hébergé dans le site (fichiers officiels, non modifiés) : la carte d'import sert
+         depuis le site toutes ses adresses gstatic.com, celles du livre d'or comme celle que firebase-firestore.js
+         écrit en dur. Un navigateur sans carte d'import les prend sur gstatic.com, comme à l'époque. -->
+    <script type="importmap">
+        {
+            "imports": {
+                "https://www.gstatic.com/firebasejs/10.7.1/": "../../assets/js/libs/firebase-10.7.1/"
+            }
+        }
+    </script>
+
     <script type="module">
-        // Importation des fonctions Firebase
+        // Copie de la Rétrospective, version de décembre 2025 : une archive. Son livre d'or montre les messages
+        // publics qu'on y lisait à l'époque et n'écrit jamais rien (on écrit dans la version « Aujourd'hui »).
+
+        // Importation des fonctions Firebase (lecture seule)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import {
             getFirestore,
             collection,
-            addDoc,
             onSnapshot,
             query,
+            where,
             orderBy,
             limit
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -1019,9 +1026,14 @@
         const form = document.getElementById('guestbook-form');
         const messagesContainer = document.getElementById('messages-list');
         const submitBtn = document.getElementById('submitBtn');
+        const statut = document.getElementById('guestbook-status'); // annonces pour les lecteurs d'écran
 
         // --- 1. AFFICHAGE DES MESSAGES (TEMPS RÉEL) ---
-        const q = query(collection(db, "guestbook"), orderBy("timestamp", "desc"), limit(50));
+        // Archive : les messages publics datés d'avant le 2 janvier 2026 à 0 h, heure de Paris (UTC+1), ceux qu'on
+        // lisait sur l'accueil à l'époque ; le filtre et le tri portent sur le même champ (aucun index composé)
+        const finDeLaVersion = Date.UTC(2026, 0, 1, 23);
+        const q = query(collection(db, "guestbook"), where("timestamp", "<", finDeLaVersion),
+            orderBy("timestamp", "desc"), limit(50));
 
         onSnapshot(q, (snapshot) => {
             messagesContainer.innerHTML = ''; // Nettoyer l'affichage
@@ -1069,69 +1081,31 @@
             return temp.innerHTML;
         }
 
-        // --- 2. ENVOI DE MESSAGE ---
-        form.addEventListener('submit', async (e) => {
+        // --- 2. ENVOI DE MESSAGE : RIEN NE PART (ARCHIVE) ---
+        // Le bouton le dit, à la place où la page d'époque affichait « Envoi en cours... », et les lecteurs d'écran
+        // l'entendent ; le texte écrit reste dans les cases, pour qui veut le reprendre dans « Aujourd'hui ». Le bouton
+        // retrouve son nom dès qu'on retouche le formulaire.
+        // (\u00a0 : espaces insécables devant « : » et dans les guillemets)
+        let annonce = 0;
+
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const nameInput = document.getElementById('authorName');
-            const contentInput = document.getElementById('messageContent');
-            const name = nameInput.value.trim();
-            const content = contentInput.value.trim();
-
-            if (!name || !content) return;
-
-            // UI : Désactiver le bouton pendant l'envoi
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Envoi en cours...";
-
-            try {
-                await addDoc(collection(db, "guestbook"), {
-                    author_name: name,
-                    content: content,
-                    timestamp: Date.now()
-                });
-
-                // Reset du formulaire
-                nameInput.value = '';
-                contentInput.value = '';
-                submitBtn.textContent = "Message envoyé !";
-
-                // Remettre le bouton normal après 2 secondes
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "Publier le message";
-                }, 2000);
-
-            } catch (error) {
-                console.error("Erreur d'envoi :", error);
-                submitBtn.textContent = "Erreur, réessayez.";
-                submitBtn.disabled = false;
-            }
-        });
-    </script>
-
-    <script>
-        // --- EASTER EGG 1: LE MOT DE PASSE ---
-        // Tapez "jaspe" n'importe où sur la page pour accéder à la section secrète
-        const secretCode = 'jaspe';
-        let inputSequence = '';
-
-        document.addEventListener('keydown', (e) => {
-            // Ajoute la touche à la séquence
-            inputSequence += e.key.toLowerCase();
-
-            // Si la séquence devient trop longue, on garde juste la fin
-            if (inputSequence.length > secretCode.length) {
-                inputSequence = inputSequence.slice(-secretCode.length);
-            }
-
-            // Vérification
-            if (inputSequence === secretCode) {
-                window.location.href = 'perso.html';
-            }
+            submitBtn.textContent = "Archive\u00a0: écrivez dans «\u00a0Aujourd'hui\u00a0»";
+            // Vidée puis remplie un instant après : la même annonce est redite à chaque essai
+            statut.textContent = '';
+            clearTimeout(annonce);
+            annonce = setTimeout(() => {
+                statut.textContent = "Rien n'est parti\u00a0: cette version de décembre 2025 est une archive, "
+                    + "son livre d'or se lit sans s'écrire. Pour laisser un message, choisissez "
+                    + "«\u00a0Aujourd'hui\u00a0» sur la frise de la Rétrospective.";
+            }, 100);
         });
 
-
+        form.addEventListener('input', () => {
+            clearTimeout(annonce);
+            submitBtn.textContent = "Publier le message";
+            statut.textContent = '';
+        });
     </script>
 </body>
 
