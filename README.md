@@ -92,8 +92,8 @@ Voici un aperçu de l'organisation des fichiers sources :
 ├── musee.html          # Expérience 3D interactive (Temple/Musée)
 ├── galerie.html        # Galerie (en travaux), ouverte par l'ordinateur du musée
 ├── retrospective/      # Rétrospective : frise des versions successives de l'accueil (index.html), chacune dans son dossier
-│                       # avec ses fichiers (2025-12-26/ : décembre 2025 ; 2026-01-02/ : janvier 2026 ;
-│                       # 2026-10-21/ : la version actuelle)
+│                       # avec ses fichiers (2025-02-02-v1/ à 2025-02-11-v8/ : les huit versions de février 2025 ;
+│                       # 2025-12-26/ : décembre 2025 ; 2026-01-02/ : janvier 2026 ; 2026-10-21/ : la version actuelle)
 ├── CNAME               # Domaine personnalisé pour GitHub Pages
 ├── LICENSE             # Licence MIT du code
 ├── .gitattributes      # Fins de ligne des fichiers texte
@@ -137,6 +137,7 @@ Ce dépôt réunit trois sortes de contenus :
 | Miniatures des playlists YouTube (`assets/img/thumb_*.jpg`) | Les auteurs des vidéos | Droits de leurs auteurs |
 | Font Awesome Free 6.0.0 (`assets/libs/fontawesome-free-6.0.0/`, pour la Rétrospective ; l'accueil le charge encore depuis cdnjs) | [Fonticons](https://fontawesome.com/license/free) | Icônes CC BY 4.0, polices SIL OFL 1.1, code MIT ; texte joint |
 | SDK web de Firebase 10.7.1 (`assets/js/libs/firebase-10.7.1/`, pour la Rétrospective ; l'accueil le charge encore depuis gstatic.com) | [Google](https://github.com/firebase/firebase-js-sdk) | Apache 2.0, texte joint |
+| Icônes LinkedIn et GitHub de Bootstrap Icons (dans les versions V2 et V3 de la Rétrospective, `retrospective/2025-02-02-v2/` et `2025-02-03-v3/`) | [The Bootstrap Authors](https://github.com/twbs/icons) | [MIT](https://github.com/twbs/icons/blob/main/LICENSE) ; logos, marques de LinkedIn et de GitHub |
 
 Les noms et marques cités (*Portal* et Aperture Science de Valve, *Serial Experiments Lain*, *Aku no Hana*, *2001 : l'Odyssée de l'espace*, les services de la page des sites utiles) appartiennent à leurs propriétaires.
 
