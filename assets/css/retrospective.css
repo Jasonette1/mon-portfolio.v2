@@ -133,6 +133,20 @@ body {
     border-top-style: dotted;
 }
 
+/* Frise trop longue pour une ligne (classe posée par retrospective.js) : elle passe à la ligne au grand vide marqué
+   « chapitre » plutôt que là où la place manque. Le pseudo-élément, de toute la largeur, impose le retour à la ligne ;
+   les crans restent dans l'ordre du HTML */
+.retro-frise .retro-en-chapitres::after {
+    content: "";
+    flex-basis: 100%;
+    order: 1;
+}
+
+.retro-en-chapitres > .retro-chapitre,
+.retro-en-chapitres > .retro-chapitre ~ li {
+    order: 2;
+}
+
 /* Le cran : son point, son nom, sa date ; le contour du clavier l'entoure au plus près. Placé au-dessus de la ligne
    (positionnée elle aussi) : le point la cache et un clic sur le point choisit bien la version */
 .retro-frise ol a {
@@ -360,8 +374,8 @@ body {
 }
 
 /* ===== TÉLÉPHONE : texte à sa taille, noms seuls sur la frise (la date de la version affichée est au-dessus du
-   cadre), titre et compteur qui passent l'un sous l'autre si la place manque. Avec ses onze crans, la frise tiendra
-   sur deux lignes à 390 et 320 px dans les quatre polices (essayé le 2 novembre 2026). ===== */
+   cadre), titre et compteur qui passent l'un sous l'autre si la place manque. Avec ses onze crans, la frise tient
+   sur deux lignes à 390 et 320 px dans les quatre polices (mesuré le 6 novembre 2026). ===== */
 @media (max-width: 700px) {
     :root {
         --retro-zoom: 1;

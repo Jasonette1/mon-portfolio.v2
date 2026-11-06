@@ -4,7 +4,8 @@
  * son étiquette à droite, et s'écrit dans l'adresse (#janv-2026, #aujourd-hui…) : un lien partagé ou le bouton
  * Précédent du navigateur y ramènent. Sans ancre, la page s'ouvre sur la dernière version, « Aujourd'hui ».
  * Tout le contenu est dans le HTML, un <li> de frise et un <article> par version (même id que l'ancre du cran) : sans
- * ce script, la page montre toutes les étiquettes, chacune avec le lien vers sa version.
+ * ce script, la page montre toutes les étiquettes, chacune avec le lien vers sa version. Trop longue pour une ligne,
+ * la frise passe à la ligne au grand vide marqué « retro-chapitre ».
  * Chargé en fin de page : il règle l'affichage avant que la page ait fini de se construire.
  */
 (() => {
@@ -33,6 +34,25 @@
     // --- COMPTEUR « N version(s) » : le chiffre écrit dans le HTML n'est qu'une valeur de secours ---
     const compteur = document.querySelector('[data-count="versions"]');
     if (compteur) compteur.textContent = `${String(crans.length).padStart(3, '0')} version(s)`;
+
+    // --- FRISE TROP LONGUE POUR UNE LIGNE : elle passe à la ligne au grand vide marqué « retro-chapitre » (février
+    // 2025 en haut, la suite dessous) plutôt que là où la place manque, sauf si cela lui coûte une ligne de plus ---
+    if (frise.querySelector('.retro-chapitre')) {
+        const lignes = () => new Set([...frise.children].map((li) => li.offsetTop)).size;
+        const couper = () => {
+            frise.classList.remove('retro-en-chapitres');
+            const sansCoupure = lignes();
+            if (sansCoupure === 1) return;
+            frise.classList.add('retro-en-chapitres');
+            if (lignes() > sansCoupure) frise.classList.remove('retro-en-chapitres');
+        };
+        // Revu quand la fenêtre change de largeur et quand un cran change de taille (police choisie ou chargée,
+        // dates cachées au téléphone) ; un cran garde sa taille quand la frise se coupe : la mesure ne se relance pas
+        // elle-même. La première mesure vient avant le premier affichage.
+        const observateur = new ResizeObserver(couper);
+        frise.querySelectorAll('a, .retro-vide').forEach((element) => observateur.observe(element));
+        window.addEventListener('resize', couper);
+    }
 
     // Lien « version d'avant » ou « d'après » : vers le cran voisin, ou caché au bout de la frise
     function relier(lien, cible) {
