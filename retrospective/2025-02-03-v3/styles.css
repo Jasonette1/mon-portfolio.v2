@@ -1,0 +1,248 @@
+/* Reset étendu et variables CSS */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Light theme */
+    --primary-color: #2E7D32;
+    --secondary-color: #1B5E20;
+    --text-color: #2D3436;
+    --background-color: #FFFFFF;
+    --card-background: #F8F9FA;
+
+    /* Dark theme */
+    --dark-primary: #81C784;
+    --dark-secondary: #4CAF50;
+    --dark-text: #FFFFFF;
+    --dark-background: #121212;
+    --dark-card-background: #1E1E1E;
+
+    --transition-fast: 0.2s ease;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --radius-md: 8px;
+}
+
+/* System preference */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --primary-color: var(--dark-primary);
+        --secondary-color: var(--dark-secondary);
+        --text-color: var(--dark-text);
+        --background-color: var(--dark-background);
+        --card-background: var(--dark-card-background);
+    }
+}
+
+[data-theme="dark"] {
+    --primary-color: var(--dark-primary);
+    --secondary-color: var(--dark-secondary);
+    --text-color: var(--dark-text);
+    --background-color: var(--dark-background);
+    --card-background: var(--dark-card-background);
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light);
+    padding: clamp(2rem, 5vw, 4rem) 1rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+/* Theme Toggle */
+.theme-switch {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+}
+
+.theme-checkbox {
+    --toggle-size: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 6.25em;
+    height: 3.125em;
+    background: linear-gradient(to right, var(--card-background) 50%, var(--text-color) 50%) no-repeat;
+    background-size: 205%;
+    background-position: 0;
+    transition: 0.4s;
+    border-radius: 99em;
+    cursor: pointer;
+    font-size: var(--toggle-size);
+}
+
+.theme-checkbox::before {
+    content: "";
+    width: 2.25em;
+    height: 2.25em;
+    position: absolute;
+    top: 0.438em;
+    left: 0.438em;
+    background: linear-gradient(to right, var(--card-background) 50%, var(--text-color) 50%) no-repeat;
+    background-size: 205%;
+    background-position: 100%;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.theme-checkbox:checked::before {
+    left: calc(100% - 2.25em - 0.438em);
+    background-position: 0;
+}
+
+.theme-checkbox:checked {
+    background-position: 100%;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Navigation principale */
+nav {
+    margin: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    background: var(--background-color);
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.5rem;
+}
+
+nav ul li a {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+nav ul li a:hover,
+nav ul li a:focus-visible {
+    color: var(--text-light);
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+nav ul li a:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* Sections */
+section {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    scroll-margin-top: 100px; /* Pour l'anchor link */
+}
+
+.section h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--secondary-color);
+    position: relative;
+    display: inline-block;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+}
+
+/* Liste de compétences */
+.skills-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.skill-item {
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast);
+}
+
+.skill-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Icônes sociales */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.icon-content {
+    position: relative;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--text-light);
+    transition:
+        transform var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    transition: fill var(--transition-fast);
+}
+
+/* LinkedIn */
+.social-link[data-social="linkedin"]:

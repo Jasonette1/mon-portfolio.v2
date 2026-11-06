@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Étudiant en sciences de l'éducation passionné par les nouvelles approches pédagogiques">
+    <title>Edu-Lassiazyouen | Pédagogie Innovante</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset et variables CSS */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+       /* Modification des variables de couleurs uniquement */
+:root {
+    /* Light theme - Aquarelle pastel */
+    --primary-color: #B3C7D6; /* Bleu lavande pâle */
+    --secondary-color: #F0C9C9; /* Rose poudré */
+    --accent-color: #D1D6B3; /* Vert sauge délavé */
+    --text-color: #5A5A5A; /* Gris anthracite adouci */
+    --background-color: #F9F5F0; /* Crème velouté */
+    --card-background: #FFFFFF; /* Blanc cassé */
+    --shadow-color: rgba(147, 147, 147, 0.1);
+
+    /* Dark theme - Aquarelle nocturne */
+    --dark-primary: #7A8F9E; /* Bleu ardoise */
+    --dark-secondary: #B29494; /* Terre de Sienne brûlée */
+    --dark-accent: #8A927F; /* Vert mousse ombré */
+    --dark-text: #E0E0E0; /* Blanc lunaire */
+    --dark-background: #2B2B2B; /* Nuit profonde */
+    --dark-card-background: #3A3A3A; /* Gris pétrifié */
+}
+
+    /* Scrollbar personnalisée */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--background-color);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 10px;
+        border: 3px solid var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-color);
+    }
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) var(--background-color);
+    }
+
+/* Ajout d'un dégradé aquarelle subtil dans le header */
+header {
+    background: linear-gradient(135deg, 
+        rgba(179, 199, 214, 0.9) 0%, 
+        rgba(240, 201, 201, 0.7) 50%, 
+        rgba(209, 214, 179, 0.9) 100%);
+    background-blend-mode: soft-light;
+}
+
+/* Adaptation des effets de survol */
+nav ul li a:hover {
+    background-color: rgba(179, 199, 214, 0.3); /* Légère teinte bleutée */
+}
+
+.skill-card:hover {
+    background: rgba(209, 214, 179, 0.3); /* Lavande transparente */
+}
+
+.contact-link:hover {
+    background: rgba(240, 201, 201, 0.4); /* Rose translucide */
+}
+
+        [data-theme="dark"] {
+            --primary-color: var(--dark-primary);
+            --secondary-color: var(--dark-secondary);
+            --accent-color: var(--dark-accent);
+            --text-color: var(--dark-text);
+            --background-color: var(--dark-background);
+            --card-background: var(--dark-card-background);
+            --shadow-color: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            text-align: center;
+        }
+
+        /* Navigation */
+        nav {
+            margin: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] nav {
+            background-color: rgba(58, 58, 58, 0.8);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem;
+            list-style: none;
+        }
+
+        nav ul li a {
+            padding: 0.75rem 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Contenu principal */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .section {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        /* Liste de compétences */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            padding: 1.5rem;
+            background: var(--secondary-color);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            background: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* Contact */
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            padding: 1rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-link:hover {
+            background: var(--accent-color);
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: var(--text-color);
+            border-radius: var(--radius-md);
+        }
+
+        /* Thème */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .theme-toggle button {
+            padding: 1rem;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle button:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌱 Edu-Lassiazyouen</h1>
+        <p>Pédagogie Innovante & Création de Contenus Éducatifs</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about"><i class="fas fa-user"></i> À propos</a></li>
+            <li><a href="#skills"><i class="fas fa-lightbulb"></i> Compétences</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="section" id="about">
+            <h2>À propos</h2>
+            <p>Passionné par les méthodologies éducatives innovantes, je mets en œuvre des solutions pédagogiques créatives pour l'apprentissage moderne.</p>
+        </section>
+
+
+        <section class="section" id="skills">
+            <h2>Compétences</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Conception Pédagogique</h3>
+                    <p>Création de parcours d'apprentissage interactifs</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Technologies Éducatives</h3>
+                    <p>Intégration d'outils numériques dans l'éducation</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Animation de Formation</h3>
+                    <p>Méthodes participatives et collaboratives</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <h2>Contact</h2>
+            <div class="contact-links">
+                <a href="mailto:youen.lassiaz@gmail.com" class="contact-link">
+                    <i class="fas fa-envelope fa-2x"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/youenlassiaz-education/" class="contact-link">
+                    <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+                <a href="https://github.com/Jasonette1" class="contact-link">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+                <a href="https://independent.academia.edu/YouenLASSIAZ" class="contact-link" target="_blank">
+                    <i class="fa fa-university fa-2x" aria-hidden="true"></i>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Edu-Lassiazyouen - Tous droits réservés</p>
+    </footer>
+
+    <div class="theme-toggle">
+        <button id="theme-switch">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSwitch = document.getElementById('theme-switch');
+            const body = document.documentElement;
+            const icon = themeSwitch.querySelector('i');
+
+            function setTheme(isDark) {
+                body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme === 'dark');
+            } else {
+                setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+            }
+
+            themeSwitch.addEventListener('click', () => {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                setTheme(!isDark);
+            });
+        });
+    </script>
+</body>
+</html>
