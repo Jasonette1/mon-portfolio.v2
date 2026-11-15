@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DESSINS QUI DÉFILENT (ascii.html) : ATTEIGNABLES AU CLAVIER ---
     // Un dessin plus grand que sa place (fenêtre étroite ou basse) défile ; Chrome et Firefox le rendent alors
     // atteignable au clavier (les flèches le font défiler), Safari non : tabindex="0" tant qu'il déborde, retiré quand
-    // il tient. État revu quand sa taille change (fenêtre, fleur fixe remplie ensuite par le script d'ascii.html) et
-    // quand la police change (la largeur du dessin change, pas celle de son cadre).
+    // il tient. État revu quand sa taille change (fenêtre) et quand la police change (la largeur du dessin change,
+    // pas celle de son cadre).
     const scrollableArts = [...document.querySelectorAll('.ascii-display')];
 
     function updateScrollableArt(pre) {
