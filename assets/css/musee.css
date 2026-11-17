@@ -4,24 +4,25 @@
 /* Polices de l'ordinateur de l'autel : sous-ensembles woff2 hébergés, licences SIL OFL 1.1 à côté des fichiers.
    Michroma : grandes lettres des panneaux (capitales, chiffres, ponctuation courte, capitales accentuées).
    Inconsolata : texte machine (latin de base, latin-1, ponctuation française) ; Δ, π et l'espace fine
-   insécable, qui lui manquent, viennent de Noto Sans Mono à la même chasse. */
+   insécable, qui lui manquent, viennent de Noto Sans Mono à la même chasse.
+   font-display: block, comme polices.css : un texte attend sa police (3 s au plus) plutôt que d'en changer. */
 @font-face {
     font-family: "Michroma";
     src: url("../fonts/Michroma.woff2") format("woff2");
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
     font-family: "Inconsolata";
     src: url("../fonts/Inconsolata.woff2") format("woff2");
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
     font-family: "Inconsolata";
     src: url("../fonts/NotoSansMono-complement.woff2") format("woff2");
     unicode-range: U+0394, U+03C0, U+202F;
-    font-display: swap;
+    font-display: block;
 }
 
 /* Reset & Base */
