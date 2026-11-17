@@ -16,20 +16,9 @@
     <!-- Animations allumées ou éteintes : choix fait sur les pages perso, sinon réglage du système -->
     <script src="assets/js/mouvement.js"></script>
     <link rel="stylesheet" href="assets/css/polices.css">
+    <!-- Police choisie dans le menu « Font » des pages perso, posée avant le premier affichage -->
+    <script src="assets/js/police.js"></script>
     <link rel="stylesheet" href="assets/css/musee.css">
-    <script>
-        // Police choisie dans le menu des pages perso (clé « perso-font » de portal.js), appliquée avant le premier
-        // affichage. Clé inconnue ou stockage refusé par le navigateur : PxPlus, la police par défaut de polices.css.
-        try {
-            const cle = localStorage.getItem('perso-font');
-            const racine = document.documentElement;
-            if (cle && getComputedStyle(racine).getPropertyValue(`--font-${cle}`)) {
-                racine.style.setProperty('--ki-font', `var(--font-${cle})`);
-            }
-        } catch {
-            // La police par défaut reste
-        }
-    </script>
     <!-- JavaScript désactivé : ni chargement sans fin ni scène muette, mais le message « 3D impossible » et le bouton
          Retour -->
     <noscript>

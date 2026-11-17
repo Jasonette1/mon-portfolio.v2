@@ -1,23 +1,15 @@
 /**
  * PORTAL.JS
  * Shared logic for the V2 "Notebook" theme.
- * Handles Font Switching and Menu UI.
+ * Menu « Font » (la police choisie vit dans police.js, chargé dans le <head>) et interface des pages.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LOGIQUE DE CHANGEMENT DE POLICE ---
+    // --- MENU « FONT » ---
     const fontTrigger = document.getElementById('font-trigger');
     const fontMenu = document.getElementById('font-menu');
     const currentFontLabel = document.getElementById('current-font-name');
     const root = document.documentElement;
-
-    // Configuration des polices (Noms d'affichage -> Variables CSS)
-    const fonts = {
-        'PXVGA8': { label: 'PxPlus_IBM_VGA8', var: '--font-PXVGA8' },
-        'CascadiaMono': { label: 'Cascadia Mono', var: '--font-CascadiaMono' },
-        'Tenebris': { label: 'Tenebris', var: '--font-Tenebris' },
-        'TerminalGothic': { label: 'Terminal Gothic', var: '--font-TerminalGothic' }
-    };
 
     function updateMenuHeight() {
         if (fontMenu && fontMenu.classList.contains('show')) {
@@ -115,38 +107,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const artObserver = new ResizeObserver(entries => entries.forEach(entry => updateScrollableArt(entry.target)));
         scrollableArts.forEach(pre => artObserver.observe(pre));
         document.fonts.addEventListener('loadingdone', updateScrollableArts);
+        document.addEventListener('policechange', updateScrollableArts);
     }
 
-    function applyFont(key) {
-        const fontData = fonts[key];
-        if (!fontData) return;
-
-        // Mise à jour de la variable CSS globale
-        root.style.setProperty('--ki-font', `var(${fontData.var})`);
-        updateScrollableArts();
-
-        // Mise à jour du label
-        if (currentFontLabel) {
-            currentFontLabel.textContent = fontData.label;
-        }
-
-        // La police choisie est cachée du menu (.ki-item.selected, portal.css)
+    // Police choisie (police.js la retient et l'affiche) : son nom dans le bouton, et son entrée cachée du menu
+    // (.ki-item.selected, portal.css)
+    function showFont() {
+        const key = window.Police?.cle;
+        if (!key) return;
+        if (currentFontLabel) currentFontLabel.textContent = window.Police.noms[key];
         document.querySelectorAll('.ki-item').forEach(item => {
             item.classList.toggle('selected', item.dataset.font === key);
         });
-
-        // Sauvegarde préférence (localStorage)
-        localStorage.setItem('perso-font', key);
     }
 
-    // Chargement préférence au démarrage
-    const savedFont = localStorage.getItem('perso-font');
-    if (savedFont && fonts[savedFont]) {
-        applyFont(savedFont);
-    } else {
-        // Défaut
-        applyFont('PXVGA8');
+    function applyFont(key) {
+        window.Police?.choisir(key);
+        showFont();
     }
+
+    // État de départ : la police est déjà posée, avant le premier affichage
+    showFont();
 
     // --- INTERRUPTEUR « ANIMATIONS » (l'état vit dans mouvement.js) ---
     // [ ON ] / [ OFF ] suit <html data-mouvement> (portal.css) ; aria-pressed le dit aux lecteurs d'écran
