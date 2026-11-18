@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let engine = null;
     let renderLoop = null;
     let runner = null;
+    let fallFrozen = false; // chute figée en route par les animations éteintes
     let bodiesMap = new Map(); // DOM Element -> Matter Body
 
     function updateState(enabled) {
@@ -372,9 +373,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Chute à l'écran : Matter.js avance au rythme de l'affichage, les logos suivent à chaque image
+    // Chute à l'écran : Matter.js avance au rythme de l'affichage, les logos suivent à chaque image. Une chute figée
+    // reprend avec le même Runner : il garde ses mesures du temps entre deux images et suit la plus courte, si bien
+    // que le temps de l'arrêt n'est pas rattrapé d'un coup
     function startFalling() {
-        runner = Matter.Runner.create();
+        if (renderLoop) return; // déjà en train de tomber
+        fallFrozen = false;
+        runner ??= Matter.Runner.create();
         Matter.Runner.run(runner, engine);
         step();
     }
@@ -389,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelAnimationFrame(renderLoop);
         renderLoop = null;
         if (runner) Matter.Runner.stop(runner);
-        runner = null;
     }
 
     // Animations éteintes : la chute est calculée d'un trait, sans rien afficher, jusqu'à ce que tous les logos soient
@@ -406,12 +410,28 @@ document.addEventListener('DOMContentLoaded', () => {
         syncLogos();
     }
 
-    // Animations éteintes pendant une chute : les logos vont d'un coup à leur place finale. Rallumées, rien ne
-    // repart : la chute est finie, les logos restent où ils sont ; la prochaine se verra de nouveau
-    document.addEventListener('mouvementchange', () => {
-        if (!engine || !window.Mouvement?.reduit) return;
+    // Animations éteintes pendant une chute : chaque logo s'arrête là où on le voit. Sa position et son angle affichés
+    // traînent derrière ceux de Matter.js (glissements de .ki-logo-item, portal.css, qui continuent le temps d'être
+    // lus) : ils sont relevés et posés tels quels
+    function freezeFall() {
         stopFalling();
-        settleLogos();
+        fallFrozen = true;
+        bodiesMap.forEach((body, logo) => {
+            const { top, left, rotate } = getComputedStyle(logo);
+            Object.assign(logo.style, { top, left, rotate });
+        });
+    }
+
+    // Animations éteintes : une chute en cours se fige, et reprend de là quand elles se rallument ; tout autre
+    // glissement des logos (retour dans les cadres, grossissement) va d'un coup à sa fin. Des logos posés d'un trait
+    // (settleLogos) ne repartent pas : au repos, ils bougeraient encore d'un rien
+    document.addEventListener('mouvementchange', () => {
+        if (window.Mouvement?.reduit) {
+            if (renderLoop) freezeFall();
+            rightCol.querySelectorAll('.ki-logo-item').forEach(logo => logo.getAnimations().forEach(a => a.finish()));
+        } else if (fallFrozen) {
+            startFalling();
+        }
     });
 
     function disableGravity() {
@@ -419,6 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Stop updates and Matter
         stopFalling();
+        runner = null;
+        fallFrozen = false;
         Matter.Engine.clear(engine);
         if (engine.world) {
             Matter.Composite.clear(engine.world, false, true);

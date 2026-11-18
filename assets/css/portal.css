@@ -822,9 +822,11 @@ body.show-frames .ki-logo-item img {
     transition: none;
 }
 
-/* sites.html : logos posés, remis en place ou grossis d'un coup (ki-logos.js), cadre des logos et levier sans glissement */
+/* sites.html : logos posés, remis en place ou grossis d'un coup (ki-logos.js), cadre des logos et levier sans glissement.
+   Durée nulle plutôt qu'aucun glissement (transition: none) : ceux d'une chute en cours continuent le temps que
+   ki-logos.js relève où chaque logo est affiché, pour l'y figer */
 :root[data-mouvement="reduit"] .ki-logo-item {
-    transition: none;
+    transition-duration: 0s;
 }
 
 :root[data-mouvement="reduit"] .ki-logo-item img {
