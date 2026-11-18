@@ -174,7 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let charIndex = 0;
         let isDeleting = false;
         let currentText = scripts[0];
-        let typingTimer = 0;
+        let typingTimer = 0; // 0 : frappe arrêtée
+        let nextKeyAt = 0; // instant prévu du prochain caractère
+        let remainingDelay = 0; // frappe arrêtée : temps qui restait avant le prochain caractère
+
+        function schedule(delay) {
+            nextKeyAt = performance.now() + delay;
+            typingTimer = setTimeout(type, delay);
+        }
 
         function type() {
             if (isDeleting) {
@@ -205,24 +212,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 delta = 500; // Pause avant de recommencer
             }
 
-            typingTimer = setTimeout(type, delta);
+            schedule(delta);
         }
 
-        // Animations éteintes (mouvement.js) : la commande de la page, écrite en entier et immobile (curseur fixe,
-        // portal.css) ; rallumées, la frappe reprend là, par une pause puis l'effacement
+        // Animations éteintes (mouvement.js) : la ligne s'arrête net, au caractère près, même au milieu d'un mot
+        // (curseur fixe, portal.css) ; rallumées, la frappe reprend là, après le temps qui restait avant le caractère
+        // suivant
         function stopTyping() {
+            if (!typingTimer) return;
             clearTimeout(typingTimer);
-            scriptIndex = 0;
-            currentText = scripts[0];
-            charIndex = currentText.length;
-            isDeleting = false;
-            typingElement.textContent = currentText;
+            typingTimer = 0;
+            remainingDelay = Math.max(0, nextKeyAt - performance.now());
         }
 
-        document.addEventListener('mouvementchange', () => (window.Mouvement?.reduit ? stopTyping() : type()));
+        function resumeTyping() {
+            if (!typingTimer) schedule(remainingDelay);
+        }
 
-        if (window.Mouvement?.reduit) stopTyping();
-        else typingTimer = setTimeout(type, 500);
+        document.addEventListener('mouvementchange', () => (window.Mouvement?.reduit ? stopTyping() : resumeTyping()));
+
+        // Page ouverte animations éteintes : rien n'y a été arrêté, la commande de la page s'écrit en entier ;
+        // rallumées, la frappe reprend par une pause puis l'effacement
+        if (window.Mouvement?.reduit) {
+            charIndex = currentText.length;
+            typingElement.textContent = currentText;
+        } else {
+            schedule(500);
+        }
     }
 
     // --- RELIURE SPIRALE DYNAMIQUE (DYNAMIC SPIRAL) ---
