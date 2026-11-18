@@ -138,24 +138,53 @@ function playAnimation(timestamp) {
     animationId = requestAnimationFrame(playAnimation);
 }
 
-/* --- Animations éteintes (mouvement.js) : fleur figée sur l'image 42, la même que la fleur fixe d'ascii.html, et
-       nommée sans « animée » (data-still-label) ; rallumées, elle repart de cette image --- */
+/* --- Animations éteintes (mouvement.js) : la fleur s'arrête net sur l'image affichée, nommée sans « animée »
+       (data-still-label) ; rallumées, elle repart de cette image. L'image arrêtée sous les yeux du visiteur est
+       retenue (clé « perso-fleur-image » : sa place dans pingPongSequence, qui garde aussi le sens de la fleur, à
+       l'aller ou au retour) et se retrouve en revenant sur la page, animations toujours éteintes. Rien de retenu
+       (première visite avec « réduire les animations » du système), valeur illisible ou stockage refusé : l'image 42,
+       la même que la fleur fixe d'ascii.html --- */
 const STILL_FRAME = 42;
+const FRAME_KEY = 'perso-fleur-image';
 const animatedLabel = art?.getAttribute('aria-label');
+let frozenHere = false; // fleur arrêtée sur cette page (et non ouverte déjà arrêtée)
+
+function savedFrame() {
+    try {
+        const saved = localStorage.getItem(FRAME_KEY);
+        const index = Number.parseInt(saved, 10);
+        if (String(index) === saved && index >= 0 && index < pingPongSequence.length) return index;
+    } catch {
+        // Stockage refusé : l'image 42
+    }
+    return STILL_FRAME;
+}
+
+// Fleur arrêtée dans un onglet caché (animations éteintes depuis un autre onglet) : retenue quand le visiteur la voit
+function saveFrame() {
+    if (document.visibilityState !== 'visible') return;
+    try {
+        localStorage.setItem(FRAME_KEY, String(frameIndex));
+    } catch {
+        // Stockage refusé : la fleur reste arrêtée là pour cette page seulement
+    }
+}
 
 function startAnimation() {
     if (animationId) return;
+    frozenHere = false;
     lastFrameTime = 0;
     animationId = requestAnimationFrame(playAnimation);
     art.setAttribute('aria-label', animatedLabel);
 }
 
 function stopAnimation() {
+    if (!animationId) return;
     cancelAnimationFrame(animationId);
     animationId = null;
-    frameIndex = STILL_FRAME;
-    art.textContent = pingPongSequence[STILL_FRAME];
+    frozenHere = true;
     art.setAttribute('aria-label', art.dataset.stillLabel);
+    saveFrame();
 }
 
 /* --- Init --- */
@@ -169,10 +198,21 @@ function initAsciiManager() {
         art.textContent = pingPongSequence[0];
         adjustColumnsAndFit();
 
-        // Démarrer la boucle, ou figer la fleur si les animations sont éteintes
-        const followMotion = () => (window.Mouvement?.reduit ? stopAnimation() : startAnimation());
-        followMotion();
-        document.addEventListener('mouvementchange', followMotion);
+        // Démarrer la boucle ; animations déjà éteintes, la fleur attend sur l'image retenue
+        if (window.Mouvement?.reduit) {
+            frameIndex = savedFrame();
+            art.textContent = pingPongSequence[frameIndex];
+            art.setAttribute('aria-label', art.dataset.stillLabel);
+        } else {
+            startAnimation();
+        }
+        document.addEventListener('mouvementchange', () => {
+            if (window.Mouvement?.reduit) stopAnimation();
+            else startAnimation();
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (frozenHere) saveFrame();
+        });
 
         // Nouvel ajustement quand la fenêtre change de taille
         window.addEventListener('resize', adjustColumnsAndFit);
