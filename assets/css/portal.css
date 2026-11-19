@@ -296,26 +296,13 @@ a:hover {
     /* Left | Midline | Right */
     width: 100%;
     position: relative;
+    /* Coupures possibles des mots longs (&shy; dans le HTML) éteintes : le grand écran reste tel quel ; allumées en
+       fenêtre étroite (« Fenêtre étroite » du contenu, plus bas) */
+    hyphens: none;
 }
 
 .ki-grid-wide-right {
     grid-template-columns: 260px auto 1fr;
-}
-
-@media (max-width: 768px) {
-    .ki-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .ki-midline,
-    .ki-spiral {
-        display: none;
-    }
-
-    .ki-col-right {
-        grid-column: 1 !important;
-        margin-top: 2rem;
-    }
 }
 
 /* Colonnes avec bordures 'Notebook' */
@@ -387,6 +374,26 @@ a:hover {
     line-height: 1;
 }
 
+/* Fenêtre étroite (téléphone, page agrandie) : la colonne de droite passe sous celle de gauche ; la spirale reste à
+   droite de celle-ci, dans une seconde colonne créée pour elle. La colonne de gauche ne s'élargit plus d'après son
+   contenu : la spirale ne sort plus de l'écran, et ce qui ne tient pas dans la colonne passe à la ligne (« Fenêtre
+   étroite » du contenu, plus bas ; un mot plus large que sa colonne a dans le HTML une coupure possible, &shy;).
+   Placé après les règles de base qu'il remplace. */
+@media (max-width: 768px) {
+    .ki-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ki-col-left {
+        min-width: 0;
+    }
+
+    .ki-col-right {
+        grid-column: 1;
+        margin-top: 2rem;
+    }
+}
+
 
 /* ===== CONTENU INTERNE ===== */
 .ki-titlebar {
@@ -399,7 +406,9 @@ a:hover {
     font-size: 1.1em;
 }
 
-.ki-dotline {
+/* Ligne pointillée entre le titre et le compteur ; en fenêtre étroite, c'est le compteur qui la porte (plus bas) */
+.ki-dotline,
+.ki-col-left .ki-count::before {
     flex: 1;
     height: 2px;
     background: repeating-linear-gradient(90deg, var(--ki-border) 0 6px, transparent 6px 14px);
@@ -498,6 +507,61 @@ a:hover {
     opacity: 0.7;
     font-size: 0.9em;
     margin-left: 5px;
+}
+
+/* Fenêtre étroite : ce qui ne tient plus dans la largeur des colonnes passe à la ligne. Le compteur va sous le titre,
+   avec sa ligne pointillée, quand le mot le plus long du titre ne tient plus à côté de lui ; un mot long se coupe là où
+   le HTML le permet (.ki-cesure) ; une commande trop longue se coupe au bord, comme dans un terminal. Placé après les
+   règles de base qu'il complète ; le titre de la Rétrospective, qui a ses propres règles (retrospective.css), n'est
+   pas concerné. */
+@media (max-width: 768px) {
+    .ki-col-left .ki-titlebar {
+        flex-wrap: wrap;
+    }
+
+    /* Le titre et le compteur partent de leur largeur la plus étroite : tant qu'ils tiennent côte à côte, ils restent
+       sur la même ligne. Le titre prend ensuite la place libre avant le compteur (facteur démesuré), jusqu'à sa largeur
+       sur une ligne : il se tasse comme sur grand écran, et le compteur garde le reste */
+    .ki-col-left .ki-titlebar h1 {
+        flex: 1000000 1 0;
+        max-width: max-content;
+    }
+
+    /* Le compteur porte la ligne pointillée : elle passe avec lui sous le titre, jamais seule au bout du titre */
+    .ki-col-left .ki-dotline {
+        display: none;
+    }
+
+    .ki-col-left .ki-count {
+        flex: 1 1 0;
+        display: flex;
+        align-items: center;
+        column-gap: inherit;
+    }
+
+    .ki-col-left .ki-count::before {
+        content: "";
+    }
+
+    /* Mot à coupure possible au bout d'un titre ou d'un lien : en bloc dans la ligne, il passe d'abord entier à la
+       ligne suivante, et ne se coupe, avec un tiret, que s'il ne tient pas seul sur une ligne. Pas au milieu d'un
+       texte courant : sur grand écran, l'élément y décalerait d'une fraction de pixel le dessin des lettres suivantes */
+    .ki-cesure {
+        display: inline-block;
+        hyphens: manual;
+    }
+
+    .ki-prompt {
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Petits téléphones (moins de 390 px de large, ou page agrandie quatre fois) : dans un texte courant aussi, un mot long
+   peut se couper, avec un tiret, en fin de ligne. Au-delà, chaque mot tient sur sa ligne et le texte reste tel quel */
+@media (max-width: 389.98px) {
+    .ki-grid {
+        hyphens: manual;
+    }
 }
 
 /* ASCII ART Placeholder */
