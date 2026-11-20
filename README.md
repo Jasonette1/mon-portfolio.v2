@@ -10,7 +10,7 @@
 
 > **Octobre 2026, la reprise** : les lignes ci-dessus datent de janvier 2026. Le site est ensuite resté en pause jusqu'en octobre 2026, où je l'ai repris avec l'agent **Hermes** (Nous Research) et le modèle **Claude** (Anthropic), qui écrivent depuis l'essentiel du nouveau code. Le partage ne change pas : les idées, les textes personnels et le dernier mot sur tout ce qui se voit me reviennent.
 
-[Voir le Portfolio en ligne](https://lassiazyouen.page)
+[Voir le Portfolio en ligne](https://lassiazyouen.fr.eu.org)
 
 </div>
 
@@ -32,6 +32,7 @@ Il sert de CV en ligne dynamique et de plateforme de partage via un ***"Livre d'
 *   **Janvier 2026** : construction du musée 3D et de la page *Portal* avec [Google Antigravity](https://antigravity.google/) et Gemini Pro 3.
 *   **De janvier à octobre 2026** : pause.
 *   **Octobre 2026** : reprise avec [Hermes](https://hermes-agent.nousresearch.com/) (Nous Research) et [Claude](https://www.anthropic.com/claude) (Anthropic) : l'ordinateur de l'autel du musée, le ménage dans le code, les polices et les bibliothèques rapatriées dans le site, le livre d'or ouvert en mode privé, ce README et les licences. L'ancienne adresse Netlify renvoie désormais vers lassiazyouen.page.
+*   **Novembre 2026** : le site déménage à l'adresse gratuite [lassiazyouen.fr.eu.org](https://lassiazyouen.fr.eu.org) (EU.org) ; lassiazyouen.page, qui n'est pas renouvelée, y renvoie jusqu'au 29 décembre 2026.
 
 ## Architecture & Technologies
 
@@ -45,7 +46,7 @@ Ce projet est conçu comme un site statique moderne, privilégiant la performanc
 *   **Backend (Livre d'Or)** : Google Firebase (Firestore) pour la persistance des messages en temps réel, avec le SDK web 10.7.1 chargé depuis gstatic.com sur l'accueil et hébergé dans `assets/js/libs/` pour ses copies de la Rétrospective.
 *   **Infrastructure** :
     *   Hébergé sur **GitHub Pages**.
-    *   Domaine personnalisé : `lassiazyouen.page` fourni par Name.com.
+    *   Domaine personnalisé : `lassiazyouen.fr.eu.org`, nom gratuit d'[EU.org](https://nic.eu.org/) ; zone DNS chez [deSEC](https://desec.io/), signée par DNSSEC.
 
 ## Installation & Développement Local
 
